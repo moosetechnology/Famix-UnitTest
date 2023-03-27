@@ -6,8 +6,8 @@ Class {
 	#superclass : #FamixUTEntity,
 	#instVars : [
 		'#cases => FMMany type: #FamixUTCase opposite: #suite',
-		'#setUp => FMOne type: #FamixUTFixture opposite: #setUpInSuite',
-		'#tearDown => FMOne type: #FamixUTFixture opposite: #tearDownInSuite'
+		'#setUp => FMOne type: #FamixUTSetUp opposite: #suite',
+		'#tearDown => FMOne type: #FamixUTTearDown opposite: #suite'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
 }
@@ -52,7 +52,7 @@ FamixUTSuite >> casesGroup [
 
 { #category : #accessing }
 FamixUTSuite >> setUp [
-	"Relation named: #setUp type: #FamixUTFixture opposite: #setUpInSuite"
+	"Relation named: #setUp type: #FamixUTSetUp opposite: #suite"
 
 	<generated>
 	^ setUp
@@ -67,7 +67,7 @@ FamixUTSuite >> setUp: anObject [
 
 { #category : #accessing }
 FamixUTSuite >> tearDown [
-	"Relation named: #tearDown type: #FamixUTFixture opposite: #tearDownInSuite"
+	"Relation named: #tearDown type: #FamixUTTearDown opposite: #suite"
 
 	<generated>
 	^ tearDown

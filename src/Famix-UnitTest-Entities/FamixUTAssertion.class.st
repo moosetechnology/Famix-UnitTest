@@ -27,6 +27,7 @@ FamixUTAssertion >> actual [
 
 	<FMProperty: #actual type: #Object>
 	<generated>
+	<FMComment: 'Value obtained from executing the tested method'>
 	^ actual
 ]
 
@@ -41,6 +42,7 @@ FamixUTAssertion >> errorMargin [
 
 	<FMProperty: #errorMargin type: #Object>
 	<generated>
+	<FMComment: 'How much deviation is allowed between the expected and actual values.'>
 	^ errorMargin
 ]
 
@@ -55,6 +57,7 @@ FamixUTAssertion >> expected [
 
 	<FMProperty: #expected type: #Object>
 	<generated>
+	<FMComment: 'Value expected when executing the tested method.'>
 	^ expected
 ]
 

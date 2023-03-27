@@ -5,10 +5,10 @@ Class {
 	#name : #FamixUTMethod,
 	#superclass : #FamixUTEntity,
 	#instVars : [
-		'#case => FMOne type: #FamixUTCase opposite: #methods',
 		'#assertions => FMMany type: #FamixUTAssertion opposite: #method',
-		'#setUp => FMOne type: #FamixUTFixture opposite: #setUpInMethod',
-		'#tearDown => FMOne type: #FamixUTFixture opposite: #tearDownInMethod'
+		'#case => FMOne type: #FamixUTCase opposite: #methods',
+		'#setUp => FMOne type: #FamixUTSetUp opposite: #method',
+		'#tearDown => FMOne type: #FamixUTTearDown opposite: #method'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
 }
@@ -76,7 +76,7 @@ FamixUTMethod >> caseGroup [
 
 { #category : #accessing }
 FamixUTMethod >> setUp [
-	"Relation named: #setUp type: #FamixUTFixture opposite: #setUpInMethod"
+	"Relation named: #setUp type: #FamixUTSetUp opposite: #method"
 
 	<generated>
 	^ setUp
@@ -91,7 +91,7 @@ FamixUTMethod >> setUp: anObject [
 
 { #category : #accessing }
 FamixUTMethod >> tearDown [
-	"Relation named: #tearDown type: #FamixUTFixture opposite: #tearDownInMethod"
+	"Relation named: #tearDown type: #FamixUTTearDown opposite: #method"
 
 	<generated>
 	^ tearDown

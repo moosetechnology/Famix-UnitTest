@@ -7,7 +7,9 @@ Class {
 		'fixture',
 		'assertion',
 		'method',
-		'double'
+		'double',
+		'setUp',
+		'tearDown'
 	],
 	#category : #'Famix-UnitTest-Generator-Famix-UnitTest-Generator'
 }
@@ -53,6 +55,13 @@ FamixUnitTestGenerator >> defineClasses [
 		           newClassNamed: #Fixture
 		           comment:
 		           'Sets up or tears down the system to make tests repeatable.'.
+	setUp := builder
+		         newClassNamed: #SetUp
+		         comment: 'Sets up the system to make tests repeatable.'.
+	tearDown := builder
+		            newClassNamed: #TearDown
+		            comment:
+		            'Tears down the system to make tests repeatable.'.
 	double := builder
 		          newClassNamed: #Double
 		          comment:
@@ -60,11 +69,21 @@ FamixUnitTestGenerator >> defineClasses [
 ]
 
 { #category : #definition }
+FamixUnitTestGenerator >> defineHierarchy [
+
+	setUp --|> fixture.
+	tearDown --|> fixture
+]
+
+{ #category : #definition }
 FamixUnitTestGenerator >> defineProperties [
 
-	(assertion property: #expected type: #Object) comment: ''.
-	(assertion property: #actual type: #Object) comment: ''.
-	(assertion property: #errorMargin type: #Object) comment: ''
+	(assertion property: #expected type: #Object) comment:
+		'Value expected when executing the tested method.'.
+	(assertion property: #actual type: #Object) comment:
+		'Value obtained from executing the tested method'.
+	(assertion property: #errorMargin type: #Object) comment:
+		'How much deviation is allowed between the expected and actual values.'
 ]
 
 { #category : #definition }
@@ -74,12 +93,14 @@ FamixUnitTestGenerator >> defineRelations [
 	(case property: #methods) <>-* method.
 	(method property: #assertions) <>-* assertion.
 
-	(suite property: #setUp) - (fixture property: #setUpInSuite).
-	(suite property: #tearDown) - (fixture property: #tearDownInSuite).
-	(case property: #setUp) - (fixture property: #setUpInCase).
-	(case property: #tearDown) - (fixture property: #tearDownInCase).
-	(method property: #setUp) - (fixture property: #setUpInMethod).
-	(method property: #tearDown) - (fixture property: #tearDownInMethod).
+	(suite property: #setUp) - (setUp property: #suite).
+	(suite property: #tearDown) - (tearDown property: #suite).
+	(case property: #setUp) - (setUp property: #case).
+	(case property: #tearDown) - (tearDown property: #case).
+	(method property: #setUp) - (setUp property: #method).
+	(method property: #tearDown) - (tearDown property: #method).
+
+	(fixture property: #doubles) *-* (double property: #fixtures).
 
 	(case property: #testedClass)
 	-
