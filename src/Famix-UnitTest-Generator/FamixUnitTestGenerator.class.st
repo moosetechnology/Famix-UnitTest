@@ -78,10 +78,6 @@ FamixUnitTestGenerator >> defineHierarchy [
 { #category : #definition }
 FamixUnitTestGenerator >> defineProperties [
 
-	(assertion property: #expected type: #Object) comment:
-		'Value expected when executing the tested method.'.
-	(assertion property: #actual type: #Object) comment:
-		'Value obtained from executing the tested method'.
 	(assertion property: #errorMargin type: #Object) comment:
 		'How much deviation is allowed between the expected and actual values.'
 ]
@@ -101,6 +97,8 @@ FamixUnitTestGenerator >> defineRelations [
 	(method property: #tearDown) - (tearDown property: #method).
 
 	(fixture property: #doubles) *-* (double property: #fixtures).
+	(assertion property: #expected)
+	*- (double property: #expectedInAssertions).
 
 	(case property: #testedClass)
 	-
