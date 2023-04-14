@@ -7,6 +7,7 @@ Class {
 	#instVars : [
 		'#assertions => FMMany type: #FamixUTAssertion opposite: #method',
 		'#case => FMOne type: #FamixUTCase opposite: #methods',
+		'#name => FMProperty',
 		'#setUp => FMOne type: #FamixUTSetUp opposite: #method',
 		'#tearDown => FMOne type: #FamixUTTearDown opposite: #method'
 	],
@@ -72,6 +73,20 @@ FamixUTMethod >> caseGroup [
 	<generated>
 	<navigation: 'Case'>
 	^ MooseSpecializedGroup with: self case
+]
+
+{ #category : #accessing }
+FamixUTMethod >> name [
+
+	<FMProperty: #name type: #String>
+	<generated>
+	^ name
+]
+
+{ #category : #accessing }
+FamixUTMethod >> name: anObject [
+	<generated>
+	name := anObject
 ]
 
 { #category : #accessing }

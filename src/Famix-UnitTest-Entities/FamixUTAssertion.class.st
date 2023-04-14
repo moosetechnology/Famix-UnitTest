@@ -5,9 +5,8 @@ Class {
 	#name : #FamixUTAssertion,
 	#superclass : #FamixUTEntity,
 	#instVars : [
-		'#expected => FMProperty',
-		'#actual => FMProperty',
 		'#errorMargin => FMProperty',
+		'#expected => FMOne type: #FamixUTDouble opposite: #expectedInAssertions',
 		'#method => FMOne type: #FamixUTMethod opposite: #assertions'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
@@ -20,21 +19,6 @@ FamixUTAssertion class >> annotation [
 	<package: #'Famix-UnitTest-Entities'>
 	<generated>
 	^ self
-]
-
-{ #category : #accessing }
-FamixUTAssertion >> actual [
-
-	<FMProperty: #actual type: #Object>
-	<generated>
-	<FMComment: 'Value obtained from executing the tested method'>
-	^ actual
-]
-
-{ #category : #accessing }
-FamixUTAssertion >> actual: anObject [
-	<generated>
-	actual := anObject
 ]
 
 { #category : #accessing }
@@ -54,15 +38,15 @@ FamixUTAssertion >> errorMargin: anObject [
 
 { #category : #accessing }
 FamixUTAssertion >> expected [
+	"Relation named: #expected type: #FamixUTDouble opposite: #expectedInAssertions"
 
-	<FMProperty: #expected type: #Object>
 	<generated>
-	<FMComment: 'Value expected when executing the tested method.'>
 	^ expected
 ]
 
 { #category : #accessing }
 FamixUTAssertion >> expected: anObject [
+
 	<generated>
 	expected := anObject
 ]

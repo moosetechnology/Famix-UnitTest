@@ -5,6 +5,7 @@ Class {
 	#name : #FamixUTDouble,
 	#superclass : #FamixUTEntity,
 	#instVars : [
+		'#expectedInAssertions => FMMany type: #FamixUTAssertion opposite: #expected',
 		'#fixtures => FMMany type: #FamixUTFixture opposite: #doubles'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
@@ -20,9 +21,31 @@ FamixUTDouble class >> annotation [
 ]
 
 { #category : #adding }
+FamixUTDouble >> addExpectedInAssertion: anObject [
+	<generated>
+	^ self expectedInAssertions add: anObject
+]
+
+{ #category : #adding }
 FamixUTDouble >> addFixture: anObject [
 	<generated>
 	^ self fixtures add: anObject
+]
+
+{ #category : #accessing }
+FamixUTDouble >> expectedInAssertions [
+	"Relation named: #expectedInAssertions type: #FamixUTAssertion opposite: #expected"
+
+	<generated>
+	<derived>
+	^ expectedInAssertions
+]
+
+{ #category : #accessing }
+FamixUTDouble >> expectedInAssertions: anObject [
+
+	<generated>
+	expectedInAssertions value: anObject
 ]
 
 { #category : #accessing }

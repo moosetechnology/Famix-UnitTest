@@ -78,6 +78,7 @@ FamixUnitTestGenerator >> defineHierarchy [
 { #category : #definition }
 FamixUnitTestGenerator >> defineProperties [
 
+	method property: #name type: #String.
 	(assertion property: #errorMargin type: #Object) comment:
 		'How much deviation is allowed between the expected and actual values.'
 ]
