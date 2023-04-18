@@ -10,13 +10,19 @@ Class {
 { #category : #tests }
 FamixUTJUnitExporterTest >> testExportMethod [
 
-	| method |
-	method := FamixUTMethod new name: 'test'.
+	| method assertion expected setUp |
+	method := FamixUTMethod new testedMethod:
+		          (FamixJavaMethod new name: 'foo').
+	expected := FamixUTDouble new.
+	assertion := FamixUTAssertion new expected: expected.
+	setUp := FamixUTSetUp new.
+
+	"empty test"
 	self
 		assert: (FASTJavaExportVisitor new export:
 				 (FamixUTJUnitExporter new exportMethod: method))
 		equals: '@Test
-public void test() {
+public void testFoo() {
 }
 '
 ]

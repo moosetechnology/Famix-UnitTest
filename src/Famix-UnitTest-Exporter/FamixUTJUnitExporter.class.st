@@ -7,11 +7,12 @@ Class {
 	#category : #'Famix-UnitTest-Exporter'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #exporting }
 FamixUTJUnitExporter >> exportMethod: aFamixUTMethod [
 
 	^ self model newMethodEntity
-		  name: aFamixUTMethod name;
+		  name: (aFamixUTMethod name ifNil: [ 
+					   'test' , aFamixUTMethod testedMethod name capitalized ]);
 		  addModifier: (model newAnnotation expression:
 					   (model newVariableExpression name: 'Test'));
 		  addModifier: (model newModifier token: 'public');
