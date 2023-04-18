@@ -4,10 +4,11 @@ Tests a specific behavior or feature of the system under test.
 Class {
 	#name : #FamixUTMethod,
 	#superclass : #FamixUTEntity,
+	#traits : 'FamixTNamedEntity',
+	#classTraits : 'FamixTNamedEntity classTrait',
 	#instVars : [
 		'#assertions => FMMany type: #FamixUTAssertion opposite: #method',
 		'#case => FMOne type: #FamixUTCase opposite: #methods',
-		'#name => FMProperty',
 		'#setUp => FMOne type: #FamixUTSetUp opposite: #method',
 		'#tearDown => FMOne type: #FamixUTTearDown opposite: #method'
 	],
@@ -76,20 +77,6 @@ FamixUTMethod >> caseGroup [
 ]
 
 { #category : #accessing }
-FamixUTMethod >> name [
-
-	<FMProperty: #name type: #String>
-	<generated>
-	^ name
-]
-
-{ #category : #accessing }
-FamixUTMethod >> name: anObject [
-	<generated>
-	name := anObject
-]
-
-{ #category : #accessing }
 FamixUTMethod >> setUp [
 	"Relation named: #setUp type: #FamixUTSetUp opposite: #method"
 
@@ -121,10 +108,10 @@ FamixUTMethod >> tearDown: anObject [
 
 { #category : #accessing }
 FamixUTMethod >> testedMethod [
-	"Relation named: #testedMethod type: #FamixTMethod opposite: #unitTest"
+	"Relation named: #testedMethod type: #FamixTMethod opposite: #unitTests"
 
 	<generated>
-	<FMProperty: #testedMethod type: #FamixTMethod opposite: #unitTest>
+	<FMProperty: #testedMethod type: #FamixTMethod opposite: #unitTests>
 	^ self attributeAt: #testedMethod ifAbsent: [ nil ]
 ]
 
@@ -132,12 +119,5 @@ FamixUTMethod >> testedMethod [
 FamixUTMethod >> testedMethod: anObject [
 
 	<generated>
-	(self attributeAt: #testedMethod ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	anObject ifNil: [ | otherSide |
-		otherSide :=  self testedMethod.
-		self attributeAt: #testedMethod put: anObject.
-		otherSide unitTest: nil ]
-	ifNotNil: [ 
-		self attributeAt: #testedMethod put: anObject.
-		anObject unitTest: self ]
+	self attributeAt: #testedMethod put: (FMMultivalueLink on: self update: #unitTests from: self testedMethod to: anObject).
 ]

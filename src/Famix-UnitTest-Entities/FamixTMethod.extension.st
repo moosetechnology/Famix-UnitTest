@@ -1,26 +1,19 @@
 Extension { #name : #FamixTMethod }
 
 { #category : #'*Famix-UnitTest-Entities-accessing' }
-FamixTMethod >> unitTest [
-	"Relation named: #unitTest type: #FamixUTMethod opposite: #testedMethod"
+FamixTMethod >> unitTests [
+	"Relation named: #unitTests type: #FamixUTMethod opposite: #testedMethod"
 
 	<generated>
 	<derived>
-	<FMProperty: #unitTest type: #FamixUTMethod opposite: #testedMethod>
+	<FMProperty: #unitTests type: #FamixUTMethod opposite: #testedMethod>
 	<package: #'Famix-UnitTest-Entities'>
-	^ self attributeAt: #unitTest ifAbsent: [ nil ]
+	^ self attributeAt: #unitTests ifAbsentPut: [ FMMultivalueLink on: self opposite: #testedMethod: ]
 ]
 
 { #category : #'*Famix-UnitTest-Entities-accessing' }
-FamixTMethod >> unitTest: anObject [
+FamixTMethod >> unitTests: anObject [
 
 	<generated>
-	(self attributeAt: #unitTest ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	anObject ifNil: [ | otherSide |
-		otherSide :=  self unitTest.
-		self attributeAt: #unitTest put: anObject.
-		otherSide testedMethod: nil ]
-	ifNotNil: [ 
-		self attributeAt: #unitTest put: anObject.
-		anObject testedMethod: self ]
+	self unitTests value: anObject
 ]

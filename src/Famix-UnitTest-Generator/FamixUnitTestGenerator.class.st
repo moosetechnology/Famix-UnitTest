@@ -72,13 +72,13 @@ FamixUnitTestGenerator >> defineClasses [
 FamixUnitTestGenerator >> defineHierarchy [
 
 	setUp --|> fixture.
-	tearDown --|> fixture
+	tearDown --|> fixture.
+	method --|> #TNamedEntity
 ]
 
 { #category : #definition }
 FamixUnitTestGenerator >> defineProperties [
 
-	method property: #name type: #String.
 	(assertion property: #errorMargin type: #Object) comment:
 		'How much deviation is allowed between the expected and actual values.'
 ]
@@ -103,8 +103,8 @@ FamixUnitTestGenerator >> defineRelations [
 
 	(case property: #testedClass)
 	-
-	((self remoteTrait: #TClass withPrefix: #Famix) property: #unitTest).
+	((self remoteTrait: #TClass withPrefix: #Famix) property: #testCase).
 	(method property: #testedMethod)
-	-
-	((self remoteTrait: #TMethod withPrefix: #Famix) property: #unitTest)
+	*-
+	((self remoteTrait: #TMethod withPrefix: #Famix) property: #unitTests)
 ]

@@ -106,10 +106,10 @@ FamixUTCase >> tearDown: anObject [
 
 { #category : #accessing }
 FamixUTCase >> testedClass [
-	"Relation named: #testedClass type: #FamixTClass opposite: #unitTest"
+	"Relation named: #testedClass type: #FamixTClass opposite: #testCase"
 
 	<generated>
-	<FMProperty: #testedClass type: #FamixTClass opposite: #unitTest>
+	<FMProperty: #testedClass type: #FamixTClass opposite: #testCase>
 	^ self attributeAt: #testedClass ifAbsent: [ nil ]
 ]
 
@@ -121,8 +121,8 @@ FamixUTCase >> testedClass: anObject [
 	anObject ifNil: [ | otherSide |
 		otherSide :=  self testedClass.
 		self attributeAt: #testedClass put: anObject.
-		otherSide unitTest: nil ]
+		otherSide testCase: nil ]
 	ifNotNil: [ 
 		self attributeAt: #testedClass put: anObject.
-		anObject unitTest: self ]
+		anObject testCase: self ]
 ]

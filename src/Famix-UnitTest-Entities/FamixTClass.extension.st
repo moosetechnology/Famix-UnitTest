@@ -1,26 +1,26 @@
 Extension { #name : #FamixTClass }
 
 { #category : #'*Famix-UnitTest-Entities-accessing' }
-FamixTClass >> unitTest [
-	"Relation named: #unitTest type: #FamixUTCase opposite: #testedClass"
+FamixTClass >> testCase [
+	"Relation named: #testCase type: #FamixUTCase opposite: #testedClass"
 
 	<generated>
 	<derived>
-	<FMProperty: #unitTest type: #FamixUTCase opposite: #testedClass>
+	<FMProperty: #testCase type: #FamixUTCase opposite: #testedClass>
 	<package: #'Famix-UnitTest-Entities'>
-	^ self attributeAt: #unitTest ifAbsent: [ nil ]
+	^ self attributeAt: #testCase ifAbsent: [ nil ]
 ]
 
 { #category : #'*Famix-UnitTest-Entities-accessing' }
-FamixTClass >> unitTest: anObject [
+FamixTClass >> testCase: anObject [
 
 	<generated>
-	(self attributeAt: #unitTest ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	(self attributeAt: #testCase ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
 	anObject ifNil: [ | otherSide |
-		otherSide :=  self unitTest.
-		self attributeAt: #unitTest put: anObject.
+		otherSide :=  self testCase.
+		self attributeAt: #testCase put: anObject.
 		otherSide testedClass: nil ]
 	ifNotNil: [ 
-		self attributeAt: #unitTest put: anObject.
+		self attributeAt: #testCase put: anObject.
 		anObject testedClass: self ]
 ]
