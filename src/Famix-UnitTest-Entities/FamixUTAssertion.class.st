@@ -6,7 +6,6 @@ Class {
 	#superclass : #FamixUTEntity,
 	#instVars : [
 		'#errorMargin => FMProperty',
-		'#expected => FMOne type: #FamixUTDouble opposite: #expectedInAssertions',
 		'#method => FMOne type: #FamixUTMethod opposite: #assertions'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
@@ -38,17 +37,18 @@ FamixUTAssertion >> errorMargin: anObject [
 
 { #category : #accessing }
 FamixUTAssertion >> expected [
-	"Relation named: #expected type: #FamixUTDouble opposite: #expectedInAssertions"
+	"Relation named: #expected type: #FamixValueOfType opposite: #expectedInAssertions"
 
 	<generated>
-	^ expected
+	<FMProperty: #expected type: #FamixValueOfType opposite: #expectedInAssertions>
+	^ self attributeAt: #expected ifAbsent: [ nil ]
 ]
 
 { #category : #accessing }
 FamixUTAssertion >> expected: anObject [
 
 	<generated>
-	expected := anObject
+	self attributeAt: #expected put: (FMMultivalueLink on: self update: #expectedInAssertions from: self expected to: anObject).
 ]
 
 { #category : #accessing }

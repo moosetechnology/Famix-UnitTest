@@ -6,7 +6,8 @@ Class {
 	#superclass : #FamixUTFixture,
 	#instVars : [
 		'#suite => FMOne type: #FamixUTSuite opposite: #setUp',
-		'#case => FMOne type: #FamixUTCase opposite: #setUp',
+		'#beforeAllInCase => FMOne type: #FamixUTCase opposite: #beforeAll',
+		'#beforeEachInCase => FMOne type: #FamixUTCase opposite: #beforeEach',
 		'#method => FMOne type: #FamixUTMethod opposite: #setUp'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
@@ -22,19 +23,35 @@ FamixUTSetUp class >> annotation [
 ]
 
 { #category : #accessing }
-FamixUTSetUp >> case [
-	"Relation named: #case type: #FamixUTCase opposite: #setUp"
+FamixUTSetUp >> beforeAllInCase [
+	"Relation named: #beforeAllInCase type: #FamixUTCase opposite: #beforeAll"
 
 	<generated>
 	<derived>
-	^ case
+	^ beforeAllInCase
 ]
 
 { #category : #accessing }
-FamixUTSetUp >> case: anObject [
+FamixUTSetUp >> beforeAllInCase: anObject [
 
 	<generated>
-	case := anObject
+	beforeAllInCase := anObject
+]
+
+{ #category : #accessing }
+FamixUTSetUp >> beforeEachInCase [
+	"Relation named: #beforeEachInCase type: #FamixUTCase opposite: #beforeEach"
+
+	<generated>
+	<derived>
+	^ beforeEachInCase
+]
+
+{ #category : #accessing }
+FamixUTSetUp >> beforeEachInCase: anObject [
+
+	<generated>
+	beforeEachInCase := anObject
 ]
 
 { #category : #accessing }

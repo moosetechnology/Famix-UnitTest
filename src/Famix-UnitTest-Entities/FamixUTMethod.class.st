@@ -7,8 +7,9 @@ Class {
 	#traits : 'FamixTNamedEntity',
 	#classTraits : 'FamixTNamedEntity classTrait',
 	#instVars : [
-		'#assertions => FMMany type: #FamixUTAssertion opposite: #method',
 		'#case => FMOne type: #FamixUTCase opposite: #methods',
+		'#assertions => FMMany type: #FamixUTAssertion opposite: #method',
+		'#act => FMOne type: #FamixUTAct opposite: #method',
 		'#setUp => FMOne type: #FamixUTSetUp opposite: #method',
 		'#tearDown => FMOne type: #FamixUTTearDown opposite: #method'
 	],
@@ -22,6 +23,28 @@ FamixUTMethod class >> annotation [
 	<package: #'Famix-UnitTest-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : #accessing }
+FamixUTMethod >> act [
+	"Relation named: #act type: #FamixUTAct opposite: #method"
+
+	<generated>
+	^ act
+]
+
+{ #category : #accessing }
+FamixUTMethod >> act: anObject [
+
+	<generated>
+	act := anObject
+]
+
+{ #category : #navigation }
+FamixUTMethod >> actGroup [
+	<generated>
+	<navigation: 'Act'>
+	^ MooseSpecializedGroup with: self act
 ]
 
 { #category : #adding }

@@ -4,9 +4,6 @@ Sets up or tears down the system to make tests repeatable.
 Class {
 	#name : #FamixUTFixture,
 	#superclass : #FamixUTEntity,
-	#instVars : [
-		'#doubles => FMMany type: #FamixUTDouble opposite: #fixtures'
-	],
 	#category : #'Famix-UnitTest-Entities-Entities'
 }
 
@@ -27,16 +24,17 @@ FamixUTFixture >> addDouble: anObject [
 
 { #category : #accessing }
 FamixUTFixture >> doubles [
-	"Relation named: #doubles type: #FamixUTDouble opposite: #fixtures"
+	"Relation named: #doubles type: #FamixValueOfType opposite: #fixtures"
 
 	<generated>
 	<derived>
-	^ doubles
+	<FMProperty: #doubles type: #FamixValueOfType opposite: #fixtures>
+	^ self attributeAt: #doubles ifAbsentPut: [ FMMultiMultivalueLink on: self opposite: #fixtures ]
 ]
 
 { #category : #accessing }
 FamixUTFixture >> doubles: anObject [
 
 	<generated>
-	doubles value: anObject
+	self doubles value: anObject
 ]

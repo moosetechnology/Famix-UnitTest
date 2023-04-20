@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 FamixUTModel class >> allSubmetamodelsPackagesNames [
 	<generated>
-	^ #(#'Moose-Query' #'Famix-Traits')
+	^ #(#'Moose-Query' #'Famix-Value-Entities' #'Famix-Traits')
 ]
 
 { #category : #meta }

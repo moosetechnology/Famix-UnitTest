@@ -6,7 +6,8 @@ Class {
 	#superclass : #FamixUTFixture,
 	#instVars : [
 		'#suite => FMOne type: #FamixUTSuite opposite: #tearDown',
-		'#case => FMOne type: #FamixUTCase opposite: #tearDown',
+		'#afterAllInCase => FMOne type: #FamixUTCase opposite: #afterAll',
+		'#afterEachInCase => FMOne type: #FamixUTCase opposite: #afterEach',
 		'#method => FMOne type: #FamixUTMethod opposite: #tearDown'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
@@ -22,19 +23,35 @@ FamixUTTearDown class >> annotation [
 ]
 
 { #category : #accessing }
-FamixUTTearDown >> case [
-	"Relation named: #case type: #FamixUTCase opposite: #tearDown"
+FamixUTTearDown >> afterAllInCase [
+	"Relation named: #afterAllInCase type: #FamixUTCase opposite: #afterAll"
 
 	<generated>
 	<derived>
-	^ case
+	^ afterAllInCase
 ]
 
 { #category : #accessing }
-FamixUTTearDown >> case: anObject [
+FamixUTTearDown >> afterAllInCase: anObject [
 
 	<generated>
-	case := anObject
+	afterAllInCase := anObject
+]
+
+{ #category : #accessing }
+FamixUTTearDown >> afterEachInCase [
+	"Relation named: #afterEachInCase type: #FamixUTCase opposite: #afterEach"
+
+	<generated>
+	<derived>
+	^ afterEachInCase
+]
+
+{ #category : #accessing }
+FamixUTTearDown >> afterEachInCase: anObject [
+
+	<generated>
+	afterEachInCase := anObject
 ]
 
 { #category : #accessing }

@@ -9,8 +9,18 @@ BaselineOfFamixUnitTest >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ 
+		self dependencies: spec.
 		self packages: spec.
 		self groups: spec ]
+]
+
+{ #category : #baselines }
+BaselineOfFamixUnitTest >> dependencies: spec [
+
+	spec
+		baseline: 'FamixValue'
+		with: [ 
+		spec repository: 'github://moosetechnology/Famix-Value:main/src' ]
 ]
 
 { #category : #baselines }

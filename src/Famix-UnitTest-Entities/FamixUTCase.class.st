@@ -5,10 +5,12 @@ Class {
 	#name : #FamixUTCase,
 	#superclass : #FamixUTEntity,
 	#instVars : [
-		'#methods => FMMany type: #FamixUTMethod opposite: #case',
-		'#setUp => FMOne type: #FamixUTSetUp opposite: #case',
 		'#suite => FMOne type: #FamixUTSuite opposite: #cases',
-		'#tearDown => FMOne type: #FamixUTTearDown opposite: #case'
+		'#methods => FMMany type: #FamixUTMethod opposite: #case',
+		'#beforeAll => FMOne type: #FamixUTSetUp opposite: #beforeAllInCase',
+		'#afterAll => FMOne type: #FamixUTTearDown opposite: #afterAllInCase',
+		'#beforeEach => FMOne type: #FamixUTSetUp opposite: #beforeEachInCase',
+		'#afterEach => FMOne type: #FamixUTTearDown opposite: #afterEachInCase'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
 }
@@ -26,6 +28,66 @@ FamixUTCase class >> annotation [
 FamixUTCase >> addMethod: anObject [
 	<generated>
 	^ self methods add: anObject
+]
+
+{ #category : #accessing }
+FamixUTCase >> afterAll [
+	"Relation named: #afterAll type: #FamixUTTearDown opposite: #afterAllInCase"
+
+	<generated>
+	^ afterAll
+]
+
+{ #category : #accessing }
+FamixUTCase >> afterAll: anObject [
+
+	<generated>
+	afterAll := anObject
+]
+
+{ #category : #accessing }
+FamixUTCase >> afterEach [
+	"Relation named: #afterEach type: #FamixUTTearDown opposite: #afterEachInCase"
+
+	<generated>
+	^ afterEach
+]
+
+{ #category : #accessing }
+FamixUTCase >> afterEach: anObject [
+
+	<generated>
+	afterEach := anObject
+]
+
+{ #category : #accessing }
+FamixUTCase >> beforeAll [
+	"Relation named: #beforeAll type: #FamixUTSetUp opposite: #beforeAllInCase"
+
+	<generated>
+	^ beforeAll
+]
+
+{ #category : #accessing }
+FamixUTCase >> beforeAll: anObject [
+
+	<generated>
+	beforeAll := anObject
+]
+
+{ #category : #accessing }
+FamixUTCase >> beforeEach [
+	"Relation named: #beforeEach type: #FamixUTSetUp opposite: #beforeEachInCase"
+
+	<generated>
+	^ beforeEach
+]
+
+{ #category : #accessing }
+FamixUTCase >> beforeEach: anObject [
+
+	<generated>
+	beforeEach := anObject
 ]
 
 { #category : #accessing }
@@ -52,21 +114,6 @@ FamixUTCase >> methodsGroup [
 ]
 
 { #category : #accessing }
-FamixUTCase >> setUp [
-	"Relation named: #setUp type: #FamixUTSetUp opposite: #case"
-
-	<generated>
-	^ setUp
-]
-
-{ #category : #accessing }
-FamixUTCase >> setUp: anObject [
-
-	<generated>
-	setUp := anObject
-]
-
-{ #category : #accessing }
 FamixUTCase >> suite [
 	"Relation named: #suite type: #FamixUTSuite opposite: #cases"
 
@@ -87,21 +134,6 @@ FamixUTCase >> suiteGroup [
 	<generated>
 	<navigation: 'Suite'>
 	^ MooseSpecializedGroup with: self suite
-]
-
-{ #category : #accessing }
-FamixUTCase >> tearDown [
-	"Relation named: #tearDown type: #FamixUTTearDown opposite: #case"
-
-	<generated>
-	^ tearDown
-]
-
-{ #category : #accessing }
-FamixUTCase >> tearDown: anObject [
-
-	<generated>
-	tearDown := anObject
 ]
 
 { #category : #accessing }

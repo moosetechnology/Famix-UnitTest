@@ -9,7 +9,8 @@ Class {
 		'method',
 		'double',
 		'setUp',
-		'tearDown'
+		'tearDown',
+		'act'
 	],
 	#category : #'Famix-UnitTest-Generator-Famix-UnitTest-Generator'
 }
@@ -31,7 +32,7 @@ FamixUnitTestGenerator class >> prefix [
 { #category : #accessing }
 FamixUnitTestGenerator class >> submetamodels [
 
-	^ { FamixGenerator }
+	^ { FamixGenerator. FamixValueGenerator }
 ]
 
 { #category : #definition }
@@ -47,6 +48,9 @@ FamixUnitTestGenerator >> defineClasses [
 		          newClassNamed: #Method
 		          comment:
 		          'Tests a specific behavior or feature of the system under test.'.
+	act := builder
+		       newClassNamed: #Act
+		       comment: 'Execution of the system under test.'.
 	assertion := builder
 		             newClassNamed: #Assertion
 		             comment:
@@ -62,10 +66,11 @@ FamixUnitTestGenerator >> defineClasses [
 		            newClassNamed: #TearDown
 		            comment:
 		            'Tears down the system to make tests repeatable.'.
-	double := builder
+	"double := builder
 		          newClassNamed: #Double
 		          comment:
-		          'Object used in testing to replace a real object with a simplified version.'
+		          'Object used in testing to replace a real object with a simplified version.'"
+	double := self remoteEntity: #OfType withPrefix: #FamixValue
 ]
 
 { #category : #definition }
@@ -89,17 +94,21 @@ FamixUnitTestGenerator >> defineRelations [
 	(suite property: #cases) <>-* case.
 	(case property: #methods) <>-* method.
 	(method property: #assertions) <>-* assertion.
+	method <>- act.
 
 	(suite property: #setUp) - (setUp property: #suite).
 	(suite property: #tearDown) - (tearDown property: #suite).
-	(case property: #setUp) - (setUp property: #case).
-	(case property: #tearDown) - (tearDown property: #case).
+	(case property: #beforeAll) - (setUp property: #beforeAllInCase).
+	(case property: #afterAll) - (tearDown property: #afterAllInCase).
+	(case property: #beforeEach) - (setUp property: #beforeEachInCase).
+	(case property: #afterEach) - (tearDown property: #afterEachInCase).
 	(method property: #setUp) - (setUp property: #method).
 	(method property: #tearDown) - (tearDown property: #method).
 
 	(fixture property: #doubles) *-* (double property: #fixtures).
 	(assertion property: #expected)
 	*- (double property: #expectedInAssertions).
+	(act property: #arguments) *-* (double property: #argumentInActs).
 
 	(case property: #testedClass)
 	-
