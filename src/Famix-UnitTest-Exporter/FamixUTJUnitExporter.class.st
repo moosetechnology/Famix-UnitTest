@@ -9,6 +9,32 @@ Class {
 }
 
 { #category : #exporting }
+FamixUTJUnitExporter >> exportAct: aFamixUTAct [
+
+	| testedMethod invocation |
+	testedMethod := aFamixUTAct method testedMethod.
+	invocation := self model newMethodInvocation
+		              name: testedMethod name;
+		              receiver: (model newNewExpression type:
+					               (testedMethod parentType 
+						                asFASTJavaTypeExpressionOn: model));
+		              arguments:
+			              (aFamixUTAct arguments collect: [ :argument | 
+					               model newVariableExpression name:
+							               (self valueExporter varNameFor: argument) ]).
+	^ testedMethod declaredType name = 'void'
+		  ifTrue: [ model newExpressionStatement expression: invocation ]
+		  ifFalse: [ 
+			  model newVarDeclStatement
+				  type:
+					  (testedMethod declaredType asFASTJavaTypeExpressionOn: model);
+				  addDeclarator: (model newVariableDeclarator
+						   variable: (model newVariableExpression name: 'actual');
+						   expression: invocation);
+				  yourself ]
+]
+
+{ #category : #exporting }
 FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
 
 	^ self model newExpressionStatement expression:
@@ -17,6 +43,17 @@ FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
 			   addArgument: (model newVariableExpression name: 'expected');
 			   addArgument: (model newVariableExpression name: 'actual');
 			   yourself)
+]
+
+{ #category : #'as yet unclassified' }
+FamixUTJUnitExporter >> exportCase: aFamixUTCase [
+
+	^ self model newClassDeclaration
+		  name: aFamixUTCase testedClass name , 'Test';
+		  addModifier: (model newModifier token: 'public');
+		  declarations:
+			  (aFamixUTCase methods collect: [ :method | 
+					   self exportMethod: method ])
 ]
 
 { #category : #exporting }
@@ -45,37 +82,11 @@ FamixUTJUnitExporter >> exportMethod: aFamixUTMethod [
 			(argument accept: self valueExporter) statements do: [ :statement | 
 				statements addStatement: statement ] ].
 		"Act/When"
-		statements addStatement: (self exportMethodAct: aFamixUTMethod act) ].
+		statements addStatement: (self exportAct: aFamixUTMethod act) ].
 	"Assert/Then"
 	aFamixUTMethod assertions do: [ :assertion | 
 		statements addStatement: (self exportAssertion: assertion) ].
 	^ method
-]
-
-{ #category : #exporting }
-FamixUTJUnitExporter >> exportMethodAct: aFamixUTAct [
-
-	| testedMethod invocation |
-	testedMethod := aFamixUTAct method testedMethod.
-	invocation := model newMethodInvocation
-		              name: testedMethod name;
-		              receiver: (model newNewExpression type:
-					               (testedMethod parentType 
-						                asFASTJavaTypeExpressionOn: model));
-		              arguments:
-			              (aFamixUTAct arguments collect: [ :argument | 
-					               model newVariableExpression name:
-							               (valueExporter varNameFor: argument) ]).
-	^ testedMethod declaredType name = 'void'
-		  ifTrue: [ model newExpressionStatement expression: invocation ]
-		  ifFalse: [ 
-			  model newVarDeclStatement
-				  type:
-					  (testedMethod declaredType asFASTJavaTypeExpressionOn: model);
-				  addDeclarator: (model newVariableDeclarator
-						   variable: (model newVariableExpression name: 'actual');
-						   expression: invocation);
-				  yourself ]
 ]
 
 { #category : #exporting }
