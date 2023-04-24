@@ -13,7 +13,15 @@ FamixUTFixture class >> annotation [
 	<FMClass: #Fixture super: #FamixUTEntity>
 	<package: #'Famix-UnitTest-Entities'>
 	<generated>
+	<abstract>
 	^ self
+]
+
+{ #category : #testing }
+FamixUTFixture class >> isAbstract [
+
+	<generated>
+	^ self == FamixUTFixture
 ]
 
 { #category : #adding }

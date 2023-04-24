@@ -55,10 +55,11 @@ FamixUnitTestGenerator >> defineClasses [
 		             newClassNamed: #Assertion
 		             comment:
 		             'Verifies that the behavior or feature being tested behaves as expected.'.
-	fixture := builder
-		           newClassNamed: #Fixture
-		           comment:
-		           'Sets up or tears down the system to make tests repeatable.'.
+	fixture := (builder
+		            newClassNamed: #Fixture
+		            comment:
+		            'Sets up or tears down the system to make tests repeatable.') 
+		           isAbstractClass: true.
 	setUp := builder
 		         newClassNamed: #SetUp
 		         comment: 'Sets up the system to make tests repeatable.'.
