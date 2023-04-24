@@ -45,7 +45,7 @@ FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
 			   yourself)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #exporting }
 FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 
 	^ self model newClassDeclaration
@@ -95,7 +95,7 @@ FamixUTJUnitExporter >> exportSetUp: aFamixUTSetUp [
 	self shouldBeImplemented
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FamixUTJUnitExporter >> model [
 
 	^ model ifNil: [ model := FASTJavaModel new ]
