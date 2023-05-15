@@ -27,12 +27,12 @@ FamixUTAct >> addArgument: anObject [
 
 { #category : #accessing }
 FamixUTAct >> arguments [
-	"Relation named: #arguments type: #FamixValueOfType opposite: #argumentInActs"
+	"Relation named: #arguments type: #FamixValueOfType opposite: #argumentInAct"
 
 	<generated>
 	<derived>
-	<FMProperty: #arguments type: #FamixValueOfType opposite: #argumentInActs>
-	^ self attributeAt: #arguments ifAbsentPut: [ FMMultiMultivalueLink on: self opposite: #argumentInActs ]
+	<FMProperty: #arguments type: #FamixValueOfType opposite: #argumentInAct>
+	^ self attributeAt: #arguments ifAbsentPut: [ FMMultivalueLink on: self opposite: #argumentInAct: ]
 ]
 
 { #category : #accessing }

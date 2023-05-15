@@ -76,7 +76,7 @@ FamixUTJUnitExporterTest >> testExportCase [
 		(FamixUTMethod new testedMethod: (FamixJavaMethod new
 				  name: 'foo';
 				  declaredType: (FamixJavaPrimitiveType new name: 'int');
-				  parentType: (FamixJavaClass new name: 'MyClass'))).
+				  parentType: case testedClass)).
 	self
 		assert: (FASTJavaExportVisitor new export:
 				 (FamixUTJUnitExporter new exportCase: case))

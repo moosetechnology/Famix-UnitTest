@@ -7,9 +7,9 @@ Class {
 		'fixture',
 		'assertion',
 		'method',
-		'double',
 		'setUp',
 		'tearDown',
+		'value',
 		'act'
 	],
 	#category : #'Famix-UnitTest-Generator-Famix-UnitTest-Generator'
@@ -67,11 +67,7 @@ FamixUnitTestGenerator >> defineClasses [
 		            newClassNamed: #TearDown
 		            comment:
 		            'Tears down the system to make tests repeatable.'.
-	"double := builder
-		          newClassNamed: #Double
-		          comment:
-		          'Object used in testing to replace a real object with a simplified version.'"
-	double := self remoteEntity: #OfType withPrefix: #FamixValue
+	value := self remoteEntity: #OfType withPrefix: #FamixValue
 ]
 
 { #category : #definition }
@@ -106,10 +102,10 @@ FamixUnitTestGenerator >> defineRelations [
 	(method property: #setUp) - (setUp property: #method).
 	(method property: #tearDown) - (tearDown property: #method).
 
-	(fixture property: #doubles) *-* (double property: #fixtures).
+	(fixture property: #values) *-* (value property: #fixtures).
 	(assertion property: #expected)
-	*- (double property: #expectedInAssertions).
-	(act property: #arguments) *-* (double property: #argumentInActs).
+	*- (value property: #expectedInAssertions).
+	(act property: #arguments) -* (value property: #argumentInAct).
 
 	(case property: #testedClass)
 	-

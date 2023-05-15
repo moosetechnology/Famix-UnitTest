@@ -25,24 +25,24 @@ FamixUTFixture class >> isAbstract [
 ]
 
 { #category : #adding }
-FamixUTFixture >> addDouble: anObject [
+FamixUTFixture >> addValue: anObject [
 	<generated>
-	^ self doubles add: anObject
+	^ self values add: anObject
 ]
 
 { #category : #accessing }
-FamixUTFixture >> doubles [
-	"Relation named: #doubles type: #FamixValueOfType opposite: #fixtures"
+FamixUTFixture >> values [
+	"Relation named: #values type: #FamixValueOfType opposite: #fixtures"
 
 	<generated>
 	<derived>
-	<FMProperty: #doubles type: #FamixValueOfType opposite: #fixtures>
-	^ self attributeAt: #doubles ifAbsentPut: [ FMMultiMultivalueLink on: self opposite: #fixtures ]
+	<FMProperty: #values type: #FamixValueOfType opposite: #fixtures>
+	^ self attributeAt: #values ifAbsentPut: [ FMMultiMultivalueLink on: self opposite: #fixtures ]
 ]
 
 { #category : #accessing }
-FamixUTFixture >> doubles: anObject [
+FamixUTFixture >> values: anObject [
 
 	<generated>
-	self doubles value: anObject
+	self values value: anObject
 ]

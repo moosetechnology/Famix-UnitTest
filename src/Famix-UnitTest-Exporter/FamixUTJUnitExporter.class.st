@@ -71,12 +71,6 @@ FamixUTJUnitExporter >> exportMethod: aFamixUTMethod [
 	"Arrange/Given"
 	aFamixUTMethod setUp ifNotNil: [ 
 		statements addStatement: (self exportSetUp: aFamixUTMethod setUp) ].
-	"aFamixUTMethod result ifNotNil: [ 
-		model newVarDeclStatement
-			type: (aFamixUTMethod act result asFASTJavaTypeExpressionOn:
-						 self valueExporter);
-			addDeclarator: (model newVariableDeclarator);
-			yourself ]."
 	aFamixUTMethod act ifNotNil: [ 
 		aFamixUTMethod act arguments do: [ :argument | 
 			(argument accept: self valueExporter) statements do: [ :statement | 
