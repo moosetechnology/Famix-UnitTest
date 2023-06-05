@@ -12,7 +12,7 @@ Class {
 		'value',
 		'act'
 	],
-	#category : #'Famix-UnitTest-Generator-Famix-UnitTest-Generator'
+	#category : #'Famix-UnitTest-Generator'
 }
 
 { #category : #accessing }
