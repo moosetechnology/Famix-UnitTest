@@ -18,12 +18,13 @@ BaselineOfFamixUnitTest >> baseline: spec [
 BaselineOfFamixUnitTest >> dependencies: spec [
 
 	spec
-		baseline: 'FamixValue'
-		with: [ 
-			spec repository: 'github://moosetechnology/Famix-Value:main/src' ];
+		baseline: 'FamixValue' with: [ 
+			spec
+				repository: 'github://moosetechnology/Famix-Value:main/src';
+				group: 'exporter' ]";
 		baseline: 'FASTJava'
 		with: [ 
-			spec repository: 'github://moosetechnology/FAST-JAVA:v3/src' ]
+		spec repository: 'github://moosetechnology/FAST-JAVA:v3/src' ]"
 ]
 
 { #category : #baselines }
