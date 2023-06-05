@@ -20,7 +20,10 @@ BaselineOfFamixUnitTest >> dependencies: spec [
 	spec
 		baseline: 'FamixValue'
 		with: [ 
-		spec repository: 'github://moosetechnology/Famix-Value:main/src' ]
+			spec repository: 'github://moosetechnology/Famix-Value:main/src' ];
+		baseline: 'FAST'
+		with: [ 
+			spec repository: 'github://moostechnology/FAST:development/src' ]
 ]
 
 { #category : #baselines }
@@ -41,11 +44,13 @@ BaselineOfFamixUnitTest >> packages: spec [
 	spec
 		package: 'Famix-UnitTest-Generator'
 		with: [ spec requires: 'FamixValue' ];
-		package: 'Famix-UnitTest-Entities';
+		package: 'Famix-UnitTest-Entities'
+		with: [ spec requires: 'FamixValue' ];
 		package: 'Famix-UnitTest-Importer'
-		with: [ spec requires: #( 'Famix-UnitTest-Entities' ) ];
+		with: [ spec requires: 'Famix-UnitTest-Entities' ];
 		package: 'Famix-UnitTest-Exporter'
-		with: [ spec requires: #( 'Famix-UnitTest-Entities' ) ];
+		with: [ spec requires: #( 'Famix-UnitTest-Entities'
+				   'FAST' ) ];
 		package: 'Famix-UnitTest-Exporter-Tests'
-		with: [ spec requires: #( 'Famix-UnitTest-Exporter' ) ]
+		with: [ spec requires: 'Famix-UnitTest-Exporter' ]
 ]
