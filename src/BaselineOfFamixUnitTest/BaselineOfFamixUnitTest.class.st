@@ -22,7 +22,7 @@ BaselineOfFamixUnitTest >> dependencies: spec [
 		with: [ 
 			spec repository: 'github://moosetechnology/Famix-Value:main/src' ];
 		baseline: 'FAST'
-		with: [ spec repository: 'github://moostechnology/FAST:v2/src' ]
+		with: [ spec repository: 'github://moosetechnology/FAST:v2/src' ]
 ]
 
 { #category : #baselines }
