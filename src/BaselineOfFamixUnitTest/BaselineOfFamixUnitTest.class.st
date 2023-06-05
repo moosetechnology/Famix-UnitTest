@@ -17,14 +17,10 @@ BaselineOfFamixUnitTest >> baseline: spec [
 { #category : #baselines }
 BaselineOfFamixUnitTest >> dependencies: spec [
 
-	spec
-		baseline: 'FamixValue' with: [ 
-			spec
-				repository: 'github://moosetechnology/Famix-Value:main/src';
-				group: 'exporter' ]";
-		baseline: 'FASTJava'
-		with: [ 
-		spec repository: 'github://moosetechnology/FAST-JAVA:v3/src' ]"
+	spec baseline: 'FamixValue' with: [ 
+		spec
+			repository: 'github://moosetechnology/Famix-Value:main/src';
+			loads: 'exporter' ]
 ]
 
 { #category : #baselines }
@@ -50,8 +46,7 @@ BaselineOfFamixUnitTest >> packages: spec [
 		package: 'Famix-UnitTest-Importer'
 		with: [ spec requires: 'Famix-UnitTest-Entities' ];
 		package: 'Famix-UnitTest-Exporter'
-		with: [ spec requires: #( 'Famix-UnitTest-Entities'
-				   'FASTJava' ) ];
+		with: [ spec requires: 'Famix-UnitTest-Entities' ];
 		package: 'Famix-UnitTest-Exporter-Tests'
 		with: [ spec requires: 'Famix-UnitTest-Exporter' ]
 ]
