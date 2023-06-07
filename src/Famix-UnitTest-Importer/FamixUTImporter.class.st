@@ -42,7 +42,9 @@ FamixUTImporter >> testMethod: aFamixTMethod arguments: arguments expected: expe
 	"Build a unit test for a method using the given arguments and expected result."
 
 	| method |
-	method := self model newMethod testedMethod: aFamixTMethod.
+	method := self model newMethod
+		          testedMethod: aFamixTMethod;
+		          name: 'test' , aFamixTMethod name capitalized.
 	model newSetUp
 		method: method;
 		addValue: expected.

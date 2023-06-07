@@ -96,8 +96,7 @@ FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
 	self flag: 'Use FAMIX2Java instead of FAST?'.
 
 	^ self model newMethodEntity
-		  name: (aFamixUTMethod name ifNil: [ 
-					   'test' , aFamixUTMethod testedMethod name capitalized ]);
+		  name: aFamixUTMethod name;
 		  addModifier: (model newAnnotation expression:
 					   (model newVariableExpression name: 'Test'));
 		  addModifier: (model newModifier token: 'public');
