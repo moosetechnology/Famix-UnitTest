@@ -9,6 +9,16 @@ Class {
 	#category : #'Famix-UnitTest-Exporter'
 }
 
+{ #category : #api }
+FamixUTJUnitExporter >> export: aFamixUTModel [
+
+	(aFamixUTModel allWithType: FamixUTCase) do: [ :case | 
+		self exportCase: case ].
+	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite | 
+		self exportSuite: suite ].
+	^ self model
+]
+
 { #category : #exporting }
 FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 
@@ -86,6 +96,12 @@ FamixUTJUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
 
 { #category : #exporting }
 FamixUTJUnitExporter >> exportSetUp: aFamixUTSetUp [
+
+	self shouldBeImplemented
+]
+
+{ #category : #api }
+FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 
 	self shouldBeImplemented
 ]
