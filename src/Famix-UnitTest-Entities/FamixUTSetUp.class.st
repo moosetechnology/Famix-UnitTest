@@ -5,10 +5,10 @@ Class {
 	#name : #FamixUTSetUp,
 	#superclass : #FamixUTFixture,
 	#instVars : [
-		'#suite => FMOne type: #FamixUTSuite opposite: #setUp',
-		'#beforeAllInCase => FMOne type: #FamixUTCase opposite: #beforeAll',
-		'#beforeEachInCase => FMOne type: #FamixUTCase opposite: #beforeEach',
-		'#method => FMOne type: #FamixUTMethod opposite: #setUp'
+		'#forAllInCase => FMOne type: #FamixUTCase opposite: #beforeAll',
+		'#forEachInCase => FMOne type: #FamixUTCase opposite: #beforeEach',
+		'#method => FMOne type: #FamixUTMethod opposite: #setUp',
+		'#suite => FMOne type: #FamixUTSuite opposite: #setUp'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
 }
@@ -23,35 +23,35 @@ FamixUTSetUp class >> annotation [
 ]
 
 { #category : #accessing }
-FamixUTSetUp >> beforeAllInCase [
-	"Relation named: #beforeAllInCase type: #FamixUTCase opposite: #beforeAll"
+FamixUTSetUp >> forAllInCase [
+	"Relation named: #forAllInCase type: #FamixUTCase opposite: #beforeAll"
 
 	<generated>
 	<derived>
-	^ beforeAllInCase
+	^ forAllInCase
 ]
 
 { #category : #accessing }
-FamixUTSetUp >> beforeAllInCase: anObject [
+FamixUTSetUp >> forAllInCase: anObject [
 
 	<generated>
-	beforeAllInCase := anObject
+	forAllInCase := anObject
 ]
 
 { #category : #accessing }
-FamixUTSetUp >> beforeEachInCase [
-	"Relation named: #beforeEachInCase type: #FamixUTCase opposite: #beforeEach"
+FamixUTSetUp >> forEachInCase [
+	"Relation named: #forEachInCase type: #FamixUTCase opposite: #beforeEach"
 
 	<generated>
 	<derived>
-	^ beforeEachInCase
+	^ forEachInCase
 ]
 
 { #category : #accessing }
-FamixUTSetUp >> beforeEachInCase: anObject [
+FamixUTSetUp >> forEachInCase: anObject [
 
 	<generated>
-	beforeEachInCase := anObject
+	forEachInCase := anObject
 ]
 
 { #category : #accessing }

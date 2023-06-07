@@ -75,6 +75,9 @@ FamixUnitTestGenerator >> defineHierarchy [
 
 	setUp --|> fixture.
 	tearDown --|> fixture.
+
+	suite --|> #TNamedEntity.
+	"case names aren't configurable by choice"
 	method --|> #TNamedEntity
 ]
 
@@ -95,10 +98,10 @@ FamixUnitTestGenerator >> defineRelations [
 
 	(suite property: #setUp) - (setUp property: #suite).
 	(suite property: #tearDown) - (tearDown property: #suite).
-	(case property: #beforeAll) - (setUp property: #beforeAllInCase).
-	(case property: #afterAll) - (tearDown property: #afterAllInCase).
-	(case property: #beforeEach) - (setUp property: #beforeEachInCase).
-	(case property: #afterEach) - (tearDown property: #afterEachInCase).
+	(case property: #beforeAll) - (setUp property: #forAllInCase).
+	(case property: #afterAll) - (tearDown property: #forAllInCase).
+	(case property: #beforeEach) - (setUp property: #forEachInCase).
+	(case property: #afterEach) - (tearDown property: #forEachInCase).
 	(method property: #setUp) - (setUp property: #method).
 	(method property: #tearDown) - (tearDown property: #method).
 

@@ -5,10 +5,10 @@ Class {
 	#name : #FamixUTTearDown,
 	#superclass : #FamixUTFixture,
 	#instVars : [
-		'#suite => FMOne type: #FamixUTSuite opposite: #tearDown',
-		'#afterAllInCase => FMOne type: #FamixUTCase opposite: #afterAll',
-		'#afterEachInCase => FMOne type: #FamixUTCase opposite: #afterEach',
-		'#method => FMOne type: #FamixUTMethod opposite: #tearDown'
+		'#forAllInCase => FMOne type: #FamixUTCase opposite: #afterAll',
+		'#forEachInCase => FMOne type: #FamixUTCase opposite: #afterEach',
+		'#method => FMOne type: #FamixUTMethod opposite: #tearDown',
+		'#suite => FMOne type: #FamixUTSuite opposite: #tearDown'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
 }
@@ -23,35 +23,35 @@ FamixUTTearDown class >> annotation [
 ]
 
 { #category : #accessing }
-FamixUTTearDown >> afterAllInCase [
-	"Relation named: #afterAllInCase type: #FamixUTCase opposite: #afterAll"
+FamixUTTearDown >> forAllInCase [
+	"Relation named: #forAllInCase type: #FamixUTCase opposite: #afterAll"
 
 	<generated>
 	<derived>
-	^ afterAllInCase
+	^ forAllInCase
 ]
 
 { #category : #accessing }
-FamixUTTearDown >> afterAllInCase: anObject [
+FamixUTTearDown >> forAllInCase: anObject [
 
 	<generated>
-	afterAllInCase := anObject
+	forAllInCase := anObject
 ]
 
 { #category : #accessing }
-FamixUTTearDown >> afterEachInCase [
-	"Relation named: #afterEachInCase type: #FamixUTCase opposite: #afterEach"
+FamixUTTearDown >> forEachInCase [
+	"Relation named: #forEachInCase type: #FamixUTCase opposite: #afterEach"
 
 	<generated>
 	<derived>
-	^ afterEachInCase
+	^ forEachInCase
 ]
 
 { #category : #accessing }
-FamixUTTearDown >> afterEachInCase: anObject [
+FamixUTTearDown >> forEachInCase: anObject [
 
 	<generated>
-	afterEachInCase := anObject
+	forEachInCase := anObject
 ]
 
 { #category : #accessing }

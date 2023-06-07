@@ -4,6 +4,8 @@ A collection of test cases.
 Class {
 	#name : #FamixUTSuite,
 	#superclass : #FamixUTEntity,
+	#traits : 'FamixTNamedEntity',
+	#classTraits : 'FamixTNamedEntity classTrait',
 	#instVars : [
 		'#cases => FMMany type: #FamixUTCase opposite: #suite',
 		'#setUp => FMOne type: #FamixUTSetUp opposite: #suite',

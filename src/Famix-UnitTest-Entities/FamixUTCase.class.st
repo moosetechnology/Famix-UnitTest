@@ -5,12 +5,12 @@ Class {
 	#name : #FamixUTCase,
 	#superclass : #FamixUTEntity,
 	#instVars : [
-		'#suite => FMOne type: #FamixUTSuite opposite: #cases',
+		'#afterAll => FMOne type: #FamixUTTearDown opposite: #forAllInCase',
+		'#afterEach => FMOne type: #FamixUTTearDown opposite: #forEachInCase',
+		'#beforeAll => FMOne type: #FamixUTSetUp opposite: #forAllInCase',
+		'#beforeEach => FMOne type: #FamixUTSetUp opposite: #forEachInCase',
 		'#methods => FMMany type: #FamixUTMethod opposite: #case',
-		'#beforeAll => FMOne type: #FamixUTSetUp opposite: #beforeAllInCase',
-		'#afterAll => FMOne type: #FamixUTTearDown opposite: #afterAllInCase',
-		'#beforeEach => FMOne type: #FamixUTSetUp opposite: #beforeEachInCase',
-		'#afterEach => FMOne type: #FamixUTTearDown opposite: #afterEachInCase'
+		'#suite => FMOne type: #FamixUTSuite opposite: #cases'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
 }
@@ -32,7 +32,7 @@ FamixUTCase >> addMethod: anObject [
 
 { #category : #accessing }
 FamixUTCase >> afterAll [
-	"Relation named: #afterAll type: #FamixUTTearDown opposite: #afterAllInCase"
+	"Relation named: #afterAll type: #FamixUTTearDown opposite: #forAllInCase"
 
 	<generated>
 	^ afterAll
@@ -47,7 +47,7 @@ FamixUTCase >> afterAll: anObject [
 
 { #category : #accessing }
 FamixUTCase >> afterEach [
-	"Relation named: #afterEach type: #FamixUTTearDown opposite: #afterEachInCase"
+	"Relation named: #afterEach type: #FamixUTTearDown opposite: #forEachInCase"
 
 	<generated>
 	^ afterEach
@@ -62,7 +62,7 @@ FamixUTCase >> afterEach: anObject [
 
 { #category : #accessing }
 FamixUTCase >> beforeAll [
-	"Relation named: #beforeAll type: #FamixUTSetUp opposite: #beforeAllInCase"
+	"Relation named: #beforeAll type: #FamixUTSetUp opposite: #forAllInCase"
 
 	<generated>
 	^ beforeAll
@@ -77,7 +77,7 @@ FamixUTCase >> beforeAll: anObject [
 
 { #category : #accessing }
 FamixUTCase >> beforeEach [
-	"Relation named: #beforeEach type: #FamixUTSetUp opposite: #beforeEachInCase"
+	"Relation named: #beforeEach type: #FamixUTSetUp opposite: #forEachInCase"
 
 	<generated>
 	^ beforeEach

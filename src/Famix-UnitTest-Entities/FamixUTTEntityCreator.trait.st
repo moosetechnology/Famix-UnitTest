@@ -66,6 +66,13 @@ FamixUTTEntityCreator >> newSuite [
 ]
 
 { #category : #'entity creation' }
+FamixUTTEntityCreator >> newSuiteNamed: aName [
+
+	<generated>
+	^ self add: (FamixUTSuite named: aName)
+]
+
+{ #category : #'entity creation' }
 FamixUTTEntityCreator >> newTearDown [
 
 	<generated>
