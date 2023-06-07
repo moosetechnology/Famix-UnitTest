@@ -8,6 +8,23 @@ Class {
 }
 
 { #category : #'instance creation' }
+FamixUTImporter >> fromOTelSpans: spans [
+
+	"Use a collection of FamixOTelSpan from the Famix-OpenTelemetry project as test oracle."
+
+	(spans groupedBy: [ :span | span origin parentType ]) 
+		associationsDo: [ :spansByClass | 
+			| case |
+			case := self model newCase testedClass: spansByClass key.
+			spansByClass value do: [ :span | 
+				case addMethod: (self
+						 testMethod: span origin
+						 arguments: span arguments
+						 expected: span result) ] ].
+	^ model
+]
+
+{ #category : #'instance creation' }
 FamixUTImporter >> model [
 
 	^ model ifNil: [ model := FamixUTModel new ]
@@ -24,15 +41,16 @@ FamixUTImporter >> testMethod: aFamixTMethod arguments: arguments expected: expe
 
 	"Build a unit test for a method using the given arguments and expected result."
 
-	| method double |
+	| method |
 	method := self model newMethod testedMethod: aFamixTMethod.
-	double := model newDouble value: expected.
 	model newSetUp
 		method: method;
-		addDouble: double.
+		addValue: expected.
 	model newAssertion
 		method: method;
-		arguments: arguments;
-		expected: double.
+		expected: expected.
+	model newAct
+		method: method;
+		arguments: arguments.
 	^ method
 ]
