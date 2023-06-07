@@ -29,7 +29,9 @@ BaselineOfFamixUnitTest >> groups: spec [
 	spec
 		group: 'default' with: #( 'model' 'importer' 'exporter' );
 		group: 'model'
-		with: #( 'Famix-UnitTest-Generator' 'Famix-UnitTest-Entities' );
+		with:
+			#( 'FamixValue' 'Famix-UnitTest-Generator'
+			   'Famix-UnitTest-Entities' );
 		group: 'importer' with: #( 'Famix-UnitTest-Importer' );
 		group: 'exporter'
 		with: #( 'Famix-UnitTest-Exporter' 'Famix-UnitTest-Exporter-Tests' )
@@ -39,10 +41,10 @@ BaselineOfFamixUnitTest >> groups: spec [
 BaselineOfFamixUnitTest >> packages: spec [
 
 	spec
-		package: 'Famix-UnitTest-Generator'
-		with: [ spec requires: 'FamixValue' ];
-		package: 'Famix-UnitTest-Entities'
-		with: [ spec requires: 'FamixValue' ];
+		package: 'Famix-UnitTest-Generator';
+		package: 'Famix-UnitTest-Entities';
+		package: 'Famix-UnitTest-Entities-Extensions'
+		with: [ spec requires: 'Famix-UnitTest-Entities' ];
 		package: 'Famix-UnitTest-Importer'
 		with: [ spec requires: 'Famix-UnitTest-Entities' ];
 		package: 'Famix-UnitTest-Exporter'
