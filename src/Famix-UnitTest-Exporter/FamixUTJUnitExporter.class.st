@@ -53,7 +53,8 @@ FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
 		  (self model newExpressionStatement expression:
 			   (model newMethodInvocation
 				    name: 'assertEquals';
-				    addArgument: (model newVariableExpression name: 'expected');
+				    addArgument: (model newVariableExpression name:
+							     (self valueExporter varNameFor: aFamixUTAssertion expected));
 				    addArgument: (model newVariableExpression name: 'actual');
 				    yourself))
 ]
