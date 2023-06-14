@@ -13,3 +13,9 @@ FamixJavaPrimitiveType >> asFASTJavaTypeExpressionOn: aFASTJavaModel [
 	name = 'short' ifTrue: [ ^ aFASTJavaModel newShortTypeExpression ].
 	self error: 'Unknown primitive type'
 ]
+
+{ #category : #'*Famix-UnitTest-Exporter' }
+FamixJavaPrimitiveType >> needsJavaImport [
+
+	^ false
+]

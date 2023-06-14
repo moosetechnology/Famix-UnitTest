@@ -61,6 +61,40 @@ FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 ]
 
 { #category : #exporting }
+FamixUTJUnitExporter >> exportCaseFile: aFamixUTCase [
+
+	^ self model newCompilationUnit
+		  packageDeclaration: (self exportCasePackage: aFamixUTCase);
+		  importDeclarations: (self exportCaseImports: aFamixUTCase);
+		  addClassDeclaration: (self exportCase: aFamixUTCase);
+		  yourself
+]
+
+{ #category : #exporting }
+FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
+
+	| imports |
+	imports := (aFamixUTCase allTypes select: #needsJavaImport)
+		           collect: [ :type | 
+			           self model newImportDeclaration qualifiedName:
+				           (model newQualifiedName name: type mooseNameWithDots) ]
+		           as: OrderedCollection.
+	imports add: (model newImportDeclaration qualifiedName:
+			 (model newQualifiedName name:
+				  aFamixUTCase testedClass mooseNameWithDots)).
+	imports addAll: self makeJUnitImports.
+	^ imports
+]
+
+{ #category : #exporting }
+FamixUTJUnitExporter >> exportCasePackage: aFamixUTCase [
+
+	^ self model newPackageDeclaration qualifiedName:
+		  (model newQualifiedName name:
+			   aFamixUTCase testedClass typeContainer mooseNameWithDots)
+]
+
+{ #category : #exporting }
 FamixUTJUnitExporter >> exportMethod: aFamixUTMethod [
 
 	| method |
@@ -91,16 +125,29 @@ FamixUTJUnitExporter >> exportSetUp: aFamixUTSetUp [
 	self shouldBeImplemented
 ]
 
-{ #category : #api }
+{ #category : #exporting }
 FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 
 	self shouldBeImplemented
 ]
 
 { #category : #ast }
-FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
+FamixUTJUnitExporter >> makeJUnitImports [
 
-	self flag: 'Use FAMIX2Java instead of FAST?'.
+	| package |
+	package := self nameOfJUnitPackage.
+	^ { 
+		  (self model newImportDeclaration qualifiedName:
+			   (model newQualifiedName name: package , '.Test')).
+		  (self model newImportDeclaration
+			   qualifiedName: (model newQualifiedName name:
+						    package , '.' , self nameOfAssertionsClass);
+			   isStatic: true;
+			   isOnDemand: true) }
+]
+
+{ #category : #ast }
+FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
 
 	^ self model newMethodEntity
 		  name: aFamixUTMethod name;
@@ -123,6 +170,18 @@ FamixUTJUnitExporter >> model: aFASTJavaModel [
 	self valueExporter model: (model := aFASTJavaModel)
 ]
 
+{ #category : #naming }
+FamixUTJUnitExporter >> nameOfAssertionsClass [
+
+	self subclassResponsibility
+]
+
+{ #category : #naming }
+FamixUTJUnitExporter >> nameOfJUnitPackage [
+
+	self subclassResponsibility
+]
+
 { #category : #'instance creation' }
 FamixUTJUnitExporter >> newStatementBlock [
 
@@ -137,9 +196,9 @@ FamixUTJUnitExporter >> statements [
 ]
 
 { #category : #accessing }
-FamixUTJUnitExporter >> statements: aStatementCollection [
+FamixUTJUnitExporter >> statements: aStatementBlock [
 
-	self valueExporter statements: (statements := aStatementCollection)
+	self valueExporter statements: (statements := aStatementBlock)
 ]
 
 { #category : #accessing }

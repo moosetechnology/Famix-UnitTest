@@ -3,3 +3,15 @@ Class {
 	#superclass : #FamixUTJUnitExporter,
 	#category : #'Famix-UnitTest-Exporter'
 }
+
+{ #category : #naming }
+FamixUTJUnit5Exporter >> nameOfAssertionsClass [
+
+	^ 'Assertions'
+]
+
+{ #category : #naming }
+FamixUTJUnit5Exporter >> nameOfJUnitPackage [
+
+	^ 'org.junit.jupiter.api'
+]
