@@ -1,6 +1,6 @@
 Class {
 	#name : #FamixUTJUnitExporter,
-	#superclass : #Object,
+	#superclass : #FamixUTAbstractExporter,
 	#instVars : [
 		'model',
 		'valueExporter',
@@ -8,16 +8,6 @@ Class {
 	],
 	#category : #'Famix-UnitTest-Exporter'
 }
-
-{ #category : #api }
-FamixUTJUnitExporter >> export: aFamixUTModel [
-
-	(aFamixUTModel allWithType: FamixUTCase) do: [ :case | 
-		self exportCase: case ].
-	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite | 
-		self exportSuite: suite ].
-	^ self model
-]
 
 { #category : #exporting }
 FamixUTJUnitExporter >> exportAct: aFamixUTAct [
