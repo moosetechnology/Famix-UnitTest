@@ -3,9 +3,7 @@ Extension { #name : #FamixValueOfCollection }
 { #category : #'*Famix-UnitTest-Exporter' }
 FamixValueOfCollection >> allTypesOn: aCollection visited: visited [
 
-	(visited includes: self) ifTrue: [ ^ self ].
-	visited add: self.
-	self type allTypesOn: aCollection.
+	(super allTypesOn: aCollection visited: visited) ifNil: [ ^ nil ].
 	value do: [ :element | 
 		element value allTypesOn: aCollection visited: visited ]
 ]
