@@ -31,7 +31,7 @@ BaselineOfFamixUnitTest >> groups: spec [
 		group: 'model'
 		with:
 			#( 'FamixValue' 'Famix-UnitTest-Generator'
-			   'Famix-UnitTest-Entities' );
+			   'Famix-UnitTest-Entities' 'Famix-UnitTest-Entities-Extensions' );
 		group: 'importer' with: #( 'Famix-UnitTest-Importer' );
 		group: 'exporter'
 		with: #( 'Famix-UnitTest-Exporter' 'Famix-UnitTest-Exporter-Tests' )
