@@ -67,7 +67,7 @@ FamixUTJUnitExporterTest >> testExportCase [
 	self
 		assert: (FASTJavaExportVisitor new export:
 				 (FamixUTJUnitExporter new exportCase: case))
-		equals: 'public MyClassTest {
+		equals: 'public class MyClassTest {
 }
 '.
 
