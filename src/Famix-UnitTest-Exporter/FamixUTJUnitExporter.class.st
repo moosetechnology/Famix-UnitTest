@@ -18,7 +18,7 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 		              name: testedMethod name;
 		              receiver: (model newNewExpression type:
 					               (testedMethod parentType 
-						                asFASTJavaTypeExpressionOn: model));
+						                asFASTJavaTypeExpressionOn: self valueExporter));
 		              arguments:
 			              (aFamixUTAct arguments collect: [ :argument | 
 					               model newVariableExpression name:
@@ -28,8 +28,8 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 			   ifTrue: [ model newExpressionStatement expression: invocation ]
 			   ifFalse: [ 
 				   model newVarDeclStatement
-					   type:
-						   (testedMethod declaredType asFASTJavaTypeExpressionOn: model);
+					   type: (testedMethod declaredType asFASTJavaTypeExpressionOn:
+								    self valueExporter);
 					   addDeclarator: (model newVariableDeclarator
 							    variable: (model newVariableExpression name: 'actual');
 							    expression: invocation);
