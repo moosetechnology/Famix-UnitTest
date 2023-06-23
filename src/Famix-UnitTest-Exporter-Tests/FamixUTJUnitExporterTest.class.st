@@ -8,6 +8,14 @@ Class {
 }
 
 { #category : #tests }
+FamixUTJUnitExporterTest >> assertExport: aFASTEntity equals: expected [
+
+	self
+		assert: (FASTJavaExportVisitor new export: aFASTEntity)
+		equals: expected
+]
+
+{ #category : #tests }
 FamixUTJUnitExporterTest >> testExportAct [
 
 	| act method |
@@ -21,8 +29,7 @@ FamixUTJUnitExporterTest >> testExportAct [
 
 	"no arg and no return"
 	self
-		assert: (FASTJavaExportVisitor new export:
-				 (FamixUTJUnitExporter new exportAct: act))
+		assertExport: (FamixUTJUnitExporter new exportAct: act)
 		equals: 'new MyClass().foo();
 '.
 
@@ -31,8 +38,7 @@ FamixUTJUnitExporterTest >> testExportAct [
 			 type: (FamixJavaPrimitiveType new name: 'int');
 			 value: 1) }.
 	self
-		assert: (FASTJavaExportVisitor new export:
-				 (FamixUTJUnitExporter new exportAct: act))
+		assertExport: (FamixUTJUnitExporter new exportAct: act)
 		equals: 'new MyClass().foo(int0);
 '.
 
@@ -40,8 +46,7 @@ FamixUTJUnitExporterTest >> testExportAct [
 	method testedMethod declaredType:
 		(FamixJavaPrimitiveType new name: 'int').
 	self
-		assert: (FASTJavaExportVisitor new export:
-				 (FamixUTJUnitExporter new exportAct: act))
+		assertExport: (FamixUTJUnitExporter new exportAct: act)
 		equals: 'int actual = new MyClass().foo(int0);
 '
 ]
@@ -49,10 +54,13 @@ FamixUTJUnitExporterTest >> testExportAct [
 { #category : #tests }
 FamixUTJUnitExporterTest >> testExportAssertion [
 
+	| assertion |
+	assertion := FamixUTAssertion new expected:
+		             (FamixValueOfPrimitiveType new type:
+			              (FamixJavaPrimitiveType named: 'int')).
 	self
-		assert: (FASTJavaExportVisitor new export:
-				 (FamixUTJUnitExporter new exportAssertion: FamixUTAssertion new))
-		equals: 'assertEquals(expected, actual);
+		assertExport: (FamixUTJUnitExporter new exportAssertion: assertion)
+		equals: 'assertEquals(int0, actual);
 '
 ]
 
@@ -65,8 +73,7 @@ FamixUTJUnitExporterTest >> testExportCase [
 
 	"empty case"
 	self
-		assert: (FASTJavaExportVisitor new export:
-				 (FamixUTJUnitExporter new exportCase: case))
+		assertExport: (FamixUTJUnitExporter new exportCase: case)
 		equals: 'public class MyClassTest {
 }
 '.
@@ -78,9 +85,8 @@ FamixUTJUnitExporterTest >> testExportCase [
 				  declaredType: (FamixJavaPrimitiveType new name: 'int');
 				  parentType: case testedClass)).
 	self
-		assert: (FASTJavaExportVisitor new export:
-				 (FamixUTJUnitExporter new exportCase: case))
-		equals: 'public MyClassTest {
+		assertExport: (FamixUTJUnitExporter new exportCase: case)
+		equals: 'public class MyClassTest {
   @Test
   public void testFoo() {
   }
@@ -91,32 +97,32 @@ FamixUTJUnitExporterTest >> testExportCase [
 { #category : #tests }
 FamixUTJUnitExporterTest >> testExportMethod [
 
-	| method expected assertion setUp |
-	method := FamixUTMethod new testedMethod: (FamixJavaMethod new
-			           name: 'foo';
-			           declaredType: (FamixJavaPrimitiveType new name: 'int');
-			           parentType: (FamixJavaClass new name: 'MyClass')).
-	expected := FamixValueOfType new.
+	| method testMethod expected assertion setUp type |
+	type := FamixJavaPrimitiveType new name: 'int'.
+	method := FamixJavaMethod new
+		          name: 'foo';
+		          declaredType: type;
+		          parentType: (FamixJavaClass new name: 'MyClass').
+	testMethod := FamixUTMethod new testedMethod: method.
+	expected := FamixValueOfPrimitiveType new typedEntity: method.
 	assertion := FamixUTAssertion new expected: expected.
 	setUp := FamixUTSetUp new.
 
 	"empty"
 	self
-		assert: (FASTJavaExportVisitor new export:
-				 (FamixUTJUnitExporter new exportMethod: method))
+		assertExport: (FamixUTJUnitExporter new exportMethod: testMethod)
 		equals: '@Test
 public void testFoo() {
 }
 '.
 
 	"with act"
-	method act:
+	testMethod act:
 		(FamixUTAct new arguments: { (FamixValueOfPrimitiveType new
 				  type: (FamixJavaPrimitiveType new name: 'int');
 				  value: 1) }).
 	self
-		assert: (FASTJavaExportVisitor new export:
-				 (FamixUTJUnitExporter new exportMethod: method))
+		assertExport: (FamixUTJUnitExporter new exportMethod: testMethod)
 		equals: '@Test
 public void testFoo() {
   int int0 = 1;
@@ -125,15 +131,14 @@ public void testFoo() {
 '.
 
 	"with assertion"
-	method addAssertion: assertion.
+	testMethod addAssertion: assertion.
 	self
-		assert: (FASTJavaExportVisitor new export:
-				 (FamixUTJUnitExporter new exportMethod: method))
+		assertExport: (FamixUTJUnitExporter new exportMethod: testMethod)
 		equals: '@Test
 public void testFoo() {
   int int0 = 1;
   int actual = new MyClass().foo(int0);
-  assertEquals(expected, actual);
+  assertEquals(foo1, actual);
 }
 '
 ]

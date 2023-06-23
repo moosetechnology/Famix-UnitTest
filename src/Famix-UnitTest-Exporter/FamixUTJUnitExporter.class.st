@@ -53,7 +53,7 @@ FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
 FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 
 	^ self model newClassDeclaration
-		  name: aFamixUTCase testedClass name , 'Test';
+		  name: aFamixUTCase name;
 		  addModifier: (model newModifier token: 'public');
 		  declarations:
 			  (aFamixUTCase methods collect: [ :method | 
