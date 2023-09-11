@@ -22,7 +22,10 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 		              arguments:
 			              (aFamixUTAct arguments collect: [ :argument | 
 					               model newVariableExpression name:
-							               (self valueExporter varNameFor: argument) ]).
+							               (self valueExporter varNameFor: argument) ]);
+		              famixInvocation: (FamixJavaInvocation new
+				               addCandidate: testedMethod;
+				               yourself).
 	^ self statements addStatement:
 		  (testedMethod declaredType name = 'void'
 			   ifTrue: [ model newExpressionStatement expression: invocation ]
