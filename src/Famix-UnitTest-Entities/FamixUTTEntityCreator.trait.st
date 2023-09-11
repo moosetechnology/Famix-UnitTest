@@ -17,6 +17,13 @@ FamixUTTEntityCreator classSide >> annotation [
 ]
 
 { #category : #'entity creation' }
+FamixUTTEntityCreator >> inspectionAct [
+
+	<navigation: 'All acts'>
+	^ self allWithType: FamixUTAct
+]
+
+{ #category : #'entity creation' }
 FamixUTTEntityCreator >> newAct [
 
 	<generated>

@@ -45,6 +45,13 @@ FamixUTCase >> afterAll: anObject [
 	afterAll := anObject
 ]
 
+{ #category : #navigation }
+FamixUTCase >> afterAllGroup [
+	<generated>
+	<navigation: 'AfterAll'>
+	^ MooseSpecializedGroup with: self afterAll
+]
+
 { #category : #accessing }
 FamixUTCase >> afterEach [
 	"Relation named: #afterEach type: #FamixUTTearDown opposite: #forEachInCase"
@@ -58,6 +65,13 @@ FamixUTCase >> afterEach: anObject [
 
 	<generated>
 	afterEach := anObject
+]
+
+{ #category : #navigation }
+FamixUTCase >> afterEachGroup [
+	<generated>
+	<navigation: 'AfterEach'>
+	^ MooseSpecializedGroup with: self afterEach
 ]
 
 { #category : #accessing }
@@ -75,6 +89,13 @@ FamixUTCase >> beforeAll: anObject [
 	beforeAll := anObject
 ]
 
+{ #category : #navigation }
+FamixUTCase >> beforeAllGroup [
+	<generated>
+	<navigation: 'BeforeAll'>
+	^ MooseSpecializedGroup with: self beforeAll
+]
+
 { #category : #accessing }
 FamixUTCase >> beforeEach [
 	"Relation named: #beforeEach type: #FamixUTSetUp opposite: #forEachInCase"
@@ -88,6 +109,13 @@ FamixUTCase >> beforeEach: anObject [
 
 	<generated>
 	beforeEach := anObject
+]
+
+{ #category : #navigation }
+FamixUTCase >> beforeEachGroup [
+	<generated>
+	<navigation: 'BeforeEach'>
+	^ MooseSpecializedGroup with: self beforeEach
 ]
 
 { #category : #accessing }

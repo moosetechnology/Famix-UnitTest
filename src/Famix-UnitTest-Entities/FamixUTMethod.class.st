@@ -114,6 +114,13 @@ FamixUTMethod >> setUp: anObject [
 	setUp := anObject
 ]
 
+{ #category : #navigation }
+FamixUTMethod >> setUpGroup [
+	<generated>
+	<navigation: 'SetUp'>
+	^ MooseSpecializedGroup with: self setUp
+]
+
 { #category : #accessing }
 FamixUTMethod >> tearDown [
 	"Relation named: #tearDown type: #FamixUTTearDown opposite: #method"
@@ -127,6 +134,13 @@ FamixUTMethod >> tearDown: anObject [
 
 	<generated>
 	tearDown := anObject
+]
+
+{ #category : #navigation }
+FamixUTMethod >> tearDownGroup [
+	<generated>
+	<navigation: 'TearDown'>
+	^ MooseSpecializedGroup with: self tearDown
 ]
 
 { #category : #accessing }

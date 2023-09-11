@@ -2,6 +2,7 @@ Class {
 	#name : #FamixUnitTestGenerator,
 	#superclass : #FamixMetamodelGenerator,
 	#instVars : [
+		'entity',
 		'case',
 		'suite',
 		'fixture',
@@ -38,6 +39,7 @@ FamixUnitTestGenerator class >> submetamodels [
 { #category : #definition }
 FamixUnitTestGenerator >> defineClasses [
 
+	entity := builder newClassNamed: #Entity.
 	suite := builder
 		         newClassNamed: #Suite
 		         comment: 'A collection of test cases.'.
@@ -73,6 +75,8 @@ FamixUnitTestGenerator >> defineClasses [
 { #category : #definition }
 FamixUnitTestGenerator >> defineHierarchy [
 
+	entity --|> #TEntityMetaLevelDependency.
+
 	setUp --|> fixture.
 	tearDown --|> fixture.
 
@@ -96,19 +100,19 @@ FamixUnitTestGenerator >> defineRelations [
 	(method property: #assertions) <>-* assertion.
 	method <>- act.
 
-	(suite property: #setUp) - (setUp property: #suite).
-	(suite property: #tearDown) - (tearDown property: #suite).
-	(case property: #beforeAll) - (setUp property: #forAllInCase).
-	(case property: #afterAll) - (tearDown property: #forAllInCase).
-	(case property: #beforeEach) - (setUp property: #forEachInCase).
-	(case property: #afterEach) - (tearDown property: #forEachInCase).
-	(method property: #setUp) - (setUp property: #method).
-	(method property: #tearDown) - (tearDown property: #method).
+	(suite property: #setUp) <>- (setUp property: #suite).
+	(suite property: #tearDown) <>- (tearDown property: #suite).
+	(case property: #beforeAll) <>- (setUp property: #forAllInCase).
+	(case property: #afterAll) <>- (tearDown property: #forAllInCase).
+	(case property: #beforeEach) <>- (setUp property: #forEachInCase).
+	(case property: #afterEach) <>- (tearDown property: #forEachInCase).
+	(method property: #setUp) <>- (setUp property: #method).
+	(method property: #tearDown) <>- (tearDown property: #method).
 
-	(fixture property: #values) *-* (value property: #fixtures).
-	(assertion property: #expected)
+	(fixture property: #values) container *-* (value property: #fixtures).
+	(assertion property: #expected) container
 	*- (value property: #expectedInAssertions).
-	(act property: #arguments) -* (value property: #argumentInAct).
+	(act property: #arguments) <>-* (value property: #argumentInAct).
 
 	(case property: #testedClass)
 	-

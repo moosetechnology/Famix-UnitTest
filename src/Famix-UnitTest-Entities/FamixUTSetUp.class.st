@@ -27,6 +27,7 @@ FamixUTSetUp >> forAllInCase [
 	"Relation named: #forAllInCase type: #FamixUTCase opposite: #beforeAll"
 
 	<generated>
+	<container>
 	<derived>
 	^ forAllInCase
 ]
@@ -38,11 +39,19 @@ FamixUTSetUp >> forAllInCase: anObject [
 	forAllInCase := anObject
 ]
 
+{ #category : #navigation }
+FamixUTSetUp >> forAllInCaseGroup [
+	<generated>
+	<navigation: 'ForAllInCase'>
+	^ MooseSpecializedGroup with: self forAllInCase
+]
+
 { #category : #accessing }
 FamixUTSetUp >> forEachInCase [
 	"Relation named: #forEachInCase type: #FamixUTCase opposite: #beforeEach"
 
 	<generated>
+	<container>
 	<derived>
 	^ forEachInCase
 ]
@@ -54,11 +63,19 @@ FamixUTSetUp >> forEachInCase: anObject [
 	forEachInCase := anObject
 ]
 
+{ #category : #navigation }
+FamixUTSetUp >> forEachInCaseGroup [
+	<generated>
+	<navigation: 'ForEachInCase'>
+	^ MooseSpecializedGroup with: self forEachInCase
+]
+
 { #category : #accessing }
 FamixUTSetUp >> method [
 	"Relation named: #method type: #FamixUTMethod opposite: #setUp"
 
 	<generated>
+	<container>
 	<derived>
 	^ method
 ]
@@ -70,11 +87,19 @@ FamixUTSetUp >> method: anObject [
 	method := anObject
 ]
 
+{ #category : #navigation }
+FamixUTSetUp >> methodGroup [
+	<generated>
+	<navigation: 'Method'>
+	^ MooseSpecializedGroup with: self method
+]
+
 { #category : #accessing }
 FamixUTSetUp >> suite [
 	"Relation named: #suite type: #FamixUTSuite opposite: #setUp"
 
 	<generated>
+	<container>
 	<derived>
 	^ suite
 ]
@@ -84,4 +109,11 @@ FamixUTSetUp >> suite: anObject [
 
 	<generated>
 	suite := anObject
+]
+
+{ #category : #navigation }
+FamixUTSetUp >> suiteGroup [
+	<generated>
+	<navigation: 'Suite'>
+	^ MooseSpecializedGroup with: self suite
 ]

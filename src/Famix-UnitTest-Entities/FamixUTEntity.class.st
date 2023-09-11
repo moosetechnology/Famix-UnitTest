@@ -1,6 +1,8 @@
 Class {
 	#name : #FamixUTEntity,
 	#superclass : #MooseEntity,
+	#traits : 'TEntityMetaLevelDependency',
+	#classTraits : 'TEntityMetaLevelDependency classTrait',
 	#category : #'Famix-UnitTest-Entities-Entities'
 }
 

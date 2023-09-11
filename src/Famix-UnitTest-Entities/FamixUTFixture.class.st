@@ -35,6 +35,7 @@ FamixUTFixture >> values [
 	"Relation named: #values type: #FamixValueOfType opposite: #fixtures"
 
 	<generated>
+	<container>
 	<derived>
 	<FMProperty: #values type: #FamixValueOfType opposite: #fixtures>
 	^ self attributeAt: #values ifAbsentPut: [ FMMultiMultivalueLink on: self opposite: #fixtures ]
@@ -45,4 +46,11 @@ FamixUTFixture >> values: anObject [
 
 	<generated>
 	self values value: anObject
+]
+
+{ #category : #navigation }
+FamixUTFixture >> valuesGroup [
+	<generated>
+	<navigation: 'Values'>
+	^ MooseSpecializedGroup withAll: self values asSet
 ]

@@ -5,6 +5,7 @@ FamixValueOfType >> argumentInAct [
 	"Relation named: #argumentInAct type: #FamixUTAct opposite: #arguments"
 
 	<generated>
+	<container>
 	<FMProperty: #argumentInAct type: #FamixUTAct opposite: #arguments>
 	<package: #'Famix-UnitTest-Entities'>
 	^ self attributeAt: #argumentInAct ifAbsent: [ nil ]

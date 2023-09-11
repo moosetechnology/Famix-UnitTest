@@ -40,6 +40,7 @@ FamixUTAssertion >> expected [
 	"Relation named: #expected type: #FamixValueOfType opposite: #expectedInAssertions"
 
 	<generated>
+	<container>
 	<FMProperty: #expected type: #FamixValueOfType opposite: #expectedInAssertions>
 	^ self attributeAt: #expected ifAbsent: [ nil ]
 ]
@@ -49,6 +50,13 @@ FamixUTAssertion >> expected: anObject [
 
 	<generated>
 	self attributeAt: #expected put: (FMMultivalueLink on: self update: #expectedInAssertions from: self expected to: anObject).
+]
+
+{ #category : #navigation }
+FamixUTAssertion >> expectedGroup [
+	<generated>
+	<navigation: 'Expected'>
+	^ MooseSpecializedGroup with: self expected
 ]
 
 { #category : #accessing }

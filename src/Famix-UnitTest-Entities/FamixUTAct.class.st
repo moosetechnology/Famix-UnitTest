@@ -42,6 +42,13 @@ FamixUTAct >> arguments: anObject [
 	self arguments value: anObject
 ]
 
+{ #category : #navigation }
+FamixUTAct >> argumentsGroup [
+	<generated>
+	<navigation: 'Arguments'>
+	^ MooseSpecializedGroup withAll: self arguments asSet
+]
+
 { #category : #accessing }
 FamixUTAct >> method [
 	"Relation named: #method type: #FamixUTMethod opposite: #act"
