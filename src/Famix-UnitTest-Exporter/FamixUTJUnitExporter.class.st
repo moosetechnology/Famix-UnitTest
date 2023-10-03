@@ -1,11 +1,6 @@
 Class {
 	#name : #FamixUTJUnitExporter,
 	#superclass : #FamixUTAbstractExporter,
-	#instVars : [
-		'model',
-		'valueExporter',
-		'statements'
-	],
 	#category : #'Famix-UnitTest-Exporter'
 }
 
@@ -98,28 +93,15 @@ FamixUTJUnitExporter >> exportCasePackage: aFamixUTCase [
 ]
 
 { #category : #exporting }
-FamixUTJUnitExporter >> exportMethod: aFamixUTMethod [
-
-	| method |
-	method := self makeTestMethod: aFamixUTMethod.
-	"Arrange/Given"
-	aFamixUTMethod setUp ifNotNil: [ 
-		self exportMethodSetUp: aFamixUTMethod setUp ].
-	aFamixUTMethod act ifNotNil: [ 
-		aFamixUTMethod act arguments do: [ :argument | 
-			argument accept: self valueExporter ].
-		"Act/When"
-		self exportAct: aFamixUTMethod act ].
-	"Assert/Then"
-	aFamixUTMethod assertions do: [ :assertion | 
-		self exportAssertion: assertion ].
-	^ method
-]
-
-{ #category : #exporting }
 FamixUTJUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
 
 	aFamixUTSetUp values do: [ :value | value accept: self valueExporter ]
+]
+
+{ #category : #exporting }
+FamixUTJUnitExporter >> exportMethodTearDown: aFamixUTTearDown [
+
+	self shouldBeImplemented
 ]
 
 { #category : #exporting }
@@ -161,18 +143,6 @@ FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
 		  statementBlock: self newStatementBlock
 ]
 
-{ #category : #accessing }
-FamixUTJUnitExporter >> model [
-
-	^ model ifNil: [ model := self valueExporter model ]
-]
-
-{ #category : #accessing }
-FamixUTJUnitExporter >> model: aFASTJavaModel [
-
-	self valueExporter model: (model := aFASTJavaModel)
-]
-
 { #category : #naming }
 FamixUTJUnitExporter >> nameOfAssertionsClass [
 
@@ -193,20 +163,7 @@ FamixUTJUnitExporter >> newStatementBlock [
 ]
 
 { #category : #accessing }
-FamixUTJUnitExporter >> statements [
+FamixUTJUnitExporter >> newValueExporter [
 
-	^ statements ifNil: [ statements := self valueExporter statements ]
-]
-
-{ #category : #accessing }
-FamixUTJUnitExporter >> statements: aStatementBlock [
-
-	self valueExporter statements: (statements := aStatementBlock)
-]
-
-{ #category : #accessing }
-FamixUTJUnitExporter >> valueExporter [
-
-	^ valueExporter ifNil: [ 
-		  valueExporter := FamixValue2FASTJavaVisitor new ]
+	^ FamixValue2FASTJavaVisitor new
 ]
