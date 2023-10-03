@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-FamixUTImporter >> fromOTelSpans: spans [
+FamixUTImporter >> fromOpenTelemetrySpans: spans [
 
 	"Use a collection of FamixOTelSpan from the Famix-OpenTelemetry project as test oracle."
 
@@ -31,9 +31,9 @@ FamixUTImporter >> model [
 ]
 
 { #category : #'instance creation' }
-FamixUTImporter >> model: aModel [
+FamixUTImporter >> model: aFamixUTModel [
 
-	model := aModel
+	model := aFamixUTModel
 ]
 
 { #category : #tests }
