@@ -16,8 +16,8 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 						                asFASTJavaTypeExpressionOn: self valueExporter));
 		              arguments:
 			              (aFamixUTAct arguments collect: [ :argument | 
-					               model newVariableExpression name:
-							               (self valueExporter varNameFor: argument) ]);
+					               self valueExporter makeVariableExpression:
+							               argument ]);
 		              famixInvocation: (FamixJavaInvocation new
 				               addCandidate: testedMethod;
 				               yourself).
@@ -41,8 +41,9 @@ FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
 		  (self model newExpressionStatement expression:
 			   (model newMethodInvocation
 				    name: 'assertEquals';
-				    addArgument: (model newVariableExpression name:
-							     (self valueExporter varNameFor: aFamixUTAssertion expected));
+				    addArgument:
+					    (self valueExporter makeVariableExpression:
+							     aFamixUTAssertion expected);
 				    addArgument: (model newVariableExpression name: 'actual');
 				    yourself))
 ]
