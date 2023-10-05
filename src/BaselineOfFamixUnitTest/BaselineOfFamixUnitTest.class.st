@@ -17,10 +17,14 @@ BaselineOfFamixUnitTest >> baseline: spec [
 { #category : #baselines }
 BaselineOfFamixUnitTest >> dependencies: spec [
 
-	spec baseline: 'FamixValue' with: [ 
-		spec
-			repository: 'github://moosetechnology/Famix-Value:main/src';
-			loads: 'exporter' ]
+	spec
+		baseline: 'FamixValue' with: [ 
+			spec
+				repository: 'github://moosetechnology/Famix-Value:main/src';
+				loads: 'exporter' ];
+		baseline: 'Carrefour'
+		with: [ 
+		spec repository: 'github://moosetechnology/Carrefour:v4/src' ]
 ]
 
 { #category : #baselines }
@@ -34,7 +38,8 @@ BaselineOfFamixUnitTest >> groups: spec [
 			   'Famix-UnitTest-Entities' 'Famix-UnitTest-Entities-Extensions' );
 		group: 'importer' with: #( 'Famix-UnitTest-Importer' );
 		group: 'exporter'
-		with: #( 'Famix-UnitTest-Exporter' 'Famix-UnitTest-Exporter-Tests' )
+		with:
+			#( 'Carrefour' 'Famix-UnitTest-Exporter' 'Famix-UnitTest-Exporter-Tests' )
 ]
 
 { #category : #baselines }

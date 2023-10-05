@@ -18,9 +18,7 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 			              (aFamixUTAct arguments collect: [ :argument | 
 					               self valueExporter makeVariableExpression:
 							               argument ]);
-		              famixInvocation: (FamixJavaInvocation new
-				               addCandidate: testedMethod;
-				               yourself).
+		              famixMethod: testedMethod.
 	^ self statements addStatement:
 		  (testedMethod declaredType name = 'void'
 			   ifTrue: [ model newExpressionStatement expression: invocation ]
