@@ -72,13 +72,9 @@ FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
 
 	| imports |
 	imports := (aFamixUTCase allTypes select: #needsJavaImport)
-		           collect: [ :type | 
-			           self model newImportDeclaration qualifiedName:
-				           (model newQualifiedName name: type mooseNameWithDots) ]
+		           collect: [ :type | self makeImportDeclaration: type ]
 		           as: OrderedCollection.
-	imports add: (model newImportDeclaration qualifiedName:
-			 (model newQualifiedName name:
-				  aFamixUTCase testedClass mooseNameWithDots)).
+	imports add: (self makeImportDeclaration: aFamixUTCase testedClass).
 	imports addAll: self makeJUnitImports.
 	^ imports
 ]

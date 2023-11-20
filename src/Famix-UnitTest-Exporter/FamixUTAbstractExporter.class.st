@@ -81,7 +81,14 @@ FamixUTAbstractExporter >> exportSuite: aFamixUTSuite [
 	self subclassResponsibility
 ]
 
-{ #category : #exporting }
+{ #category : #ast }
+FamixUTAbstractExporter >> makeImportDeclaration: aFamixType [
+
+	^ self model newImportDeclaration qualifiedName:
+		  (model newQualifiedName name: aFamixType mooseNameWithDots)
+]
+
+{ #category : #ast }
 FamixUTAbstractExporter >> makeTestMethod: aFamixUTMethod [
 
 	self subclassResponsibility
