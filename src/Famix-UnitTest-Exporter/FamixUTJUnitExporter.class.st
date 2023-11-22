@@ -130,9 +130,8 @@ FamixUTJUnitExporter >> makeJUnitImports [
 FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
 
 	^ self model newMethodEntity
-		  name: aFamixUTMethod name;
-		  addModifier: (model newAnnotation expression:
-					   (model newVariableExpression name: 'Test'));
+		  name: aFamixUTMethod name , valueExporter nextId asString; "TODO better name"
+		  addModifier: (model newAnnotation name: 'Test');
 		  addModifier: (model newModifier token: 'public');
 		  type: model newVoidTypeExpression;
 		  statementBlock: self newStatementBlock
