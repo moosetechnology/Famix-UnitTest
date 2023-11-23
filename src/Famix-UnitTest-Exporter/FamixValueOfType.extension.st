@@ -3,7 +3,7 @@ Extension { #name : #FamixValueOfType }
 { #category : #'*Famix-UnitTest-Exporter' }
 FamixValueOfType >> allTypesOn: aCollection [
 
-	self allTypesOn: aCollection visited: Set new
+	self allTypesOn: aCollection visited: IdentitySet new
 ]
 
 { #category : #'*Famix-UnitTest-Exporter' }
