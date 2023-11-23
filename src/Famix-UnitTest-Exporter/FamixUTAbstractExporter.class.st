@@ -12,9 +12,9 @@ Class {
 { #category : #exporting }
 FamixUTAbstractExporter >> export: aFamixUTModel [
 
-	(aFamixUTModel allWithType: FamixUTCase) do: [ :case | 
+	(aFamixUTModel allWithType: FamixUTCase) do: [ :case |
 		self exportCaseFile: case ].
-	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite | 
+	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite |
 		self exportSuite: suite ].
 	^ self model
 ]
@@ -49,16 +49,16 @@ FamixUTAbstractExporter >> exportMethod: aFamixUTMethod [
 	| method |
 	method := self makeTestMethod: aFamixUTMethod.
 	"Arrange/Given"
-	aFamixUTMethod setUp ifNotNil: [ :setUp | 
+	aFamixUTMethod setUp ifNotNil: [ :setUp |
 		self exportMethodSetUp: setUp ].
-	aFamixUTMethod act ifNotNil: [ :act | 
+	aFamixUTMethod act ifNotNil: [ :act |
 		act arguments do: [ :argument | argument accept: self valueExporter ].
 		"Act/When"
 		self exportAct: aFamixUTMethod act ].
 	"Assert/Then"
-	aFamixUTMethod assertions do: [ :assertion | 
+	aFamixUTMethod assertions do: [ :assertion |
 		self exportAssertion: assertion ].
-	aFamixUTMethod tearDown ifNotNil: [ :tearDown | 
+	aFamixUTMethod tearDown ifNotNil: [ :tearDown |
 		self exportMethodTearDown: tearDown ].
 	^ method
 ]

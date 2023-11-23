@@ -4,7 +4,7 @@ Extension { #name : #FamixUTAssertion }
 FamixUTAssertion >> mooseNameOn: aStream [
 
 	aStream nextPutAll: 'Assertion'.
-	method ifNotNil: [ 
+	method ifNotNil: [
 		aStream nextPutAll: ' in '.
 		method mooseNameOn: aStream ]
 ]

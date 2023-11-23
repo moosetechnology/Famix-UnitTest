@@ -4,7 +4,7 @@ Extension { #name : #FamixUTAct }
 FamixUTAct >> mooseNameOn: aStream [
 
 	aStream nextPutAll: 'Act'.
-	method ifNotNil: [ 
+	method ifNotNil: [
 		aStream nextPutAll: ' in '.
 		method mooseNameOn: aStream ]
 ]

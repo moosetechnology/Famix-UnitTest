@@ -8,7 +8,7 @@ Class {
 BaselineOfFamixUnitTest >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ 
+	spec for: #common do: [
 		self dependencies: spec.
 		self packages: spec.
 		self groups: spec ]
@@ -18,12 +18,12 @@ BaselineOfFamixUnitTest >> baseline: spec [
 BaselineOfFamixUnitTest >> dependencies: spec [
 
 	spec
-		baseline: 'FamixValue' with: [ 
+		baseline: 'FamixValue' with: [
 			spec
 				repository: 'github://moosetechnology/Famix-Value:main/src';
 				loads: 'exporter' ];
 		baseline: 'Carrefour'
-		with: [ 
+		with: [
 		spec repository: 'github://moosetechnology/Carrefour:v4/src' ]
 ]
 

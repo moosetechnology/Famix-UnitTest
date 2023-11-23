@@ -12,17 +12,17 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 	invocation := self model newMethodInvocation
 		              name: testedMethod name;
 		              receiver: (model newNewExpression type:
-					               (testedMethod parentType 
+					               (testedMethod parentType
 						                asFASTJavaTypeExpressionOn: self valueExporter));
 		              arguments:
-			              (aFamixUTAct arguments collect: [ :argument | 
+			              (aFamixUTAct arguments collect: [ :argument |
 					               self valueExporter makeVariableExpression:
 							               argument ]);
 		              famixMethod: testedMethod.
 	^ self statements addStatement:
 		  (testedMethod declaredType name = 'void'
 			   ifTrue: [ model newExpressionStatement expression: invocation ]
-			   ifFalse: [ 
+			   ifFalse: [
 				   model newVarDeclStatement
 					   type: (testedMethod declaredType asFASTJavaTypeExpressionOn:
 								    self valueExporter);
@@ -53,7 +53,7 @@ FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 		  name: aFamixUTCase name;
 		  addModifier: (model newModifier token: 'public');
 		  declarations:
-			  (aFamixUTCase methods collect: [ :method | 
+			  (aFamixUTCase methods collect: [ :method |
 					   self exportMethod: method ])
 ]
 
@@ -116,7 +116,7 @@ FamixUTJUnitExporter >> makeJUnitImports [
 
 	| package |
 	package := self nameOfJUnitPackage.
-	^ { 
+	^ {
 		  (self model newImportDeclaration qualifiedName:
 			   (model newQualifiedName name: package , '.Test')).
 		  (self model newImportDeclaration

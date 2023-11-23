@@ -58,7 +58,7 @@ FamixUnitTestGenerator >> defineClasses [
 	fixture := (builder
 		            newClassNamed: #Fixture
 		            comment:
-		            'Sets up or tears down the system to make tests repeatable.') 
+		            'Sets up or tears down the system to make tests repeatable.')
 		           isAbstractClass: true.
 	setUp := builder
 		         newClassNamed: #SetUp

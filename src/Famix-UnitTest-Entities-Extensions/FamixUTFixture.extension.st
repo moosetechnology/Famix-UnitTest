@@ -21,19 +21,19 @@ FamixUTFixture >> method [
 { #category : #'*Famix-UnitTest-Entities-Extensions' }
 FamixUTFixture >> mooseNameOn: aStream [
 
-	self suite ifNotNil: [ :suite | 
+	self suite ifNotNil: [ :suite |
 		aStream nextPutAll: ' of '.
 		suite mooseNameOn: aStream.
 		^ self ].
-	self forAllInCase ifNotNil: [ :case | 
+	self forAllInCase ifNotNil: [ :case |
 		aStream nextPutAll: ' of all methods in '.
 		case mooseNameOn: aStream.
 		^ self ].
-	self forEachInCase ifNotNil: [ :case | 
+	self forEachInCase ifNotNil: [ :case |
 		aStream nextPutAll: ' of each method in '.
 		case mooseNameOn: aStream.
 		^ self ].
-	self method ifNotNil: [ :method | 
+	self method ifNotNil: [ :method |
 		aStream nextPutAll: ' of '.
 		method mooseNameOn: aStream ]
 ]

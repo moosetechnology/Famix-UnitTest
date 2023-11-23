@@ -12,6 +12,6 @@ FamixValueOfType >> allTypesOn: aCollection visited: visited [
 	(visited includes: self) ifTrue: [ ^ nil ].
 	visited add: self.
 	self type allTypesOn: aCollection.
-	self typedEntity ifNotNil: [ :typedEntity | 
+	self typedEntity ifNotNil: [ :typedEntity |
 		typedEntity declaredType allTypesOn: aCollection ]
 ]
