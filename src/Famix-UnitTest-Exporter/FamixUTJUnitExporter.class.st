@@ -1,6 +1,10 @@
 Class {
 	#name : #FamixUTJUnitExporter,
 	#superclass : #FamixUTAbstractExporter,
+	#instVars : [
+		'currentCompilationUnit',
+		'currentClass'
+	],
 	#category : #'Famix-UnitTest-Exporter'
 }
 
@@ -109,6 +113,24 @@ FamixUTJUnitExporter >> exportSetUp: aFamixUTSetUp [
 FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 
 	self shouldBeImplemented
+]
+
+{ #category : #ast }
+FamixUTJUnitExporter >> makeActComment [
+
+	^ self model newComment content: '/* ACT */'
+]
+
+{ #category : #ast }
+FamixUTJUnitExporter >> makeArrangeComment [
+
+	^ self model newComment content: '/* ARRANGE */'
+]
+
+{ #category : #ast }
+FamixUTJUnitExporter >> makeAssertComment [
+
+	^ self model newComment content: '/* ASSERT */'
 ]
 
 { #category : #ast }

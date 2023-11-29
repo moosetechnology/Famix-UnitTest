@@ -53,11 +53,12 @@ FamixUTAbstractExporter >> exportMethod: aFamixUTMethod [
 		self exportMethodSetUp: setUp ].
 	aFamixUTMethod act ifNotNil: [ :act |
 		act arguments do: [ :argument | argument accept: self valueExporter ].
+		self statements statements first addComment: self makeArrangeComment.
 		"Act/When"
-		self exportAct: aFamixUTMethod act ].
+		(self exportAct: aFamixUTMethod act) addComment: self makeActComment ].
 	"Assert/Then"
 	aFamixUTMethod assertions do: [ :assertion |
-		self exportAssertion: assertion ].
+		(self exportAssertion: assertion) addComment: self makeAssertComment ].
 	aFamixUTMethod tearDown ifNotNil: [ :tearDown |
 		self exportMethodTearDown: tearDown ].
 	^ method
@@ -77,6 +78,24 @@ FamixUTAbstractExporter >> exportMethodTearDown: aFamixUTTearDown [
 
 { #category : #exporting }
 FamixUTAbstractExporter >> exportSuite: aFamixUTSuite [
+
+	self subclassResponsibility
+]
+
+{ #category : #ast }
+FamixUTAbstractExporter >> makeActComment [
+
+	self subclassResponsibility
+]
+
+{ #category : #ast }
+FamixUTAbstractExporter >> makeArrangeComment [
+
+	self subclassResponsibility
+]
+
+{ #category : #ast }
+FamixUTAbstractExporter >> makeAssertComment [
 
 	self subclassResponsibility
 ]
