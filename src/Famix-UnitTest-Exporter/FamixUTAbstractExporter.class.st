@@ -9,6 +9,12 @@ Class {
 	#category : #'Famix-UnitTest-Exporter'
 }
 
+{ #category : #testing }
+FamixUTAbstractExporter class >> isAbstract [
+
+	^ self == FamixUTAbstractExporter
+]
+
 { #category : #exporting }
 FamixUTAbstractExporter >> export: aFamixUTModel [
 
@@ -125,7 +131,7 @@ FamixUTAbstractExporter >> model: aFASTModel [
 	self valueExporter model: (model := aFASTModel)
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 FamixUTAbstractExporter >> newValueExporter [
 
 	self subclassResponsibility

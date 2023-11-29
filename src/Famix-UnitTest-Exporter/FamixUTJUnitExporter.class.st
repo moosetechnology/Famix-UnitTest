@@ -178,7 +178,7 @@ FamixUTJUnitExporter >> newStatementBlock [
 	^ statements
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 FamixUTJUnitExporter >> newValueExporter [
 
 	^ FamixValue2FASTJavaVisitor new
