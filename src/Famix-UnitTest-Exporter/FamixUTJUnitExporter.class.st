@@ -11,29 +11,12 @@ Class {
 { #category : #exporting }
 FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 
-	| testedMethod invocation |
-	testedMethod := aFamixUTAct method testedMethod.
-	invocation := self model newMethodInvocation
-		              name: testedMethod name;
-		              receiver: (model newNewExpression type:
-					               (testedMethod parentType
-						                asFASTJavaTypeExpressionOn: self valueExporter));
-		              arguments:
-			              (aFamixUTAct arguments collect: [ :argument |
-					               self valueExporter makeVariableExpression:
-							               argument ]);
-		              famixMethod: testedMethod.
+	| act |
+	act := self makeActInvocation: aFamixUTAct.
 	^ self statements addStatement:
-		  (testedMethod declaredType name = 'void'
-			   ifTrue: [ model newExpressionStatement expression: invocation ]
-			   ifFalse: [
-				   model newVarDeclStatement
-					   type: (testedMethod declaredType asFASTJavaTypeExpressionOn:
-								    self valueExporter);
-					   addDeclarator: (model newVariableDeclarator
-							    variable: (model newVariableExpression name: 'actual');
-							    expression: invocation);
-					   yourself ])
+		  (aFamixUTAct method testedMethod declaredType name = 'void'
+			   ifTrue: [ model newExpressionStatement expression: act ]
+			   ifFalse: [ self makeActActualVariable: aFamixUTAct using: act ])
 ]
 
 { #category : #exporting }
@@ -53,18 +36,20 @@ FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
 { #category : #exporting }
 FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 
-	^ self model newClassDeclaration
-		  name: aFamixUTCase name;
-		  addModifier: (model newModifier token: 'public');
-		  declarations:
-			  (aFamixUTCase methods collect: [ :method |
-					   self exportMethod: method ])
+	currentClass := self model newClassDeclaration.
+	currentClass
+		name: aFamixUTCase name;
+		addModifier: (model newModifier token: 'public').
+	aFamixUTCase methods do: [ :method |
+		currentClass addDeclaration: (self exportMethod: method) ].
+	^ currentClass
 ]
 
 { #category : #exporting }
 FamixUTJUnitExporter >> exportCaseFile: aFamixUTCase [
 
-	^ self model newCompilationUnit
+	currentCompilationUnit := self model newCompilationUnit.
+	^ currentCompilationUnit
 		  packageDeclaration: (self exportCasePackage: aFamixUTCase);
 		  importDeclarations: (self exportCaseImports: aFamixUTCase);
 		  addClassDeclaration: (self exportCase: aFamixUTCase);
@@ -116,9 +101,43 @@ FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 ]
 
 { #category : #ast }
+FamixUTJUnitExporter >> makeActActualVariable: aFamixUTAct using: act [
+	"Assume 'act' is an expression."
+
+	^ model newVarDeclStatement
+		  type: (aFamixUTAct method testedMethod declaredType
+				   asFASTJavaTypeExpressionOn: self valueExporter);
+		  addDeclarator: (model newVariableDeclarator
+				   variable: (model newVariableExpression name: 'actual');
+				   expression: act);
+		  yourself
+]
+
+{ #category : #ast }
 FamixUTJUnitExporter >> makeActComment [
 
 	^ self model newComment content: '/* ACT */'
+]
+
+{ #category : #ast }
+FamixUTJUnitExporter >> makeActInvocation: aFamixUTAct [
+
+	| testedMethod |
+	testedMethod := aFamixUTAct method testedMethod.
+	^ self model newMethodInvocation
+		  name: testedMethod name;
+		  receiver: (self makeActReceiver: testedMethod);
+		  arguments: (aFamixUTAct arguments collect: [ :argument |
+					   self valueExporter makeVariableExpression: argument ]);
+		  famixMethod: testedMethod
+]
+
+{ #category : #ast }
+FamixUTJUnitExporter >> makeActReceiver: testedMethod [
+
+	^ model newNewExpression type:
+		  (testedMethod parentType asFASTJavaTypeExpressionOn:
+			   self valueExporter)
 ]
 
 { #category : #ast }
