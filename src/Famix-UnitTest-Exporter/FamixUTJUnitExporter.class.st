@@ -22,14 +22,24 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 { #category : #exporting }
 FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
 
+	| expected expectedType actual |
+	expected := self valueExporter makeVariableExpression:
+		            aFamixUTAssertion expected.
+	expectedType := aFamixUTAssertion expected type.
+	actual := self model newVariableExpression name: 'actual'.
+	(expectedType isClass and: [ expectedType isPrimitiveWrapper ])
+		ifTrue: [
+			expected := model newCastExpression
+				            type:
+					            (expectedType asFASTJavaTypeExpressionOn:
+							             self valueExporter);
+				            expression: expected ].
 	^ self statements addStatement:
 		  (self model newExpressionStatement expression:
 			   (model newMethodInvocation
 				    name: 'assertEquals';
-				    addArgument:
-					    (self valueExporter makeVariableExpression:
-							     aFamixUTAssertion expected);
-				    addArgument: (model newVariableExpression name: 'actual');
+				    addArgument: expected;
+				    addArgument: actual;
 				    yourself))
 ]
 

@@ -61,6 +61,14 @@ FamixUTJUnitExporterTest >> testExportAssertion [
 	self
 		assertExport: (FamixUTJUnitExporter new exportAssertion: assertion)
 		equals: 'assertEquals(int0, actual);
+'.
+
+	assertion := FamixUTAssertion new expected:
+		             (FamixValueOfPrimitiveType new type:
+			              (FamixJavaClass named: 'Integer')).
+	self
+		assertExport: (FamixUTJUnitExporter new exportAssertion: assertion)
+		equals: 'assertEquals((Integer) integer0, actual);
 '
 ]
 
