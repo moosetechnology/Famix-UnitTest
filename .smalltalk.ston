@@ -2,13 +2,14 @@ SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
       #baseline : 'FamixUnitTest',
+      #onConflict : #useIncoming,
       #directory : 'src',
       #platforms : [ #pharo ]
     }
   ],
   #testing : {
     #coverage : {
-      #packages : [ 'Famix-UnitTest-.*' ],
+      #packages : [ 'Famix-UnitTest.*' ],
       #format : #lcov
     }
   }
