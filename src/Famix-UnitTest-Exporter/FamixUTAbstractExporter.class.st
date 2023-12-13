@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'valueExporter',
 		'model',
-		'statements'
+		'statementBlock'
 	],
 	#category : #'Famix-UnitTest-Exporter'
 }
@@ -59,7 +59,8 @@ FamixUTAbstractExporter >> exportMethod: aFamixUTMethod [
 		self exportMethodSetUp: setUp ].
 	aFamixUTMethod act ifNotNil: [ :act |
 		act arguments do: [ :argument | argument accept: self valueExporter ].
-		self statements statements first addComment: self makeArrangeComment.
+		self statementBlock statements ifNotEmpty: [ :statements |
+			statements first addComment: self makeArrangeComment ].
 		"Act/When"
 		(self exportAct: aFamixUTMethod act) addComment: self makeActComment ].
 	"Assert/Then"
@@ -138,15 +139,17 @@ FamixUTAbstractExporter >> newValueExporter [
 ]
 
 { #category : #accessing }
-FamixUTAbstractExporter >> statements [
+FamixUTAbstractExporter >> statementBlock [
 
-	^ statements ifNil: [ statements := self valueExporter statements ]
+	^ statementBlock ifNil: [
+		  statementBlock := self valueExporter statementBlock ]
 ]
 
 { #category : #accessing }
-FamixUTAbstractExporter >> statements: aStatementSequence [
+FamixUTAbstractExporter >> statementBlock: aStatementSequence [
 
-	self valueExporter statements: (statements := aStatementSequence)
+	self valueExporter statementBlock:
+		(statementBlock := aStatementSequence)
 ]
 
 { #category : #accessing }
