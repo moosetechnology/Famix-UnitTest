@@ -43,12 +43,13 @@ FamixUTImporter >> testMethod: aFamixTMethod arguments: arguments expected: expe
 	method := self model newMethod
 		          testedMethod: aFamixTMethod;
 		          name: 'test' , aFamixTMethod name capitalized.
-	model newSetUp
-		method: method;
-		addValue: expected.
-	model newAssertion
-		method: method;
-		expected: expected.
+	expected ifNotNil: [
+		model newSetUp
+			method: method;
+			addValue: expected.
+		model newAssertion
+			method: method;
+			expected: expected ].
 	model newAct
 		method: method;
 		arguments: arguments.
