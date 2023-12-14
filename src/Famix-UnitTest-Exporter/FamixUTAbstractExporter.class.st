@@ -40,7 +40,14 @@ FamixUTAbstractExporter >> exportAssertion: aFamixUTAssertion [
 { #category : #exporting }
 FamixUTAbstractExporter >> exportCase: aFamixUTCase [
 
-	self subclassResponsibility
+	| case |
+	case := self model newClassDeclaration.
+	case
+		name: aFamixUTCase name;
+		addComment: self makeTestCaseComment.
+	aFamixUTCase methods do: [ :method |
+		case addDeclaration: (self exportMethod: method) ].
+	^ case
 ]
 
 { #category : #exporting }
@@ -112,6 +119,13 @@ FamixUTAbstractExporter >> makeImportDeclaration: aFamixType [
 
 	^ self model newImportDeclaration qualifiedName:
 		  (model newQualifiedName name: aFamixType mooseNameWithDots)
+]
+
+{ #category : #ast }
+FamixUTAbstractExporter >> makeTestCaseComment [
+	"Inform that this class was generated."
+
+	self subclassResponsibility
 ]
 
 { #category : #ast }
