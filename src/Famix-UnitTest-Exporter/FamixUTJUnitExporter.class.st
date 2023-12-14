@@ -120,7 +120,41 @@ FamixUTJUnitExporter >> exportSetUp: aFamixUTSetUp [
 { #category : #exporting }
 FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 
-	self shouldBeImplemented
+	currentCompilationUnit := self model newCompilationUnit.
+	currentClass := model newClassDeclaration name: aFamixUTSuite name.
+
+	currentClass modifiers: {
+			(model newAnnotation
+				 name: 'RunWith';
+				 elements: { (model newClassProperty
+						  type: (model newIdentifier name: 'Suite');
+						  fieldName: 'class') }).
+			(model newAnnotation
+				 name: 'SuiteClasses';
+				 elements: { (model newArrayAnnotationElement values:
+							  (aFamixUTSuite cases collect: [ :case |
+									   model newClassProperty
+										   type: (model newIdentifier name: case name);
+										   fieldName: 'class' ])) }) }.
+
+	currentCompilationUnit
+		packageDeclaration: (model newPackageDeclaration qualifiedName:
+					 (model newQualifiedName name: 'fr.evref.modest'));
+		importDeclarations: {
+				(model newImportDeclaration qualifiedName:
+						 (model newQualifiedName name: 'org.junit.runner.RunWith')).
+				(model newImportDeclaration qualifiedName:
+						 (model newQualifiedName name: 'org.junit.runners.Suite')).
+				(model newImportDeclaration qualifiedName:
+						 (model newQualifiedName name:
+								  'org.junit.runners.Suite.SuiteClasses')) }
+			, (aFamixUTSuite cases collect: [ :case |
+						 model newImportDeclaration qualifiedName:
+								 (model newQualifiedName name:
+										  case testedClass typeContainer mooseNameWithDots , '.'
+										  , case name) ]);
+		addClassDeclaration: currentClass.
+	^ currentCompilationUnit
 ]
 
 { #category : #ast }
