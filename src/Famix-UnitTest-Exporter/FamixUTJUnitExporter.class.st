@@ -8,6 +8,12 @@ Class {
 	#category : #'Famix-UnitTest-Exporter'
 }
 
+{ #category : #testing }
+FamixUTJUnitExporter class >> isAbstract [
+
+	^ self == FamixUTJUnitExporter
+]
+
 { #category : #exporting }
 FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 	"Execute the method under test"
