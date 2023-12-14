@@ -213,12 +213,19 @@ FamixUTJUnitExporter >> makeTestCaseReceiver: aFamixUTCase [
 { #category : #ast }
 FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
 
-	^ self model newMethodEntity
-		  name: aFamixUTMethod name ", valueExporter nextId asString"; "TODO better name"
-		  addModifier: (model newAnnotation name: 'Test');
-		  addModifier: (model newModifier token: 'public');
-		  type: model newVoidTypeExpression;
-		  statementBlock: self newStatementBlock
+	| method |
+	method := (super makeTestMethod: aFamixUTMethod)
+		          addModifier: (model newAnnotation name: 'Test');
+		          addModifier: (model newModifier token: 'public');
+		          type: model newVoidTypeExpression;
+		          statementBlock: self newStatementBlock.
+	"Throw the same exceptions as the tested method"
+	aFamixUTMethod testedMethod declaredExceptions do: [ :exception |
+		method addThrow:
+			(exception asFASTJavaTypeExpressionOn: self valueExporter).
+		currentCompilationUnit addImportDeclaration:
+			(self makeImportDeclaration: exception) ].
+	^ method
 ]
 
 { #category : #naming }

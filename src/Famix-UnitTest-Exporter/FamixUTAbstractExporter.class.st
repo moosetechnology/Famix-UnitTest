@@ -117,7 +117,7 @@ FamixUTAbstractExporter >> makeImportDeclaration: aFamixType [
 { #category : #ast }
 FamixUTAbstractExporter >> makeTestMethod: aFamixUTMethod [
 
-	self subclassResponsibility
+	^ self model newMethodEntity name: aFamixUTMethod name
 ]
 
 { #category : #accessing }
