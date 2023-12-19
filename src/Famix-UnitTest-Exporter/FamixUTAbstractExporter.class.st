@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'valueExporter',
 		'model',
-		'statementBlock'
+		'statementBlock',
+		'nameDict'
 	],
 	#category : #'Famix-UnitTest-Exporter'
 }
@@ -96,6 +97,12 @@ FamixUTAbstractExporter >> exportSuite: aFamixUTSuite [
 	self subclassResponsibility
 ]
 
+{ #category : #initialization }
+FamixUTAbstractExporter >> initialize [
+
+	nameDict := Dictionary new
+]
+
 { #category : #ast }
 FamixUTAbstractExporter >> makeActComment [
 
@@ -131,7 +138,7 @@ FamixUTAbstractExporter >> makeTestCaseComment [
 { #category : #ast }
 FamixUTAbstractExporter >> makeTestMethod: aFamixUTMethod [
 
-	^ self model newMethodEntity name: aFamixUTMethod name
+	^ self model newMethodEntity name: (self nameFor: aFamixUTMethod)
 ]
 
 { #category : #accessing }
@@ -144,6 +151,21 @@ FamixUTAbstractExporter >> model [
 FamixUTAbstractExporter >> model: aFASTModel [
 
 	self valueExporter model: (model := aFASTModel)
+]
+
+{ #category : #initialization }
+FamixUTAbstractExporter >> nameFor: anEntity [
+	"Answer a unique name for an entity."
+
+	| name nameID |
+	name := anEntity name.
+	nameID := nameDict
+		          at: name
+		          ifPresent: [ :id | nameDict at: name put: id + 1 ]
+		          ifAbsentPut: [ 1 ].
+	^ nameID == 1
+		  ifTrue: [ name ]
+		  ifFalse: [ name , nameID asString ]
 ]
 
 { #category : #'instance creation' }
