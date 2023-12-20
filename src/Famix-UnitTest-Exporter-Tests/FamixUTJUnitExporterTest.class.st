@@ -8,11 +8,23 @@ Class {
 }
 
 { #category : #tests }
-FamixUTJUnitExporterTest >> assertExport: aFASTEntity equals: expected [
+FamixUTJUnitExporterTest >> assertExport: aFASTEntity equals: expectedString [
 
 	self
 		assert: (FASTJavaExportVisitor new export: aFASTEntity)
-		equals: expected
+		equals: expectedString
+]
+
+{ #category : #tests }
+FamixUTJUnitExporterTest >> assertExportCase: aFASTClassDeclaration equals: expectedString [
+	"Ignore the generated class comment."
+
+	| actualString |
+	actualString := FASTJavaExportVisitor new export:
+		                aFASTClassDeclaration.
+	actualString := actualString allButFirst:
+		                (actualString findString: '*/') + 2.
+	self assert: actualString equals: expectedString
 ]
 
 { #category : #tests }
@@ -81,8 +93,9 @@ FamixUTJUnitExporterTest >> testExportCase [
 
 	"empty case"
 	self
-		assertExport: (FamixUTJUnitExporter new exportCase: case)
+		assertExportCase: (FamixUTJUnitExporter new exportCase: case)
 		equals: 'public class MyClassTest {
+  private MyClass myClass = new MyClass();
 }
 '.
 
@@ -93,8 +106,9 @@ FamixUTJUnitExporterTest >> testExportCase [
 				  declaredType: (FamixJavaPrimitiveType new name: 'int');
 				  parentType: case testedClass)).
 	self
-		assertExport: (FamixUTJUnitExporter new exportCase: case)
+		assertExportCase: (FamixUTJUnitExporter new exportCase: case)
 		equals: 'public class MyClassTest {
+  private MyClass myClass = new MyClass();
   @Test
   public void testFoo() {
   }
@@ -133,7 +147,9 @@ public void testFoo() {
 		assertExport: (FamixUTJUnitExporter new exportMethod: testMethod)
 		equals: '@Test
 public void testFoo() {
+  /* ARRANGE */
   int int0 = 1;
+  /* ACT */
   int actual = new MyClass().foo(int0);
 }
 '.
@@ -144,8 +160,11 @@ public void testFoo() {
 		assertExport: (FamixUTJUnitExporter new exportMethod: testMethod)
 		equals: '@Test
 public void testFoo() {
+  /* ARRANGE */
   int int0 = 1;
+  /* ACT */
   int actual = new MyClass().foo(int0);
+  /* ASSERT */
   assertEquals(foo1, actual);
 }
 '
