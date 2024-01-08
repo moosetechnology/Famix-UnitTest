@@ -135,7 +135,8 @@ FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 							  (aFamixUTSuite cases collect: [ :case |
 									   model newClassProperty
 										   type: (model newIdentifier name: case name);
-										   fieldName: 'class' ])) }) }.
+										   fieldName: 'class' ])) }).
+			(model newModifier token: 'public') }.
 
 	currentCompilationUnit
 		packageDeclaration: (model newPackageDeclaration qualifiedName:
