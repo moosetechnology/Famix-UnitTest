@@ -83,7 +83,8 @@ FamixUTJUnitExporter >> exportCaseFile: aFamixUTCase [
 FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
 
 	| imports |
-	imports := (aFamixUTCase allTypes select: #needsJavaImport)
+	imports := (aFamixUTCase allTypes select: [ :type |
+		            type needsJavaImport ])
 		           collect: [ :type | self makeImportDeclaration: type ]
 		           as: OrderedCollection.
 	imports add: (self makeImportDeclaration: aFamixUTCase testedClass).
@@ -216,11 +217,14 @@ FamixUTJUnitExporter >> makeJUnitImports [
 	^ {
 		  (self model newImportDeclaration qualifiedName:
 			   (model newQualifiedName name: package , '.Test')).
-		  (self model newImportDeclaration
+		  (model newImportDeclaration
 			   qualifiedName: (model newQualifiedName name:
 						    package , '.' , self nameOfAssertionsClass);
 			   isStatic: true;
-			   isOnDemand: true) }
+			   isOnDemand: true).
+		  (model newImportDeclaration qualifiedName:
+			   (model newQualifiedName name:
+				    package , '.' , self nameOfBeforeEachAnnotation)) }
 ]
 
 { #category : #ast }
@@ -271,6 +275,12 @@ FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
 
 { #category : #naming }
 FamixUTJUnitExporter >> nameOfAssertionsClass [
+
+	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+FamixUTJUnitExporter >> nameOfBeforeEachAnnotation [
 
 	self subclassResponsibility
 ]
