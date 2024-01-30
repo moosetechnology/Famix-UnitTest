@@ -23,6 +23,7 @@ FamixUTAbstractExporter >> export: aFamixUTModel [
 		self exportCaseFile: case ].
 	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite |
 		self exportSuite: suite ].
+	self valueExporter makeHelper.
 	^ self model
 ]
 

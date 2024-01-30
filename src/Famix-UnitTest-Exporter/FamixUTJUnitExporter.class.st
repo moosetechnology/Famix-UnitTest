@@ -57,8 +57,7 @@ FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
 { #category : #exporting }
 FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 
-	currentClass := self model newClassDeclaration.
-	currentClass
+	(currentClass := self model newClassDeclaration)
 		name: aFamixUTCase name;
 		addModifier: (model newModifier token: 'public');
 		addComment: self makeTestCaseComment;
