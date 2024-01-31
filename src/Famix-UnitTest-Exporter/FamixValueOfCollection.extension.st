@@ -1,9 +1,9 @@
 Extension { #name : #FamixValueOfCollection }
 
 { #category : #'*Famix-UnitTest-Exporter' }
-FamixValueOfCollection >> allTypesOn: aCollection visited: visited [
+FamixValueOfCollection >> allTypesOn: aCollection seen: seen [
 
-	(super allTypesOn: aCollection visited: visited) ifNotNil: [
+	(super allTypesOn: aCollection seen: seen) ifNotNil: [
 		value do: [ :element |
-			element value allTypesOn: aCollection visited: visited ] ]
+			element value allTypesOn: aCollection seen: seen ] ]
 ]
