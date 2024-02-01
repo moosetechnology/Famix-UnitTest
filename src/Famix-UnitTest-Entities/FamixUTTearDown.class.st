@@ -1,5 +1,19 @@
 "
 Tears down the system to make tests repeatable.
+
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `forAllInCase` | `FamixUTTearDown` | `afterAll` | `FamixUTCase` | |
+| `forEachInCase` | `FamixUTTearDown` | `afterEach` | `FamixUTCase` | |
+| `method` | `FamixUTTearDown` | `tearDown` | `FamixUTMethod` | |
+| `suite` | `FamixUTTearDown` | `tearDown` | `FamixUTSuite` | |
+
+
+
 "
 Class {
 	#name : #FamixUTTearDown,

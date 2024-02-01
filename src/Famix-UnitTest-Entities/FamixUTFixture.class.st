@@ -1,5 +1,16 @@
 "
 Sets up or tears down the system to make tests repeatable.
+
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `values` | `FamixUTFixture` | `fixtures` | `FamixValueOfType` | |
+
+
+
 "
 Class {
 	#name : #FamixUTFixture,

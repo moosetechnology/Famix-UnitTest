@@ -1,5 +1,30 @@
 "
 A class containing test methods.
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `suite` | `FamixUTCase` | `cases` | `FamixUTSuite` | |
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `methods` | `FamixUTCase` | `case` | `FamixUTMethod` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `afterAll` | `FamixUTCase` | `forAllInCase` | `FamixUTTearDown` | |
+| `afterEach` | `FamixUTCase` | `forEachInCase` | `FamixUTTearDown` | |
+| `beforeAll` | `FamixUTCase` | `forAllInCase` | `FamixUTSetUp` | |
+| `beforeEach` | `FamixUTCase` | `forEachInCase` | `FamixUTSetUp` | |
+| `testedClass` | `FamixUTCase` | `testCase` | `FamixTClass` | |
+
+
+
 "
 Class {
 	#name : #FamixUTCase,

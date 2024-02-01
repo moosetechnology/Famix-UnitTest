@@ -1,5 +1,21 @@
 "
 Execution of the system under test.
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `method` | `FamixUTAct` | `act` | `FamixUTMethod` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `arguments` | `FamixUTAct` | `argumentInAct` | `FamixValueOfType` | |
+
+
+
 "
 Class {
 	#name : #FamixUTAct,

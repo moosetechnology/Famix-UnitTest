@@ -1,5 +1,19 @@
 "
 Sets up the system to make tests repeatable.
+
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `forAllInCase` | `FamixUTSetUp` | `beforeAll` | `FamixUTCase` | |
+| `forEachInCase` | `FamixUTSetUp` | `beforeEach` | `FamixUTCase` | |
+| `method` | `FamixUTSetUp` | `setUp` | `FamixUTMethod` | |
+| `suite` | `FamixUTSetUp` | `setUp` | `FamixUTSuite` | |
+
+
+
 "
 Class {
 	#name : #FamixUTSetUp,

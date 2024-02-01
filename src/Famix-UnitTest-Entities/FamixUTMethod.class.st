@@ -1,5 +1,35 @@
 "
 Tests a specific behavior or feature of the system under test.
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `case` | `FamixUTMethod` | `methods` | `FamixUTCase` | |
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `act` | `FamixUTMethod` | `method` | `FamixUTAct` | |
+| `assertions` | `FamixUTMethod` | `method` | `FamixUTAssertion` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `setUp` | `FamixUTMethod` | `method` | `FamixUTSetUp` | |
+| `tearDown` | `FamixUTMethod` | `method` | `FamixUTTearDown` | |
+| `testedMethod` | `FamixUTMethod` | `unitTests` | `FamixTMethod` | |
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `name` | `String` | nil | Basic name of the entity, not full reference.|
+
 "
 Class {
 	#name : #FamixUTMethod,

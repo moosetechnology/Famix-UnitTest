@@ -1,5 +1,28 @@
 "
 A collection of test cases.
+
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `cases` | `FamixUTSuite` | `suite` | `FamixUTCase` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `setUp` | `FamixUTSuite` | `suite` | `FamixUTSetUp` | |
+| `tearDown` | `FamixUTSuite` | `suite` | `FamixUTTearDown` | |
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `name` | `String` | nil | Basic name of the entity, not full reference.|
+
 "
 Class {
 	#name : #FamixUTSuite,

@@ -1,5 +1,27 @@
 "
 Verifies that the behavior or feature being tested behaves as expected.
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `method` | `FamixUTAssertion` | `assertions` | `FamixUTMethod` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `expected` | `FamixUTAssertion` | `expectedInAssertions` | `FamixValueOfType` | |
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `errorMargin` | `Object` | nil | How much deviation is allowed between the expected and actual values.|
+
 "
 Class {
 	#name : #FamixUTAssertion,
