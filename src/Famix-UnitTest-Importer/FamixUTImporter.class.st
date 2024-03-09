@@ -2,7 +2,8 @@ Class {
 	#name : #FamixUTImporter,
 	#superclass : #Object,
 	#instVars : [
-		'model'
+		'model',
+		'nameDict'
 	],
 	#category : #'Famix-UnitTest-Importer'
 }
@@ -21,6 +22,12 @@ FamixUTImporter >> fromOpenTelemetrySpans: spans [
 						 arguments: span arguments
 						 expected: span result) ] ].
 	^ model
+]
+
+{ #category : #initialization }
+FamixUTImporter >> initialize [
+
+	nameDict := Dictionary new
 ]
 
 { #category : #'instance creation' }
@@ -42,7 +49,7 @@ FamixUTImporter >> testMethod: aFamixTMethod arguments: arguments expected: expe
 	| method |
 	method := self model newMethod
 		          testedMethod: aFamixTMethod;
-		          name: 'test' , aFamixTMethod name capitalized.
+		          name: (self testMethodNameFor: aFamixTMethod).
 	expected ifNotNil: [
 		model newSetUp
 			method: method;
@@ -54,4 +61,19 @@ FamixUTImporter >> testMethod: aFamixTMethod arguments: arguments expected: expe
 		method: method;
 		arguments: arguments.
 	^ method
+]
+
+{ #category : #tests }
+FamixUTImporter >> testMethodNameFor: aFamixTMethod [
+	"Give a unique name for a new test method."
+
+	| name nameID |
+	name := 'test' , aFamixTMethod name capitalized.
+	nameID := nameDict
+		          at: name
+		          ifPresent: [ :id | nameDict at: name put: id + 1 ]
+		          ifAbsentPut: [ 1 ].
+	^ nameID == 1
+		  ifTrue: [ name ]
+		  ifFalse: [ name , nameID asString ]
 ]
