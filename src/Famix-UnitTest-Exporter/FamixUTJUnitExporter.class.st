@@ -15,6 +15,19 @@ FamixUTJUnitExporter class >> isAbstract [
 ]
 
 { #category : #exporting }
+FamixUTJUnitExporter >> assertionStrategy [
+
+	^ assertionStrategy ifNil: [
+		  assertionStrategy := FamixUTJavaAssertionStrategy default ]
+]
+
+{ #category : #accessing }
+FamixUTJUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
+
+	assertionStrategy := aFamixUTAssertionStrategy
+]
+
+{ #category : #exporting }
 FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 	"Execute the method under test"
 
@@ -28,30 +41,6 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 				   varDecl := self makeActVarDecl: aFamixUTAct.
 				   varDecl declarators first expression: invocation.
 				   varDecl ])
-]
-
-{ #category : #exporting }
-FamixUTJUnitExporter >> exportAssertion: aFamixUTAssertion [
-
-	| expected expectedType actual |
-	expected := self valueExporter makeVariableExpression:
-		            aFamixUTAssertion expected.
-	expectedType := aFamixUTAssertion expected type.
-	actual := self model newVariableExpression name: 'actual'.
-	(expectedType isClass and: [ expectedType isPrimitiveWrapper ])
-		ifTrue: [
-			expected := model newCastExpression
-				            type:
-					            (expectedType asFASTJavaTypeExpressionOn:
-							             self valueExporter);
-				            expression: expected ].
-	^ self statementBlock addStatement:
-		  (self model newExpressionStatement expression:
-			   (model newMethodInvocation
-				    name: 'assertEquals';
-				    addArgument: expected;
-				    addArgument: actual;
-				    yourself))
 ]
 
 { #category : #exporting }
@@ -88,6 +77,7 @@ FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
 		           as: OrderedCollection.
 	imports add: (self makeImportDeclaration: aFamixUTCase testedClass).
 	imports addAll: self makeJUnitImports.
+	imports addAll: (self assertionStrategy dependencyImportsOn: self).
 	^ imports
 ]
 
@@ -216,11 +206,6 @@ FamixUTJUnitExporter >> makeJUnitImports [
 	^ {
 		  (self model newImportDeclaration qualifiedName:
 			   (model newQualifiedName name: package , '.Test')).
-		  (model newImportDeclaration
-			   qualifiedName: (model newQualifiedName name:
-						    package , '.' , self nameOfAssertionsClass);
-			   isStatic: true;
-			   isOnDemand: true).
 		  (model newImportDeclaration qualifiedName:
 			   (model newQualifiedName name:
 				    package , '.' , self nameOfBeforeEachAnnotation)) }
@@ -278,7 +263,7 @@ FamixUTJUnitExporter >> nameOfAssertionsClass [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #naming }
 FamixUTJUnitExporter >> nameOfBeforeEachAnnotation [
 
 	self subclassResponsibility

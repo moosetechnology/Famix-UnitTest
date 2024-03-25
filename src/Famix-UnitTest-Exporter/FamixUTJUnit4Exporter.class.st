@@ -10,7 +10,7 @@ FamixUTJUnit4Exporter >> nameOfAssertionsClass [
 	^ 'Assert'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #naming }
 FamixUTJUnit4Exporter >> nameOfBeforeEachAnnotation [
 
 	^ 'Before'

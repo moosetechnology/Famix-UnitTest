@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'valueExporter',
 		'model',
-		'statementBlock'
+		'statementBlock',
+		'assertionStrategy'
 	],
 	#category : #'Famix-UnitTest-Exporter'
 }
@@ -13,6 +14,12 @@ Class {
 FamixUTAbstractExporter class >> isAbstract [
 
 	^ self == FamixUTAbstractExporter
+]
+
+{ #category : #exporting }
+FamixUTAbstractExporter >> assertionStrategy [
+
+	^ assertionStrategy
 ]
 
 { #category : #exporting }
@@ -35,7 +42,8 @@ FamixUTAbstractExporter >> exportAct: aFamixUTAct [
 { #category : #exporting }
 FamixUTAbstractExporter >> exportAssertion: aFamixUTAssertion [
 
-	self subclassResponsibility
+	^ self statementBlock addStatement:
+		  (self assertionStrategy export: aFamixUTAssertion on: self)
 ]
 
 { #category : #exporting }
