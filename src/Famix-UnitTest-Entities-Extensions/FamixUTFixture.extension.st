@@ -23,16 +23,13 @@ FamixUTFixture >> mooseNameOn: aStream [
 
 	self suite ifNotNil: [ :suite |
 		aStream nextPutAll: ' of '.
-		suite mooseNameOn: aStream.
-		^ self ].
+		^ suite mooseNameOn: aStream ].
 	self forAllInCase ifNotNil: [ :case |
 		aStream nextPutAll: ' of all methods in '.
-		case mooseNameOn: aStream.
-		^ self ].
+		^ case mooseNameOn: aStream ].
 	self forEachInCase ifNotNil: [ :case |
 		aStream nextPutAll: ' of each method in '.
-		case mooseNameOn: aStream.
-		^ self ].
+		^ case mooseNameOn: aStream ].
 	self method ifNotNil: [ :method |
 		aStream nextPutAll: ' of '.
 		method mooseNameOn: aStream ]

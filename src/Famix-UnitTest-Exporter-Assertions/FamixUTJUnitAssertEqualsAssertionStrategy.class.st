@@ -27,7 +27,7 @@ FamixUTJUnitAssertEqualsAssertionStrategy >> export: aFamixUTAssertion on: expor
 		            aFamixUTAssertion expected.
 	expectedType := aFamixUTAssertion expected type.
 	(expectedType isClass and: [ expectedType isPrimitiveWrapper ])
-		ifTrue: [
+		ifTrue: [ "assertEquals(Integer, int) is ambiguous, need an explicit cast."
 			expected := model newCastExpression
 				            type:
 					            (expectedType asFASTJavaTypeExpressionOn:
