@@ -56,5 +56,5 @@ BaselineOfFamixUnitTest >> packages: spec [
 		with: [ spec requires: 'Famix-UnitTest-Entities' ];
 		package: 'Famix-UnitTest-Exporter-Tests'
 		with: [ spec requires: 'Famix-UnitTest-Exporter' ];
-		package: 'Famix-UnitTest-Exporter-Assertions'
+		package: 'Famix-UnitTest-Exporter-Strategies'
 ]

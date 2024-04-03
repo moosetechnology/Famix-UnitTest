@@ -1,7 +1,7 @@
 Class {
 	#name : #FamixUTAssertJRecursiveComparisonAssertionStrategy,
 	#superclass : #FamixUTJavaAssertionStrategy,
-	#category : #'Famix-UnitTest-Exporter-Assertions'
+	#category : #'Famix-UnitTest-Exporter-Strategies'
 }
 
 { #category : #ast }

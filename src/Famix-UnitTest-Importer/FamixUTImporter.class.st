@@ -46,17 +46,18 @@ FamixUTImporter >> model: aFamixUTModel [
 FamixUTImporter >> testMethod: aFamixTMethod arguments: arguments expected: expected [
 	"Build a unit test for a method using the given arguments and expected result."
 
-	| method |
+	| method setUp |
 	method := self model newMethod
 		          testedMethod: aFamixTMethod;
 		          name: (self testMethodNameFor: aFamixTMethod).
+	setUp := (expected isNotNil or: [ arguments isNotEmpty ]) ifTrue: [
+		         model newSetUp method: method ].
 	expected ifNotNil: [
-		model newSetUp
-			method: method;
-			addValue: expected.
+		setUp addValue: expected.
 		model newAssertion
 			method: method;
 			expected: expected ].
+	arguments do: [ :argument | setUp addValue: argument ].
 	model newAct
 		method: method;
 		arguments: arguments.

@@ -5,7 +5,8 @@ Class {
 		'valueExporter',
 		'model',
 		'statementBlock',
-		'assertionStrategy'
+		'assertionStrategy',
+		'methodSetUpStrategy'
 	],
 	#category : #'Famix-UnitTest-Exporter'
 }
@@ -50,8 +51,7 @@ FamixUTAbstractExporter >> exportAssertion: aFamixUTAssertion [
 FamixUTAbstractExporter >> exportCase: aFamixUTCase [
 
 	| case |
-	case := self model newClassDeclaration.
-	case
+	(case := self model newClassDeclaration)
 		name: aFamixUTCase name;
 		addComment: self makeTestCaseComment.
 	aFamixUTCase methods do: [ :method |
@@ -72,25 +72,19 @@ FamixUTAbstractExporter >> exportMethod: aFamixUTMethod [
 	method := self makeTestMethod: aFamixUTMethod.
 	"Arrange/Given"
 	aFamixUTMethod setUp ifNotNil: [ :setUp |
-		self exportMethodSetUp: setUp ].
-	aFamixUTMethod act ifNotNil: [ :act |
-		act arguments do: [ :argument | argument accept: self valueExporter ].
+		self methodSetUpStrategy export: setUp on: self.
 		self statementBlock statements ifNotEmpty: [ :statements |
-			statements first addComment: self makeArrangeComment ].
-		"Act/When"
+			statements first addComment: self makeArrangeComment ] ].
+	"Act/When"
+	aFamixUTMethod act ifNotNil: [ :act |
 		(self exportAct: aFamixUTMethod act) addComment: self makeActComment ].
 	"Assert/Then"
 	aFamixUTMethod assertions do: [ :assertion |
 		(self exportAssertion: assertion) addComment: self makeAssertComment ].
+	"Teardown"
 	aFamixUTMethod tearDown ifNotNil: [ :tearDown |
 		self exportMethodTearDown: tearDown ].
 	^ method
-]
-
-{ #category : #exporting }
-FamixUTAbstractExporter >> exportMethodSetUp: aFamixUTSetUp [
-
-	self subclassResponsibility
 ]
 
 { #category : #exporting }
@@ -124,13 +118,6 @@ FamixUTAbstractExporter >> makeAssertComment [
 ]
 
 { #category : #ast }
-FamixUTAbstractExporter >> makeImportDeclaration: aFamixType [
-
-	^ self model newImportDeclaration qualifiedName:
-		  (model newQualifiedName name: aFamixType mooseNameWithDots)
-]
-
-{ #category : #ast }
 FamixUTAbstractExporter >> makeTestCaseComment [
 	"Inform that this class was generated."
 
@@ -141,6 +128,19 @@ FamixUTAbstractExporter >> makeTestCaseComment [
 FamixUTAbstractExporter >> makeTestMethod: aFamixUTMethod [
 
 	^ self model newMethodEntity name: aFamixUTMethod name
+]
+
+{ #category : #exporting }
+FamixUTAbstractExporter >> methodSetUpStrategy [
+
+	^ methodSetUpStrategy ifNil: [
+		  methodSetUpStrategy := FamixUTSetUpStrategy default ]
+]
+
+{ #category : #exporting }
+FamixUTAbstractExporter >> methodSetUpStrategy: aFamixUTArrangeStrategy [
+
+	methodSetUpStrategy := aFamixUTArrangeStrategy
 ]
 
 { #category : #accessing }

@@ -1,6 +1,16 @@
 Extension { #name : #FamixValueOfType }
 
 { #category : #'*Famix-UnitTest-Exporter' }
+FamixValueOfType >> allTypes [
+
+	| types |
+	self
+		allTypesOn: (types := OrderedCollection new)
+		seen: IdentitySet new.
+	^ types
+]
+
+{ #category : #'*Famix-UnitTest-Exporter' }
 FamixValueOfType >> allTypesOn: aCollection [
 
 	self allTypesOn: aCollection seen: IdentitySet new

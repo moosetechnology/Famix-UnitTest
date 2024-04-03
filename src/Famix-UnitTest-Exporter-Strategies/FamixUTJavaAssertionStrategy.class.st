@@ -1,7 +1,7 @@
 Class {
 	#name : #FamixUTJavaAssertionStrategy,
-	#superclass : #FamixUTAssertionStrategy,
-	#category : #'Famix-UnitTest-Exporter-Assertions'
+	#superclass : #FamixUTStrategy,
+	#category : #'Famix-UnitTest-Exporter-Strategies'
 }
 
 { #category : #accessing }
@@ -14,4 +14,11 @@ FamixUTJavaAssertionStrategy class >> default [
 FamixUTJavaAssertionStrategy class >> isAbstract [
 
 	^ self == FamixUTJavaAssertionStrategy
+]
+
+{ #category : #ast }
+FamixUTJavaAssertionStrategy >> dependencyImportsOn: aFamixUTExporter [
+	"Add the imports of the dependencies required by this strategy."
+
+	^ {  }
 ]

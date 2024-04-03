@@ -27,6 +27,18 @@ FamixUTJUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
 	assertionStrategy := aFamixUTAssertionStrategy
 ]
 
+{ #category : #accessing }
+FamixUTJUnitExporter >> currentClass [
+
+	^ currentClass
+]
+
+{ #category : #accessing }
+FamixUTJUnitExporter >> currentCompilationUnit [
+
+	^ currentCompilationUnit
+]
+
 { #category : #exporting }
 FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 	"Execute the method under test"
@@ -71,11 +83,10 @@ FamixUTJUnitExporter >> exportCaseFile: aFamixUTCase [
 FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
 
 	| imports |
-	imports := (aFamixUTCase allTypes select: [ :type |
-		            type needsJavaImport ])
-		           collect: [ :type | self makeImportDeclaration: type ]
-		           as: OrderedCollection.
-	imports add: (self makeImportDeclaration: aFamixUTCase testedClass).
+	imports := valueExporter builder makeImportDeclarations: aFamixUTCase.
+	imports add:
+		(valueExporter builder makeImportDeclaration:
+			 aFamixUTCase testedClass).
 	imports addAll: self makeJUnitImports.
 	imports addAll: (self assertionStrategy dependencyImportsOn: self).
 	^ imports
@@ -87,12 +98,6 @@ FamixUTJUnitExporter >> exportCasePackage: aFamixUTCase [
 	^ self model newPackageDeclaration qualifiedName:
 		  (model newQualifiedName name:
 			   aFamixUTCase testedClass typeContainer mooseNameWithDots)
-]
-
-{ #category : #exporting }
-FamixUTJUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
-
-	aFamixUTSetUp values do: [ :value | value accept: self valueExporter ]
 ]
 
 { #category : #exporting }
@@ -253,7 +258,7 @@ FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
 		method addThrow:
 			(exception asFASTJavaTypeExpressionOn: self valueExporter).
 		currentCompilationUnit addImportDeclaration:
-			(self makeImportDeclaration: exception) ].
+			(valueExporter builder makeImportDeclaration: exception) ].
 	^ method
 ]
 

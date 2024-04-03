@@ -3,5 +3,6 @@ Extension { #name : #FamixJavaClass }
 { #category : #'*Famix-UnitTest-Exporter' }
 FamixJavaClass >> isPrimitiveWrapper [
 
-	^ #( Integer Float Double Long Short Byte ) includes: name
+	^ #( Integer Float Double Long Short Byte Boolean Character )
+		  includes: name
 ]
