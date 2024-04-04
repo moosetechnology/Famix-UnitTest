@@ -11,10 +11,9 @@ FamixUTAssertJRecursiveComparisonAssertionStrategy >> dependencyImportsOn: aFami
 	model := aFamixUTExporter model.
 	^ {
 		  (model newImportDeclaration
-			   qualifiedName:
-				   (model newQualifiedName name: 'org.assertj.core.api.Assertions');
-			   isStatic: true;
-			   isOnDemand: true).
+			   qualifiedName: (model newQualifiedName name:
+						    'org.assertj.core.api.Assertions.assertThat');
+			   isStatic: true).
 		  (model newImportDeclaration qualifiedName:
 			   (model newQualifiedName name:
 				    'org.hibernate.collection.PersistentSet')) }
