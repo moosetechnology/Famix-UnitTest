@@ -44,13 +44,18 @@ FamixUTSetUpHelperStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 			ifTrue: [
 				| methodName |
 				methodName := ((WriteStream with: 'given_')
-				               << value typedEntity name << '_for_'
+				               << value typedEntity name
+				               <<
+				               (value resultInSpan
+					                ifNotNil: [ '_expected' ]
+					                ifNil: [ '_argument' ]) << '_for_'
 				               << aFamixUTSetUp method name) contents.
 				helperClass ifNil: [
 					helperClass := self ensureHelperClassOn: aFamixUTExporter ].
 				helperClass addDeclaration:
 					((self makeHelperMethodFor: value on: aFamixUTExporter) name:
 						 methodName).
+				"add necessary imports to the helper class"
 				helperClass compilationUnit importDeclarations addAll:
 					(valueExporter builder makeImportDeclarations: value).
 				"IMPORTANT: build the method before calling it and assigning it to the variable,
