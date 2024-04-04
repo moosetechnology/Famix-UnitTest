@@ -21,30 +21,33 @@ FamixUTAssertJRecursiveComparisonAssertionStrategy >> dependencyImportsOn: aFami
 
 { #category : #exporting }
 FamixUTAssertJRecursiveComparisonAssertionStrategy >> export: aFamixUTAssertion on: exporter [
+	"Make an assertion using AssertJ: assertThat(actual).isEqualTo(expected)"
 
-	| model actual expected |
+	| model expected assertion |
 	model := exporter model.
-	actual := model newVariableExpression name: 'actual'.
-	expected := exporter valueExporter makeVariableExpression:
-		            aFamixUTAssertion expected.
-	self flag: #TODO. "simplify assertion if expected is not an object or a collection."
-	^ model newExpressionStatement expression:
-		  (model newMethodInvocation
-			   receiver: (model newMethodInvocation
-					    receiver: (model newMethodInvocation
-							     receiver: (model newMethodInvocation
-									      receiver: (model newMethodInvocation
-											       name: 'assertThat';
-											       addArgument: actual;
-											       yourself);
-									      name: 'usingRecursiveComparison');
-							     name: 'ignoringCollectionOrder');
-					    name: 'ignoringFieldsOfTypes';
-					    addArgument: (model newClassProperty
-							     type: (model newIdentifier name: 'PersistentSet');
-							     fieldName: 'class');
-					    yourself);
-			   name: 'isEqualTo';
-			   addArgument: expected;
-			   yourself)
+	expected := aFamixUTAssertion expected.
+	assertion := model newMethodInvocation
+		             addArgument:
+			             (model newVariableExpression name: 'actual');
+		             name: 'assertThat'.
+	"if expected is a complex type, use recursive comparison, and ignore collection order and PersistentSet fields"
+	(expected isOfObject or: [
+		 expected isOfCollection or: [ expected isOfDictionary ] ]) ifTrue: [
+		assertion := model newMethodInvocation
+			             receiver: (model newMethodInvocation
+					              receiver: (model newMethodInvocation
+							               receiver: assertion;
+							               name: 'usingRecursiveComparison');
+					              name: 'ignoringCollectionOrder');
+			             addArgument: (model newClassProperty
+					              type: (model newIdentifier name: 'PersistentSet');
+					              fieldName: 'class');
+			             name: 'ignoringFieldsOfTypes' ].
+	assertion := model newMethodInvocation
+		             receiver: assertion;
+		             addArgument:
+			             (exporter valueExporter makeVariableExpression:
+					              expected);
+		             name: 'isEqualTo'.
+	^ model newExpressionStatement expression: assertion
 ]
