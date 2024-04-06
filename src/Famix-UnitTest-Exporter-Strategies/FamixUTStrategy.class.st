@@ -28,6 +28,13 @@ FamixUTStrategy class >> isAbstract [
 	^ self == FamixUTStrategy
 ]
 
+{ #category : #ast }
+FamixUTStrategy >> dependencyImportsOn: aFamixUTExporter [
+	"Generate the dependency imports required by this strategy."
+
+	^ {  }
+]
+
 { #category : #exporting }
 FamixUTStrategy >> export: aFamixUTEntity on: aFamixUTExporter [
 

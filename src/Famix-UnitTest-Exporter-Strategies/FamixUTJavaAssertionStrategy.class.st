@@ -15,10 +15,3 @@ FamixUTJavaAssertionStrategy class >> isAbstract [
 
 	^ self == FamixUTJavaAssertionStrategy
 ]
-
-{ #category : #ast }
-FamixUTJavaAssertionStrategy >> dependencyImportsOn: aFamixUTExporter [
-	"Add the imports of the dependencies required by this strategy."
-
-	^ {  }
-]

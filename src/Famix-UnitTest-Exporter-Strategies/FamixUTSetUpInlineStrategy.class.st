@@ -7,6 +7,13 @@ Class {
 	#category : #'Famix-UnitTest-Exporter-Strategies'
 }
 
+{ #category : #ast }
+FamixUTSetUpInlineStrategy >> dependencyImportsOn: aFamixUTExporter [
+
+	^ aFamixUTExporter valueExporter objectExportStrategy
+		  dependencyImportsOn: aFamixUTExporter model
+]
+
 { #category : #exporting }
 FamixUTSetUpInlineStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 
