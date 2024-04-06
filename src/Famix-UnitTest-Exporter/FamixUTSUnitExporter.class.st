@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-UnitTest-Exporter'
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 FamixUTSUnitExporter >> newValueExporter [
 
 	^ FamixValue2PharoVisitor new

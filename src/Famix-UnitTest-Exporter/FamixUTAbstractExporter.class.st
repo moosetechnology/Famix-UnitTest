@@ -180,3 +180,9 @@ FamixUTAbstractExporter >> valueExporter [
 
 	^ valueExporter ifNil: [ valueExporter := self newValueExporter ]
 ]
+
+{ #category : #accessing }
+FamixUTAbstractExporter >> valueExporter: aFamixValue2ASTVisitor [
+
+	valueExporter := aFamixValue2ASTVisitor
+]
