@@ -80,10 +80,9 @@ FamixUTSetUpHelperStrategy >> makeHelperClassNamed: className on: aFamixUTExport
 					   (model newQualifiedName name:
 							    aFamixUTExporter currentCompilationUnit packageDeclaration
 								    qualifiedName name));
-		  addImportDeclaration: ((model newImportDeclaration qualifiedName:
-					    (model newQualifiedName name: 'fr.evref.modest.ModestHelper'))
-				   isStatic: true;
-				   isOnDemand: true);
+		  importDeclarations:
+			  (aFamixUTExporter valueExporter objectExportStrategy
+				   dependencyImportsOn: model);
 		  addClassDeclaration: (model newClassDeclaration name: className)
 ]
 
@@ -105,7 +104,6 @@ FamixUTSetUpHelperStrategy >> makeHelperMethodFor: value on: aFamixUTExporter [
 	newStatementBlock addStatement:
 		(model newReturnStatement expression:
 			 (valueExporter makeVariableExpression: value)).
-	"self assert: (((FASTJavaExportVisitor new export: newStatementBlock) allButLast: 5) includesSubstring: newStatementBlock statements last expression name)."
 	valueExporter statementBlock: oldStatementBlock.
 	^ method
 ]
