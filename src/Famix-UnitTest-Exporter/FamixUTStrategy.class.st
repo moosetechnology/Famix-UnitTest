@@ -16,10 +16,9 @@ FamixUTStrategy class >> default [
 { #category : #accessing }
 FamixUTStrategy class >> instance [
 
-	^ instance ifNil: [
-		  self isAbstract ifTrue: [
-			  Error signal: 'Should not use abstract strategy.' ].
-		  instance := self new ]
+	self isAbstract ifTrue: [
+		Error signal: 'Should not use abstract strategy.' ].
+	^ instance ifNil: [ instance := self new ]
 ]
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #FamixUTSUnitExporter,
-	#superclass : #FamixUTAbstractExporter,
-	#category : #'Famix-UnitTest-Exporter'
+	#superclass : #FamixUTExporter,
+	#category : #'Famix-UnitTest-Exporter-Exporters'
 }
 
 { #category : #'instance creation' }

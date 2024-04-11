@@ -32,9 +32,12 @@ FamixUTSetUpHelperStrategy >> ensureHelperClassOn: aFamixUTExporter [
 { #category : #exporting }
 FamixUTSetUpHelperStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 
-	| model valueExporter helperClass |
+	| model valueExporter helperClass comment |
+	aFamixUTSetUp values ifEmpty: [ ^ self ].
 	model := aFamixUTExporter model.
 	valueExporter := aFamixUTExporter valueExporter.
+	comment := '/**{@link ' , aFamixUTSetUp method case name , '#'
+	           , aFamixUTSetUp method name , '()}*/'.
 	"Only make helper if necessary => at least one non-empty object, collection or dictionary."
 	aFamixUTSetUp values do: [ :value |
 		((value isOfObject or: [
@@ -53,8 +56,10 @@ FamixUTSetUpHelperStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 				helperClass ifNil: [
 					helperClass := self ensureHelperClassOn: aFamixUTExporter ].
 				helperClass addDeclaration:
-					((self makeHelperMethodFor: value on: aFamixUTExporter) name:
-						 methodName).
+					((self makeHelperMethodFor: value on: aFamixUTExporter)
+						 name: methodName;
+						 addComment: (model newComment content: comment);
+						 yourself).
 				"add necessary imports to the helper class"
 				helperClass compilationUnit importDeclarations addAll:
 					(valueExporter builder makeImportDeclarations: value).
@@ -88,7 +93,7 @@ FamixUTSetUpHelperStrategy >> makeHelperClassNamed: className on: aFamixUTExport
 
 { #category : #ast }
 FamixUTSetUpHelperStrategy >> makeHelperMethodFor: value on: aFamixUTExporter [
-	"export the value inside the helper method, then restore the previous context"
+	"Export the value inside the helper method, then restore the previous context."
 
 	| model valueExporter method oldStatementBlock newStatementBlock |
 	model := aFamixUTExporter model.

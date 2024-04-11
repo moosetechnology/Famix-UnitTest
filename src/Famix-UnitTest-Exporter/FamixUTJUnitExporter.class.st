@@ -1,11 +1,11 @@
 Class {
 	#name : #FamixUTJUnitExporter,
-	#superclass : #FamixUTAbstractExporter,
+	#superclass : #FamixUTExporter,
 	#instVars : [
 		'currentCompilationUnit',
 		'currentClass'
 	],
-	#category : #'Famix-UnitTest-Exporter'
+	#category : #'Famix-UnitTest-Exporter-Exporters'
 }
 
 { #category : #testing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #FamixUTJUnit5Exporter,
 	#superclass : #FamixUTJUnitExporter,
-	#category : #'Famix-UnitTest-Exporter'
+	#category : #'Famix-UnitTest-Exporter-Exporters'
 }
 
 { #category : #naming }
