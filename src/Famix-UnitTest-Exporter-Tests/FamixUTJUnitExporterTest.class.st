@@ -119,7 +119,7 @@ FamixUTJUnitExporterTest >> testExportCase [
 { #category : #tests }
 FamixUTJUnitExporterTest >> testExportMethod [
 
-	| method testMethod expected assertion setUp type |
+	| method testMethod expected assertion setUp type arguments |
 	type := FamixJavaPrimitiveType new name: 'int'.
 	method := FamixJavaMethod new
 		          name: 'foo';
@@ -138,11 +138,23 @@ public void testFoo() {
 }
 '.
 
+	"with setup"
+	arguments := { (FamixValueOfPrimitiveType new
+		              type: (FamixJavaPrimitiveType new name: 'int');
+		              value: 1) }.
+	setUp values addAll: arguments.
+	testMethod setUp: setUp.
+	self
+		assertExport: (FamixUTJUnitExporter new exportMethod: testMethod)
+		equals: '@Test
+public void testFoo() {
+  /* ARRANGE */
+  int int0 = 1;
+}
+'.
+
 	"with act"
-	testMethod act:
-		(FamixUTAct new arguments: { (FamixValueOfPrimitiveType new
-				  type: (FamixJavaPrimitiveType new name: 'int');
-				  value: 1) }).
+	testMethod act: (FamixUTAct new arguments: arguments).
 	self
 		assertExport: (FamixUTJUnitExporter new exportMethod: testMethod)
 		equals: '@Test
