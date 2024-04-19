@@ -1,6 +1,6 @@
 Class {
 	#name : #FamixUTJUnitExporter,
-	#superclass : #FamixUTExporter,
+	#superclass : #FamixUTAbstractExporter,
 	#instVars : [
 		'currentCompilationUnit',
 		'currentClass'
@@ -18,7 +18,7 @@ FamixUTJUnitExporter class >> isAbstract [
 FamixUTJUnitExporter >> assertionStrategy [
 
 	^ assertionStrategy ifNil: [
-		  assertionStrategy := FamixUTJavaAssertionStrategy default ]
+		  assertionStrategy := FamixUTAbstractJavaAssertionStrategy default ]
 ]
 
 { #category : #accessing }

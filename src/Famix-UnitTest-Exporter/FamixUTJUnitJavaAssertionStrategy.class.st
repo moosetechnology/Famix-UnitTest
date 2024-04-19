@@ -1,11 +1,11 @@
 Class {
-	#name : #FamixUTJUnitAssertEqualsAssertionStrategy,
-	#superclass : #FamixUTJavaAssertionStrategy,
+	#name : #FamixUTJUnitJavaAssertionStrategy,
+	#superclass : #FamixUTAbstractJavaAssertionStrategy,
 	#category : #'Famix-UnitTest-Exporter-Strategies'
 }
 
 { #category : #ast }
-FamixUTJUnitAssertEqualsAssertionStrategy >> dependencyImportsOn: aFamixUTExporter [
+FamixUTJUnitJavaAssertionStrategy >> dependencyImportsOn: aFamixUTExporter [
 
 	| model |
 	model := aFamixUTExporter model.
@@ -18,7 +18,7 @@ FamixUTJUnitAssertEqualsAssertionStrategy >> dependencyImportsOn: aFamixUTExport
 ]
 
 { #category : #exporting }
-FamixUTJUnitAssertEqualsAssertionStrategy >> export: aFamixUTAssertion on: exporter [
+FamixUTJUnitJavaAssertionStrategy >> export: aFamixUTAssertion on: exporter [
 
 	| model actual expected expectedType |
 	model := exporter model.

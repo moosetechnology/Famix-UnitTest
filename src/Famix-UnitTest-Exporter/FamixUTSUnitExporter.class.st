@@ -1,6 +1,6 @@
 Class {
 	#name : #FamixUTSUnitExporter,
-	#superclass : #FamixUTExporter,
+	#superclass : #FamixUTAbstractExporter,
 	#category : #'Famix-UnitTest-Exporter-Exporters'
 }
 

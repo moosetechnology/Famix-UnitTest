@@ -1,5 +1,5 @@
 Class {
-	#name : #FamixUTExporter,
+	#name : #FamixUTAbstractExporter,
 	#superclass : #Object,
 	#instVars : [
 		'valueExporter',
@@ -12,19 +12,19 @@ Class {
 }
 
 { #category : #testing }
-FamixUTExporter class >> isAbstract [
+FamixUTAbstractExporter class >> isAbstract [
 
-	^ self == FamixUTExporter
+	^ self == FamixUTAbstractExporter
 ]
 
 { #category : #exporting }
-FamixUTExporter >> assertionStrategy [
+FamixUTAbstractExporter >> assertionStrategy [
 
 	^ assertionStrategy
 ]
 
 { #category : #exporting }
-FamixUTExporter >> export: aFamixUTModel [
+FamixUTAbstractExporter >> export: aFamixUTModel [
 
 	(aFamixUTModel allWithType: FamixUTCase) do: [ :case |
 		self exportCaseFile: case ].
@@ -35,20 +35,20 @@ FamixUTExporter >> export: aFamixUTModel [
 ]
 
 { #category : #exporting }
-FamixUTExporter >> exportAct: aFamixUTAct [
+FamixUTAbstractExporter >> exportAct: aFamixUTAct [
 
 	self subclassResponsibility
 ]
 
 { #category : #exporting }
-FamixUTExporter >> exportAssertion: aFamixUTAssertion [
+FamixUTAbstractExporter >> exportAssertion: aFamixUTAssertion [
 
 	^ self statementBlock addStatement:
 		  (self assertionStrategy export: aFamixUTAssertion on: self)
 ]
 
 { #category : #exporting }
-FamixUTExporter >> exportCase: aFamixUTCase [
+FamixUTAbstractExporter >> exportCase: aFamixUTCase [
 
 	| case |
 	(case := self model newClassDeclaration)
@@ -60,13 +60,13 @@ FamixUTExporter >> exportCase: aFamixUTCase [
 ]
 
 { #category : #exporting }
-FamixUTExporter >> exportCaseFile: aFamixUTCase [
+FamixUTAbstractExporter >> exportCaseFile: aFamixUTCase [
 
 	self subclassResponsibility
 ]
 
 { #category : #exporting }
-FamixUTExporter >> exportMethod: aFamixUTMethod [
+FamixUTAbstractExporter >> exportMethod: aFamixUTMethod [
 
 	| method |
 	method := self makeTestMethod: aFamixUTMethod.
@@ -88,101 +88,101 @@ FamixUTExporter >> exportMethod: aFamixUTMethod [
 ]
 
 { #category : #exporting }
-FamixUTExporter >> exportMethodTearDown: aFamixUTTearDown [
+FamixUTAbstractExporter >> exportMethodTearDown: aFamixUTTearDown [
 
 	self subclassResponsibility
 ]
 
 { #category : #exporting }
-FamixUTExporter >> exportSuite: aFamixUTSuite [
+FamixUTAbstractExporter >> exportSuite: aFamixUTSuite [
 
 	self subclassResponsibility
 ]
 
 { #category : #ast }
-FamixUTExporter >> makeActComment [
+FamixUTAbstractExporter >> makeActComment [
 
 	self subclassResponsibility
 ]
 
 { #category : #ast }
-FamixUTExporter >> makeArrangeComment [
+FamixUTAbstractExporter >> makeArrangeComment [
 
 	self subclassResponsibility
 ]
 
 { #category : #ast }
-FamixUTExporter >> makeAssertComment [
+FamixUTAbstractExporter >> makeAssertComment [
 
 	self subclassResponsibility
 ]
 
 { #category : #ast }
-FamixUTExporter >> makeTestCaseComment [
+FamixUTAbstractExporter >> makeTestCaseComment [
 	"Inform that this class was generated."
 
 	self subclassResponsibility
 ]
 
 { #category : #ast }
-FamixUTExporter >> makeTestMethod: aFamixUTMethod [
+FamixUTAbstractExporter >> makeTestMethod: aFamixUTMethod [
 
 	^ self model newMethodEntity name: aFamixUTMethod name
 ]
 
 { #category : #exporting }
-FamixUTExporter >> methodSetUpStrategy [
+FamixUTAbstractExporter >> methodSetUpStrategy [
 
 	^ methodSetUpStrategy ifNil: [
-		  methodSetUpStrategy := FamixUTSetUpStrategy default ]
+		  methodSetUpStrategy := FamixUTAbstractSetUpStrategy default ]
 ]
 
 { #category : #exporting }
-FamixUTExporter >> methodSetUpStrategy: aFamixUTArrangeStrategy [
+FamixUTAbstractExporter >> methodSetUpStrategy: aFamixUTArrangeStrategy [
 
 	methodSetUpStrategy := aFamixUTArrangeStrategy
 ]
 
 { #category : #accessing }
-FamixUTExporter >> model [
+FamixUTAbstractExporter >> model [
 
 	^ model ifNil: [ model := self valueExporter model ]
 ]
 
 { #category : #accessing }
-FamixUTExporter >> model: aFASTModel [
+FamixUTAbstractExporter >> model: aFASTModel [
 
 	self valueExporter model: (model := aFASTModel)
 ]
 
 { #category : #'instance creation' }
-FamixUTExporter >> newValueExporter [
+FamixUTAbstractExporter >> newValueExporter [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-FamixUTExporter >> statementBlock [
+FamixUTAbstractExporter >> statementBlock [
 
 	^ statementBlock ifNil: [
 		  statementBlock := self valueExporter statementBlock ]
 ]
 
 { #category : #accessing }
-FamixUTExporter >> statementBlock: aStatementSequence [
+FamixUTAbstractExporter >> statementBlock: aStatementSequence [
 
 	self valueExporter statementBlock:
 		(statementBlock := aStatementSequence)
 ]
 
 { #category : #accessing }
-FamixUTExporter >> valueExporter [
+FamixUTAbstractExporter >> valueExporter [
 
 	^ valueExporter ifNil: [ valueExporter := self newValueExporter ]
 ]
 
 { #category : #accessing }
-FamixUTExporter >> valueExporter: aFamixValue2ASTVisitor [
+FamixUTAbstractExporter >> valueExporter: aFamixValue2ASTVisitor [
 
 	valueExporter := aFamixValue2ASTVisitor
 ]

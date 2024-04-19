@@ -1,5 +1,5 @@
 Class {
-	#name : #FamixUTStrategy,
+	#name : #FamixUTAbstractStrategy,
 	#superclass : #Object,
 	#classInstVars : [
 		'instance'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-FamixUTStrategy class >> default [
+FamixUTAbstractStrategy class >> default [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-FamixUTStrategy class >> instance [
+FamixUTAbstractStrategy class >> instance [
 
 	self isAbstract ifTrue: [
 		Error signal: 'Should not use abstract strategy.' ].
@@ -22,20 +22,20 @@ FamixUTStrategy class >> instance [
 ]
 
 { #category : #accessing }
-FamixUTStrategy class >> isAbstract [
+FamixUTAbstractStrategy class >> isAbstract [
 
-	^ self == FamixUTStrategy
+	^ self == FamixUTAbstractStrategy
 ]
 
 { #category : #ast }
-FamixUTStrategy >> dependencyImportsOn: aFamixUTExporter [
+FamixUTAbstractStrategy >> dependencyImportsOn: aFamixUTExporter [
 	"Generate the dependency imports required by this strategy."
 
 	^ {  }
 ]
 
 { #category : #exporting }
-FamixUTStrategy >> export: aFamixUTEntity on: aFamixUTExporter [
+FamixUTAbstractStrategy >> export: aFamixUTEntity on: aFamixUTExporter [
 
 	self subclassResponsibility
 ]
