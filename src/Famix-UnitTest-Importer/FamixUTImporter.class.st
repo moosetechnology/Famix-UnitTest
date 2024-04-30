@@ -69,9 +69,8 @@ FamixUTImporter >> testMethodNameFor: aFamixTMethod [
 	"Give a unique name for a new test method."
 
 	| name nameID |
-	name := 'test' , aFamixTMethod name capitalized.
 	nameID := nameDict
-		          at: name
+		          at: (name := aFamixTMethod name asSymbol asTestSelector)
 		          ifPresent: [ :id | nameDict at: name put: id + 1 ]
 		          ifAbsentPut: [ 1 ].
 	^ nameID == 1
