@@ -17,6 +17,6 @@ FamixUTInlineSetUpStrategy >> dependencyImportsOn: aFamixUTExporter [
 { #category : #exporting }
 FamixUTInlineSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 
-	aFamixUTSetUp values do: [ :value |
-		value accept: aFamixUTExporter valueExporter ]
+	^ aFamixUTSetUp values collect: [ :value |
+		  value accept: aFamixUTExporter valueExporter ]
 ]

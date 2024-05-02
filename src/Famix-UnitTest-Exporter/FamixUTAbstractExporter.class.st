@@ -20,7 +20,7 @@ FamixUTAbstractExporter class >> isAbstract [
 { #category : #exporting }
 FamixUTAbstractExporter >> assertionStrategy [
 
-	^ assertionStrategy
+	^ assertionStrategy ifNil: [ assertionStrategy := FamixUTSUnitAssertionStrategy instance ]
 ]
 
 { #category : #exporting }
