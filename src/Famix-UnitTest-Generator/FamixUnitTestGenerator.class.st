@@ -109,6 +109,7 @@ FamixUnitTestGenerator >> defineRelations [
 	(assertion property: #expected)
 	*- (value property: #expectedInAssertions).
 	(act property: #arguments) -* (value property: #argumentInAct).
+	(act property: #receiver) - (value property: #receiverInAct).
 
 	(case property: #testedClass)
 	-

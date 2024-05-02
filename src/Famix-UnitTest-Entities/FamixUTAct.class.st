@@ -13,6 +13,7 @@ Execution of the system under test.
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `arguments` | `FamixUTAct` | `argumentInAct` | `FamixValueOfType` | |
+| `receiver` | `FamixUTAct` | `receiverInAct` | `FamixValueOfType` | |
 
 
 
@@ -80,4 +81,27 @@ FamixUTAct >> methodGroup [
 	<generated>
 	<navigation: 'Method'>
 	^ MooseSpecializedGroup with: self method
+]
+
+{ #category : #accessing }
+FamixUTAct >> receiver [
+	"Relation named: #receiver type: #FamixValueOfType opposite: #receiverInAct"
+
+	<generated>
+	<FMProperty: #receiver type: #FamixValueOfType opposite: #receiverInAct>
+	^ self attributeAt: #receiver ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+FamixUTAct >> receiver: anObject [
+
+	<generated>
+	(self attributeAt: #receiver ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self receiver.
+		self attributeAt: #receiver put: anObject.
+		otherSide receiverInAct: nil ]
+	ifNotNil: [ 
+		self attributeAt: #receiver put: anObject.
+		anObject receiverInAct: self ]
 ]

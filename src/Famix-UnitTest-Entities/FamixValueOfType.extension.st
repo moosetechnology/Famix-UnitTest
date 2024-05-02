@@ -51,3 +51,28 @@ FamixValueOfType >> fixtures: anObject [
 	<generated>
 	self fixtures value: anObject
 ]
+
+{ #category : #'*Famix-UnitTest-Entities-accessing' }
+FamixValueOfType >> receiverInAct [
+	"Relation named: #receiverInAct type: #FamixUTAct opposite: #receiver"
+
+	<generated>
+	<derived>
+	<FMProperty: #receiverInAct type: #FamixUTAct opposite: #receiver>
+	<package: #'Famix-UnitTest-Entities'>
+	^ self attributeAt: #receiverInAct ifAbsent: [ nil ]
+]
+
+{ #category : #'*Famix-UnitTest-Entities-accessing' }
+FamixValueOfType >> receiverInAct: anObject [
+
+	<generated>
+	(self attributeAt: #receiverInAct ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self receiverInAct.
+		self attributeAt: #receiverInAct put: anObject.
+		otherSide receiver: nil ]
+	ifNotNil: [ 
+		self attributeAt: #receiverInAct put: anObject.
+		anObject receiver: self ]
+]
