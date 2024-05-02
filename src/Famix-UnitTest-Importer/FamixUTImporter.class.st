@@ -19,6 +19,7 @@ FamixUTImporter >> fromOpenTelemetrySpans: spans [
 			spansByClass value do: [ :span |
 				case addMethod: (self
 						 testMethod: span origin
+						 receiver: span receiver
 						 arguments: span arguments
 						 expected: span result) ] ].
 	^ model
@@ -43,14 +44,15 @@ FamixUTImporter >> model: aFamixUTModel [
 ]
 
 { #category : #tests }
-FamixUTImporter >> testMethod: aFamixTMethod arguments: arguments expected: expected [
+FamixUTImporter >> testMethod: aFamixTMethod receiver: receiver arguments: arguments expected: expected [
 	"Build a unit test for a method using the given arguments and expected result."
 
 	| method setUp |
 	method := self model newMethod
 		          testedMethod: aFamixTMethod;
 		          name: (self testMethodNameFor: aFamixTMethod).
-	setUp := (expected isNotNil or: [ arguments isNotEmpty ]) ifTrue: [
+	setUp := (receiver isNotNil or: [
+		          expected isNotNil or: [ arguments isNotEmpty ] ]) ifTrue: [
 		         model newSetUp method: method ].
 	expected ifNotNil: [
 		setUp addValue: expected.
@@ -61,6 +63,9 @@ FamixUTImporter >> testMethod: aFamixTMethod arguments: arguments expected: expe
 	model newAct
 		method: method;
 		arguments: arguments.
+	receiver ifNotNil: [
+		setUp addValue: receiver.
+		method act receiver: receiver ].
 	^ method
 ]
 
