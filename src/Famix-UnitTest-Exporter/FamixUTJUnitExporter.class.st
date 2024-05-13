@@ -58,6 +58,50 @@ FamixUTJUnitExporter >> currentCompilationUnit [
 ]
 
 { #category : #exporting }
+FamixUTJUnitExporter >> enableReflectionFor: aFamixJavaAttribute [
+	"Give access to the given attribute using reflection.
+	An attribute of the test class will hold the Field object."
+
+	| constructor fieldVarName |
+	fieldVarName := aFamixJavaAttribute name , 'Field'.
+	currentClass addDeclaration: (model newVarDeclStatement
+			 type: (model newClassTypeExpression typeName:
+						  (model newTypeName name: 'Field'));
+			 addModifier: (model newModifier token: 'private');
+			 addDeclarator: (model newVariableDeclarator variable:
+						  (model newVariableExpression name: fieldVarName));
+			 yourself).
+
+	"Ensure a constructor exists for the test class"
+	constructor := self ensureClassConstructorForReflection.
+
+	"Get the Field using reflection and make it accessible"
+	constructor statementBlock
+		addStatement: (model newExpressionStatement expression:
+					 (model newAssignmentExpression
+						  variable: (model newVariableExpression name: fieldVarName);
+						  operator: '=';
+						  expression: (model newMethodInvocation
+								   receiver: (model newClassProperty
+										    type:
+											    (model newIdentifier name:
+													     aFamixJavaAttribute parentType name);
+										    fieldName: 'class');
+								   name: 'getDeclaredField';
+								   addArgument:
+								   (model newStringLiteral primitiveValue:
+									    aFamixJavaAttribute name);
+								   yourself)));
+		addStatement:
+			(model newExpressionStatement expression:
+				 (model newMethodInvocation
+					  receiver: (model newVariableExpression name: fieldVarName);
+					  name: 'setAccessible';
+					  addArgument: (model newBooleanLiteral primitiveValue: 'true');
+					  yourself))
+]
+
+{ #category : #exporting }
 FamixUTJUnitExporter >> ensureClassConstructorForReflection [
 	"To enable attribute reflection in Java, we need to get the Field and make it accessible"
 
