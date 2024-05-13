@@ -3,7 +3,8 @@ Class {
 	#superclass : #FamixUTAbstractExporter,
 	#instVars : [
 		'currentCompilationUnit',
-		'currentClass'
+		'currentClass',
+		'constructorDict'
 	],
 	#category : #'Famix-UnitTest-Exporter-Exporters'
 }
@@ -27,16 +28,55 @@ FamixUTJUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
 	assertionStrategy := aFamixUTAssertionStrategy
 ]
 
+{ #category : #exporting }
+FamixUTJUnitExporter >> constructorDict [
+
+	^ constructorDict ifNil: [ constructorDict := IdentityDictionary new ]
+]
+
 { #category : #accessing }
 FamixUTJUnitExporter >> currentClass [
 
 	^ currentClass
 ]
 
+{ #category : #'accessing - properties' }
+FamixUTJUnitExporter >> currentClassHasAutowiredProperty [
+	"add as moose cached property"
+
+	^ currentClass attributeAt: #hasAutowiredProperty ifAbsentPut: [
+		  currentClass declarations anySatisfy: [ :declaration |
+			  (declaration isKindOf: FASTJavaVarDeclStatement) and: [
+				  declaration modifiers anySatisfy: [ :modifier |
+					  modifier name = 'Autowired' ] ] ] ]
+]
+
 { #category : #accessing }
 FamixUTJUnitExporter >> currentCompilationUnit [
 
 	^ currentCompilationUnit
+]
+
+{ #category : #exporting }
+FamixUTJUnitExporter >> ensureClassConstructorForReflection [
+	"To enable attribute reflection in Java, we need to get the Field and make it accessible"
+
+	^ self constructorDict
+		  at: currentClass
+		  ifAbsentPut: [ "add import for Field type"
+			  currentCompilationUnit addImportDeclaration:
+				  (model newImportDeclaration qualifiedName:
+					   (model newQualifiedName name: 'java.lang.reflect.Field')).
+			  "add constructor"
+			  currentClass addDeclaration: (model newMethodEntity
+					   name: currentClass name;
+					   addModifier: (model newModifier token: 'public');
+					   throws: {
+							   (model newClassTypeExpression typeName:
+									    (model newTypeName name: 'NoSuchFieldException')).
+							   (model newClassTypeExpression typeName:
+									    (model newTypeName name: 'SecurityException')) };
+					   statementBlock: model newStatementBlock) ]
 ]
 
 { #category : #exporting }
@@ -57,19 +97,38 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 
 { #category : #exporting }
 FamixUTJUnitExporter >> exportCase: aFamixUTCase [
+	"Returns a public test class."
 
 	(currentClass := self model newClassDeclaration)
 		name: aFamixUTCase name;
 		addModifier: (model newModifier token: 'public');
 		addComment: self makeTestCaseComment;
 		addDeclaration: (self makeTestCaseReceiver: aFamixUTCase).
+
+	caseSuperclass ifNotNil: [ "inherit from configured superclass"
+		currentClass superclass:
+			(caseSuperclass asFASTJavaTypeExpressionOn: valueExporter) ].
+
 	aFamixUTCase methods do: [ :method |
 		currentClass addDeclaration: (self exportMethod: method) ].
+
+	"Add 'autowire' method to add properties to the receiver."
+	self currentClassHasAutowiredProperty ifTrue: [
+		self makeTestCaseAutowire: aFamixUTCase ].
+
+	"Suppress some warnings for now..."
+	currentClass addModifier: (model newAnnotation
+			 name: 'SuppressWarnings';
+			 elements: { (model newArrayAnnotationElement values: {
+							  (model newStringLiteral primitiveValue: 'rawtypes').
+							  (model newStringLiteral primitiveValue: 'unchecked') }) }).
+
 	^ currentClass
 ]
 
 { #category : #exporting }
-FamixUTJUnitExporter >> exportCaseFile: aFamixUTCase [
+FamixUTJUnitExporter >> exportCaseCompilationUnit: aFamixUTCase [
+	"Export imports after the class because new dependencies can be added during the process."
 
 	currentCompilationUnit := self model newCompilationUnit.
 	^ currentCompilationUnit
@@ -214,6 +273,64 @@ FamixUTJUnitExporter >> makeJUnitImports [
 		  (model newImportDeclaration qualifiedName:
 			   (model newQualifiedName name:
 				    package , '.' , self nameOfBeforeEachAnnotation)) }
+]
+
+{ #category : #exporting }
+FamixUTJUnitExporter >> makeTestCaseAutowire: aFamixUTCase [
+	"UseCases are not autowireable, but the services are. To really test the UseCase methods,
+	we autowire the services and inject them into the instance with a setter in a setup method."
+
+	| testedClass ucName autowireMethod usesReflection |
+	testedClass := aFamixUTCase testedClass.
+	ucName := testedClass name uncapitalized.
+	autowireMethod := model newMethodEntity.
+	usesReflection := false.
+	autowireMethod
+		name: 'autowire';
+		type: model newVoidTypeExpression;
+		modifiers: {
+				(model newAnnotation name: 'Before').
+				(model newModifier token: 'public') };
+		statementBlock:
+			(model newStatementBlock statements: (currentClass declarations
+						  select: [ :declaration |
+							  (declaration isKindOf: FASTJavaVarDeclStatement) and: [
+									  declaration declarators first variable name ~= ucName ] ]
+						  thenCollect: [ :declaration |
+							  | serviceName attribute |
+							  serviceName := declaration declarators first variable name.
+							  attribute := testedClass attributes detect: [ :a |
+									               a name = serviceName ].
+							  (testedClass findSetterOf: attribute)
+								  ifNotNil: [ :setter | "use setter: uc.setService(service);"
+									  model newExpressionStatement expression:
+											  (model newMethodInvocation
+												   receiver: (model newVariableExpression name: ucName);
+												   name: setter name;
+												   addArgument:
+													   (model newVariableExpression name: serviceName);
+												   famixMethod: setter) ]
+								  ifNil: [ "use reflection"
+									  usesReflection ifFalse: [
+										  usesReflection := true.
+										  autowireMethod throws: {
+												  (model newClassTypeExpression typeName:
+													   (model newTypeName name: 'IllegalArgumentException')).
+												  (model newClassTypeExpression typeName:
+													   (model newTypeName name: 'IllegalAccessException')) } ].
+									  self enableReflectionFor: attribute.
+									  model newExpressionStatement expression:
+										  (model newMethodInvocation
+											   receiver:
+												   (model newVariableExpression name:
+														    serviceName , 'Field');
+											   name: 'set';
+											   addArgument: (model newVariableExpression name: ucName);
+											   addArgument:
+												   (model newVariableExpression name: serviceName);
+											   yourself) ] ])).
+	currentClass declarations:
+		{ autowireMethod } , currentClass declarations
 ]
 
 { #category : #ast }
