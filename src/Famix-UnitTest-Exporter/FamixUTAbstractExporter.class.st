@@ -41,7 +41,7 @@ FamixUTAbstractExporter >> caseSuperclass: aClassName [
 FamixUTAbstractExporter >> export: aFamixUTModel [
 
 	(aFamixUTModel allWithType: FamixUTCase) do: [ :case |
-		self exportCaseFile: case ].
+		self exportCaseCompilationUnit: case ].
 	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite |
 		self exportSuite: suite ].
 	self valueExporter makeHelper.
@@ -63,6 +63,7 @@ FamixUTAbstractExporter >> exportAssertion: aFamixUTAssertion [
 
 { #category : #exporting }
 FamixUTAbstractExporter >> exportCase: aFamixUTCase [
+	"Returns the AST of the test class represented by the given Case entity."
 
 	| case |
 	(case := self model newClassDeclaration)
@@ -74,7 +75,7 @@ FamixUTAbstractExporter >> exportCase: aFamixUTCase [
 ]
 
 { #category : #exporting }
-FamixUTAbstractExporter >> exportCaseFile: aFamixUTCase [
+FamixUTAbstractExporter >> exportCaseCompilationUnit: aFamixUTCase [
 
 	self subclassResponsibility
 ]
