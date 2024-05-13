@@ -6,7 +6,8 @@ Class {
 		'model',
 		'statementBlock',
 		'assertionStrategy',
-		'methodSetUpStrategy'
+		'methodSetUpStrategy',
+		'caseSuperclass'
 	],
 	#category : #'Famix-UnitTest-Exporter-Exporters'
 }
@@ -21,6 +22,19 @@ FamixUTAbstractExporter class >> isAbstract [
 FamixUTAbstractExporter >> assertionStrategy [
 
 	^ assertionStrategy ifNil: [ assertionStrategy := FamixUTSUnitAssertionStrategy instance ]
+]
+
+{ #category : #accessing }
+FamixUTAbstractExporter >> caseSuperclass [
+
+	^ caseSuperclass
+]
+
+{ #category : #accessing }
+FamixUTAbstractExporter >> caseSuperclass: aClassName [
+	"Call `initializeWith:` to find the corresponding Famix Class entity."
+
+	caseSuperclass := aClassName
 ]
 
 { #category : #exporting }
@@ -97,6 +111,14 @@ FamixUTAbstractExporter >> exportMethodTearDown: aFamixUTTearDown [
 FamixUTAbstractExporter >> exportSuite: aFamixUTSuite [
 
 	self subclassResponsibility
+]
+
+{ #category : #initialization }
+FamixUTAbstractExporter >> initializeWith: aFamixEntityFinder [
+	"Use the finder to resolve the case superclass name to the corresponding Famix class."
+
+	caseSuperclass ifNotNil: [
+		caseSuperclass := aFamixEntityFinder findTypeNamed: caseSuperclass ]
 ]
 
 { #category : #ast }
