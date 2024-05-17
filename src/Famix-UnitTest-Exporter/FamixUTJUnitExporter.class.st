@@ -186,12 +186,24 @@ FamixUTJUnitExporter >> exportCaseCompilationUnit: aFamixUTCase [
 FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
 
 	| imports |
-	imports := valueExporter builder makeImportDeclarations: aFamixUTCase.
-	imports add:
-		(valueExporter builder makeImportDeclaration:
-			 aFamixUTCase testedClass).
-	imports addAll: self makeJUnitImports.
-	imports addAll: (self assertionStrategy dependencyImportsOn: self).
+	(imports := valueExporter builder makeImportDeclarations:
+			            aFamixUTCase)
+		add:
+			(valueExporter builder makeImportDeclaration:
+					 aFamixUTCase testedClass);
+		addAll: self makeJUnitImports;
+		addAll: (self assertionStrategy dependencyImportsOn: self);
+		addAll: (self methodSetUpStrategy dependencyImportsOn: self).
+
+	caseSuperclass ifNotNil: [ "import configured superclass"
+		imports add:
+			(valueExporter builder makeImportDeclaration: caseSuperclass) ].
+
+	self flag: #TODO. "exportCaseImports: after exportCase: then add the autowired check"
+	"self currentClassHasAutowiredProperty ifTrue: ["
+		imports add: (model newImportDeclaration qualifiedName:
+				 (model newQualifiedName name:
+					  'org.springframework.beans.factory.annotation.Autowired')) "]".
 	^ imports
 ]
 
