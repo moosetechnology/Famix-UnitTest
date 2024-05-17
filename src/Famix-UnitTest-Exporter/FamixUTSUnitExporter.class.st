@@ -20,6 +20,17 @@ FamixUTSUnitExporter >> addNewCommentForTestClass: aClass basedOn: baseClass [
 ]
 
 { #category : #exporting }
+FamixUTSUnitExporter >> export: aFamixUTModel [
+
+	(aFamixUTModel allWithType: FamixUTCase) do: [ :case |
+		self exportCaseFile: case ].
+	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite |
+		self exportSuite: suite ].
+	self valueExporter makeHelper.
+	^ self model
+]
+
+{ #category : #exporting }
 FamixUTSUnitExporter >> exportAct: aFamixUTAct [
 	"Execute the method under test"
 
@@ -34,6 +45,14 @@ FamixUTSUnitExporter >> exportAct: aFamixUTAct [
 { #category : #exporting }
 FamixUTSUnitExporter >> exportAssertion: aFamixUTAssertion [
 
+	aFamixUTAssertion expected resultInSpan tags
+		at: 'error'
+		ifPresent: [
+			| actualBlock block |
+			actualBlock := self statementBlock children last.
+			block := RBBlockNode body:
+				         (RBSequenceNode statements: { actualBlock value }).
+			actualBlock replaceNode: actualBlock value withNode: block ].
 	^ self statementBlock addNode:
 		  (self assertionStrategy export: aFamixUTAssertion on: self)
 ]
@@ -41,11 +60,11 @@ FamixUTSUnitExporter >> exportAssertion: aFamixUTAssertion [
 { #category : #exporting }
 FamixUTSUnitExporter >> exportCase: aFamixUTCase [
 
-	| currentClass systemEnvironment |
-	"créer package ou vérifier qu'il existe (testClassFor: inputClass)"
+	| currentClass systemEnvironment name |
+	name := aFamixUTCase testedClass name , 'ModestTest'.
 	systemEnvironment := ClySystemEnvironment currentImage.
 	systemEnvironment
-		classNamed: aFamixUTCase name
+		classNamed: name
 		ifPresent: [ :class | currentClass := class ]
 		ifAbsent: [
 			systemEnvironment ensureExistAndRegisterPackageNamed:
@@ -53,7 +72,7 @@ FamixUTSUnitExporter >> exportCase: aFamixUTCase [
 
 			currentClass := self class classInstaller make: [ :aBuilder |
 				                aBuilder
-					                name: aFamixUTCase name;
+					                name: name;
 					                superclass: TestCase;
 					                package:
 						                (self newTestClassCategoryFor:
@@ -91,7 +110,7 @@ FamixUTSUnitExporter >> exportMethod: aFamixUTMethod [
 	aFamixUTMethod tearDown ifNotNil: [ :tearDown |
 		self exportMethodTearDown: tearDown ].
 
-	^ self makeTestMethod: aFamixUTMethod.
+	^ self makeTestMethod: aFamixUTMethod
 ]
 
 { #category : #exporting }
