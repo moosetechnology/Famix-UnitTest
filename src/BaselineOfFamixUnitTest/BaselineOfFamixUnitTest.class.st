@@ -24,7 +24,7 @@ BaselineOfFamixUnitTest >> dependencies: spec [
 				loads: 'exporter' ];
 		baseline: 'Carrefour'
 		with: [
-		spec repository: 'github://moosetechnology/Carrefour:v4/src' ]
+		spec repository: 'github://moosetechnology/Carrefour:v5/src' ]
 ]
 
 { #category : #baselines }
