@@ -8,7 +8,7 @@ Class {
 	#category : #'Famix-UnitTest-Importer'
 }
 
-{ #category : #'instance creation' }
+{ #category : #importing }
 FamixUTImporter >> fromOpenTelemetrySpans: spans [
 	"Use a collection of FamixOTelSpan from the Famix-OpenTelemetry project as test oracle."
 
@@ -22,7 +22,7 @@ FamixUTImporter >> fromOpenTelemetrySpans: spans [
 						 receiver: span receiver
 						 arguments: span arguments
 						 expected: span result) ] ].
-	^ model
+	^ self model
 ]
 
 { #category : #initialization }
@@ -31,19 +31,19 @@ FamixUTImporter >> initialize [
 	nameDict := Dictionary new
 ]
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 FamixUTImporter >> model [
 
 	^ model ifNil: [ model := FamixUTModel new ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 FamixUTImporter >> model: aFamixUTModel [
 
 	model := aFamixUTModel
 ]
 
-{ #category : #tests }
+{ #category : #importing }
 FamixUTImporter >> testMethod: aFamixTMethod receiver: receiver arguments: arguments expected: expected [
 	"Build a unit test for a method using the given arguments and expected result."
 
@@ -69,7 +69,7 @@ FamixUTImporter >> testMethod: aFamixTMethod receiver: receiver arguments: argum
 	^ method
 ]
 
-{ #category : #tests }
+{ #category : #importing }
 FamixUTImporter >> testMethodNameFor: aFamixTMethod [
 	"Give a unique name for a new test method."
 

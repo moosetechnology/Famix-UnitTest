@@ -22,9 +22,9 @@ FamixUTAssertJJavaAssertionStrategy >> dependencyImportsOn: aFamixUTExporter [
 
 { #category : #exporting }
 FamixUTAssertJJavaAssertionStrategy >> export: aFamixUTAssertion on: exporter [
-	"Make an assertion using AssertJ: assertThat(actual).isEqualTo(expected)"
+	"Make an assertion using AssertJ: assertThat(actual).{options}.isEqualTo(expected)"
 
-	| model expected assertion containsObject |
+	| model expected assertion |
 	model := exporter model.
 	expected := aFamixUTAssertion expected.
 	assertion := model newMethodInvocation
@@ -32,25 +32,27 @@ FamixUTAssertJJavaAssertionStrategy >> export: aFamixUTAssertion on: exporter [
 			             (model newVariableExpression name: 'actual');
 		             name: 'assertThat'.
 	(self usingRecursiveComparison and: [
-		 containsObject := expected containsObject ]) ifTrue: [
-		assertion := model newMethodInvocation
-			             receiver: assertion;
-			             name: 'usingRecursiveComparison' ].
-	(self ignoringCollectionOrder and: [ expected containsCollection ])
+		 expected isOfObject or: [
+			 expected isOfCollection or: [ expected isOfDictionary ] ] ])
 		ifTrue: [
 			assertion := model newMethodInvocation
 				             receiver: assertion;
-				             name: 'ignoringCollectionOrder' ].
-	(self ignoringFieldsOfTypes isNotEmpty and: [
-		 containsObject ifNil: [ expected containsObject ] ]) ifTrue: [
-		assertion := model newMethodInvocation
-			             receiver: assertion;
-			             name: 'ignoringFieldsOfTypes';
-			             arguments:
-				             (ignoringFieldsOfTypes collect: [ :typeName |
-						              model newClassProperty
-							              type: (model newIdentifier name: typeName);
-							              fieldName: 'class' ]) ].
+				             name: 'usingRecursiveComparison'.
+			(self ignoringCollectionOrder and: [ expected containsCollection ])
+				ifTrue: [
+					assertion := model newMethodInvocation
+						             receiver: assertion;
+						             name: 'ignoringCollectionOrder' ].
+			(self ignoringFieldsOfTypes isNotEmpty and: [
+				 expected containsObject ]) ifTrue: [
+				assertion := model newMethodInvocation
+					             receiver: assertion;
+					             name: 'ignoringFieldsOfTypes';
+					             arguments:
+						             (ignoringFieldsOfTypes collect: [ :typeName |
+								              model newClassProperty
+									              type: (model newIdentifier name: typeName);
+									              fieldName: 'class' ]) ] ].
 	assertion := model newMethodInvocation
 		             receiver: assertion;
 		             addArgument:
