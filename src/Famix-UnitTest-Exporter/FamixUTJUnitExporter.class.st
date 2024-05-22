@@ -283,7 +283,7 @@ FamixUTJUnitExporter >> makeActInvocation: aFamixUTAct [
 		  receiver: (self makeActReceiver: testedMethod);
 		  name: testedMethod name;
 		  arguments: (aFamixUTAct arguments collect: [ :argument |
-					   self valueExporter makeVariableExpression: argument ]);
+					   self valueExporter makeVariableExpression: argument value ]);
 		  famixMethod: testedMethod
 ]
 
