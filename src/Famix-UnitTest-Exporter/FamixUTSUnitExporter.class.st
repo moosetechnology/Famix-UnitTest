@@ -20,6 +20,19 @@ FamixUTSUnitExporter >> addNewCommentForTestClass: aClass basedOn: baseClass [
 ]
 
 { #category : #exporting }
+FamixUTSUnitExporter >> assertionStrategy [
+
+	^ assertionStrategy ifNil: [
+		  assertionStrategy := FamixUTSUnitAssertionStrategy new ]
+]
+
+{ #category : #exporting }
+FamixUTSUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
+
+	assertionStrategy := aFamixUTAssertionStrategy
+]
+
+{ #category : #exporting }
 FamixUTSUnitExporter >> export: aFamixUTModel [
 
 	(aFamixUTModel allWithType: FamixUTCase) do: [ :case |
