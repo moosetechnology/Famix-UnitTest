@@ -26,6 +26,13 @@ FamixUTTEntityCreator >> newAct [
 ]
 
 { #category : #'entity creation' }
+FamixUTTEntityCreator >> newActArgument [
+
+	<generated>
+	^ self add: FamixUTActArgument new
+]
+
+{ #category : #'entity creation' }
 FamixUTTEntityCreator >> newAssertion [
 
 	<generated>

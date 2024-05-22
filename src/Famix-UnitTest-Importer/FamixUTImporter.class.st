@@ -59,10 +59,11 @@ FamixUTImporter >> testMethod: aFamixTMethod receiver: receiver arguments: argum
 		model newAssertion
 			method: method;
 			expected: expected ].
-	arguments do: [ :argument | setUp addValue: argument ].
+	arguments do: [ :argument | setUp addValue: argument value ].
 	model newAct
 		method: method;
-		arguments: arguments.
+		arguments: (arguments collect: [ :argument |
+					 model newActArgument value: argument value ]).
 	receiver ifNotNil: [
 		setUp addValue: receiver.
 		method act receiver: receiver ].

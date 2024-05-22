@@ -10,7 +10,8 @@ Class {
 		'setUp',
 		'tearDown',
 		'value',
-		'act'
+		'act',
+		'actArgument'
 	],
 	#category : #'Famix-UnitTest-Generator'
 }
@@ -51,6 +52,10 @@ FamixUnitTestGenerator >> defineClasses [
 	act := builder
 		       newClassNamed: #Act
 		       comment: 'Execution of the system under test.'.
+	actArgument := builder
+		               newClassNamed: #ActArgument
+		               comment:
+		               'An association between an `Act` and a `Value` argument.'.
 	assertion := builder
 		             newClassNamed: #Assertion
 		             comment:
@@ -108,7 +113,8 @@ FamixUnitTestGenerator >> defineRelations [
 	(fixture property: #values) *-* (value property: #fixtures).
 	(assertion property: #expected)
 	*- (value property: #expectedInAssertions).
-	(act property: #arguments) -* (value property: #argumentInAct).
+	(act property: #arguments) -* (actArgument property: #act).
+	(actArgument property: #value) *- (value property: #argumentInActs).
 	(act property: #receiver) - (value property: #receiverInAct).
 
 	(case property: #testedClass)

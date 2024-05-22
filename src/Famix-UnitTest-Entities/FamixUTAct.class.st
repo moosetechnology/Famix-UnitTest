@@ -12,7 +12,7 @@ Execution of the system under test.
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `arguments` | `FamixUTAct` | `argumentInAct` | `FamixValueOfType` | |
+| `arguments` | `FamixUTAct` | `act` | `FamixUTActArgument` | |
 | `receiver` | `FamixUTAct` | `receiverInAct` | `FamixValueOfType` | |
 
 
@@ -22,6 +22,7 @@ Class {
 	#name : #FamixUTAct,
 	#superclass : #FamixUTEntity,
 	#instVars : [
+		'#arguments => FMMany type: #FamixUTActArgument opposite: #act',
 		'#method => FMOne type: #FamixUTMethod opposite: #act'
 	],
 	#category : #'Famix-UnitTest-Entities-Entities'
@@ -44,19 +45,18 @@ FamixUTAct >> addArgument: anObject [
 
 { #category : #accessing }
 FamixUTAct >> arguments [
-	"Relation named: #arguments type: #FamixValueOfType opposite: #argumentInAct"
+	"Relation named: #arguments type: #FamixUTActArgument opposite: #act"
 
 	<generated>
 	<derived>
-	<FMProperty: #arguments type: #FamixValueOfType opposite: #argumentInAct>
-	^ self attributeAt: #arguments ifAbsentPut: [ FMMultivalueLink on: self opposite: #argumentInAct: ]
+	^ arguments
 ]
 
 { #category : #accessing }
 FamixUTAct >> arguments: anObject [
 
 	<generated>
-	self arguments value: anObject
+	arguments value: anObject
 ]
 
 { #category : #accessing }
