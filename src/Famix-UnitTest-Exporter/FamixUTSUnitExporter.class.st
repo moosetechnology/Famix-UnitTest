@@ -167,7 +167,7 @@ FamixUTSUnitExporter >> makeActInvocation: aFamixUTAct [
 				   self valueExporter makeVariableExpression: receiver ])
 		  selector: testedMethod name
 		  arguments: (aFamixUTAct arguments collect: [ :argument |
-				   self valueExporter makeVariableExpression: argument ])
+				   self valueExporter makeVariableExpression: argument value ])
 ]
 
 { #category : #exporting }
@@ -207,7 +207,13 @@ FamixUTSUnitExporter >> makeTestCaseReceiver: aFamixUTCase [
 
 { #category : #ast }
 FamixUTSUnitExporter >> makeTestMethod: aFamixUTMethod [
+	"Create missing temporary variables"
 
+	statementBlock allChildren do: [ :each |
+		each isAssignment ifTrue: [
+			(statementBlock temporaries anySatisfy: [ :temporary |
+				 temporary name = each variable name ]) ifFalse: [
+				statementBlock addTemporaryNamed: each variable name ] ] ].
 	^ RBMethodNode selector: aFamixUTMethod name body: statementBlock
 ]
 
