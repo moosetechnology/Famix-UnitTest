@@ -32,7 +32,7 @@ FamixUTSUnitAssertionStrategy >> exportAssertEquals: aFamixUTAssertion on: expor
 
 	^ RBMessageNode
 		  receiver: (RBVariableNode named: 'self')
-		  selector: #assert:equals:
+		  selector: #assert:deepEquals:
 		  arguments: {
 				  (RBVariableNode named: 'actual').
 				  (exporter valueExporter makeVariableExpression:
