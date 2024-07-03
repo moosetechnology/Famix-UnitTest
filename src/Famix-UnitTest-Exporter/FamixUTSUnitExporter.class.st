@@ -136,11 +136,14 @@ FamixUTSUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
 			name := self valueExporter varNameDict
 				        at: value
 				        ifAbsentPut: [ valueExporter varNameFor: value ].
-			self statementBlock addTemporaryNamed: name.
+			"self statementBlock addTemporaryNamed: name."
 			self statementBlock addNode:
-				(RBAssignmentNode
-					 variable: (RBVariableNode named: name)
-					 value: ast) ]
+				((ast isCascade and: [ ast messages first receiver isAssignment ])
+					 ifTrue: [ ast ]
+					 ifFalse: [
+					 RBAssignmentNode
+						 variable: (RBVariableNode named: name)
+						 value: ast ]) ]
 ]
 
 { #category : #'instance creation' }
