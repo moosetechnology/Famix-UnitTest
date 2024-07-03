@@ -42,13 +42,11 @@ FamixUTJUnitExporter >> currentClass [
 
 { #category : #'accessing - properties' }
 FamixUTJUnitExporter >> currentClassHasAutowiredProperty [
-	"add as moose cached property"
 
-	^ currentClass attributeAt: #hasAutowiredProperty ifAbsentPut: [
-		  currentClass declarations anySatisfy: [ :declaration |
-			  (declaration isKindOf: FASTJavaVarDeclStatement) and: [
-				  declaration modifiers anySatisfy: [ :modifier |
-					  modifier name = 'Autowired' ] ] ] ]
+	^ currentClass declarations anySatisfy: [ :declaration |
+		  (declaration isKindOf: FASTJavaVarDeclStatement) and: [
+			  declaration modifiers anySatisfy: [ :modifier |
+				  modifier name = 'Autowired' ] ] ]
 ]
 
 { #category : #accessing }
