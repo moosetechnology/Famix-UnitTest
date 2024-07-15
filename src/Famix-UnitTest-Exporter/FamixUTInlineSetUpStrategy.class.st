@@ -18,9 +18,5 @@ FamixUTInlineSetUpStrategy >> dependencyImportsOn: aFamixUTExporter [
 FamixUTInlineSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 
 	^ aFamixUTSetUp values collect: [ :value |
-		  | newNode |
-		  newNode := aFamixUTExporter valueExporter ensureVisited: value.
-		  value isReferencedInLoop ifTrue: [
-			  newNode := newNode addParenthesisToVariable].
-		  newNode ]
+		  aFamixUTExporter valueExporter ensureVisited: value ]
 ]

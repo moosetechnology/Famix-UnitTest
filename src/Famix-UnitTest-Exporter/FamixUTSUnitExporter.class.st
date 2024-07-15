@@ -129,21 +129,26 @@ FamixUTSUnitExporter >> exportMethod: aFamixUTMethod [
 { #category : #exporting }
 FamixUTSUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
 
-	(self methodSetUpStrategy export: aFamixUTSetUp on: self)
-		with: aFamixUTSetUp values
-		do: [ :ast :value |
-			| name |
-			name := self valueExporter varNameDict
-				        at: value
-				        ifAbsentPut: [ valueExporter varNameFor: value ].
-			"self statementBlock addTemporaryNamed: name."
-			self statementBlock addNode:
-				((ast isCascade and: [ ast messages first receiver isAssignment ])
-					 ifTrue: [ ast ]
-					 ifFalse: [
-					 RBAssignmentNode
-						 variable: (RBVariableNode named: name)
-						 value: ast ]) ]
+	| nodes |
+	nodes := self methodSetUpStrategy export: aFamixUTSetUp on: self.
+	nodes := aFamixUTSetUp values with: nodes collect: [ :value :node |
+		         (value isReferencedInLoop and: [
+			          node isVariable not and: [ node value isLiteralNode not ] ])
+			         ifTrue: [ node addParenthesisToVariable ]
+			         ifFalse: [ node ] ].
+	nodes with: aFamixUTSetUp values do: [ :ast :value |
+		| name |
+		name := self valueExporter varNameDict
+			        at: value
+			        ifAbsentPut: [ valueExporter varNameFor: value ].
+		"self statementBlock addTemporaryNamed: name."
+		self statementBlock addNode:
+			((ast isCascade and: [ ast messages first receiver isAssignment ])
+				 ifTrue: [ ast ]
+				 ifFalse: [
+				 RBAssignmentNode
+					 variable: (RBVariableNode named: name)
+					 value: ast ]) ]
 ]
 
 { #category : #'instance creation' }
