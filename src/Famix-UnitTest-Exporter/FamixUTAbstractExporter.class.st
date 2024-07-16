@@ -7,7 +7,8 @@ Class {
 		'statementBlock',
 		'assertionStrategy',
 		'methodSetUpStrategy',
-		'caseSuperclass'
+		'caseSuperclass',
+		'currentClass'
 	],
 	#category : #'Famix-UnitTest-Exporter-Exporters'
 }
@@ -35,6 +36,12 @@ FamixUTAbstractExporter >> caseSuperclass: aClassName [
 	"Call `initializeWith:` to find the corresponding Famix Class entity."
 
 	caseSuperclass := aClassName
+]
+
+{ #category : #accessing }
+FamixUTAbstractExporter >> currentClass [
+
+	^ currentClass
 ]
 
 { #category : #exporting }

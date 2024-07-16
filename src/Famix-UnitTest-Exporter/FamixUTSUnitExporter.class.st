@@ -73,7 +73,7 @@ FamixUTSUnitExporter >> exportAssertion: aFamixUTAssertion [
 { #category : #exporting }
 FamixUTSUnitExporter >> exportCase: aFamixUTCase [
 
-	| currentClass systemEnvironment name |
+	| systemEnvironment name |
 	name := aFamixUTCase testedClass name , 'ModestTest'.
 	systemEnvironment := ClySystemEnvironment currentImage.
 	systemEnvironment
@@ -129,26 +129,21 @@ FamixUTSUnitExporter >> exportMethod: aFamixUTMethod [
 { #category : #exporting }
 FamixUTSUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
 
-	| nodes |
-	nodes := self methodSetUpStrategy export: aFamixUTSetUp on: self.
-	nodes := aFamixUTSetUp values with: nodes collect: [ :value :node |
-		         (value isReferencedInLoop and: [
-			          node isVariable not and: [ node value isLiteralNode not ] ])
-			         ifTrue: [ node addParenthesisToVariable ]
-			         ifFalse: [ node ] ].
-	nodes with: aFamixUTSetUp values do: [ :ast :value |
-		| name |
-		name := self valueExporter varNameDict
-			        at: value
-			        ifAbsentPut: [ valueExporter varNameFor: value ].
-		"self statementBlock addTemporaryNamed: name."
-		self statementBlock addNode:
-			((ast isCascade and: [ ast messages first receiver isAssignment ])
-				 ifTrue: [ ast ]
-				 ifFalse: [
-				 RBAssignmentNode
-					 variable: (RBVariableNode named: name)
-					 value: ast ]) ]
+	self flag: #TODO.
+	(self methodSetUpStrategy export: aFamixUTSetUp on: self)
+		with: aFamixUTSetUp values
+		do: [ :ast :value |
+			| name |
+			name := self valueExporter varNameDict
+				        at: value
+				        ifAbsentPut: [ valueExporter varNameFor: value ].
+			self statementBlock addNode:
+				((ast isCascade and: [ ast messages first receiver isAssignment ])
+					 ifTrue: [ ast ]
+					 ifFalse: [
+					 RBAssignmentNode
+						 variable: (RBVariableNode named: name)
+						 value: ast ]) ]
 ]
 
 { #category : #'instance creation' }
@@ -223,6 +218,14 @@ FamixUTSUnitExporter >> makeTestMethod: aFamixUTMethod [
 				 temporary name = each variable name ]) ifFalse: [
 				statementBlock addTemporaryNamed: each variable name ] ] ].
 	^ RBMethodNode selector: aFamixUTMethod name body: statementBlock
+]
+
+{ #category : #exporting }
+FamixUTSUnitExporter >> methodSetUpStrategy [
+
+	^ methodSetUpStrategy ifNil: [ "^ methodSetUpStrategy ifNil: [
+		  methodSetUpStrategy := FamixPharoUTHelperSetUpStrategy instance ]"
+		  methodSetUpStrategy := FamixPharoUTHelperSetUpStrategy instance ]
 ]
 
 { #category : #'mass units' }

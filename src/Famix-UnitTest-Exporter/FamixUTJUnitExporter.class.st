@@ -3,7 +3,6 @@ Class {
 	#superclass : #FamixUTAbstractExporter,
 	#instVars : [
 		'currentCompilationUnit',
-		'currentClass',
 		'constructorDict'
 	],
 	#category : #'Famix-UnitTest-Exporter-Exporters'
@@ -32,12 +31,6 @@ FamixUTJUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
 FamixUTJUnitExporter >> constructorDict [
 
 	^ constructorDict ifNil: [ constructorDict := IdentityDictionary new ]
-]
-
-{ #category : #accessing }
-FamixUTJUnitExporter >> currentClass [
-
-	^ currentClass
 ]
 
 { #category : #'accessing - properties' }
