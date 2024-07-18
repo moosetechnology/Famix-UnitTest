@@ -129,21 +129,21 @@ FamixUTSUnitExporter >> exportMethod: aFamixUTMethod [
 { #category : #exporting }
 FamixUTSUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
 
-	self flag: #TODO.
 	(self methodSetUpStrategy export: aFamixUTSetUp on: self)
 		with: aFamixUTSetUp values
 		do: [ :ast :value |
-			| name |
-			name := self valueExporter varNameDict
-				        at: value
-				        ifAbsentPut: [ valueExporter varNameFor: value ].
+			| name node |
+			node := ast.
+			((ast isMessage and: [ ast receiver name = #self ]) or: [
+				 ast isLiteralNode ]) ifFalse: [
+				self flag: #TODO. "prevent this from happening"
+				statementBlock statements: statementBlock statements allButLast.
+				node := ast arguments second ].
+			name := self valueExporter varNameFor: value.
 			self statementBlock addNode:
-				((ast isCascade and: [ ast messages first receiver isAssignment ])
-					 ifTrue: [ ast ]
-					 ifFalse: [
-					 RBAssignmentNode
-						 variable: (RBVariableNode named: name)
-						 value: ast ]) ]
+				(RBAssignmentNode
+					 variable: (RBVariableNode named: name)
+					 value: node) ]
 ]
 
 { #category : #'instance creation' }
