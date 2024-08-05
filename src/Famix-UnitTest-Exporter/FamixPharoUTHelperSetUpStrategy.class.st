@@ -53,20 +53,24 @@ FamixPharoUTHelperSetUpStrategy >> makeHelperMethodFor: value on: aFamixUTExport
 	oldStatementBlock := valueExporter statementBlock.
 	method := RBMethodNode new body:
 		          (newStatementBlock := RBSequenceNode new).
+	newStatementBlock addNode: (RBAssignmentNode
+			 variable: (RBVariableNode named: 'vars')
+			 value: (RBMessageNode
+					  receiver: (RBVariableNode named: #Dictionary)
+					  selector: #new)).
+
+
 	node := (valueExporter statementBlock: newStatementBlock)
 		        ensureVisited: value.
-	newStatementBlock addNode:
-		(((node isMessage and: [ node receiver isAssignment ]) or: [
-			  node isCascade and: [ node messages first receiver isAssignment ] ])
-			 ifTrue: [ node ]
-			 ifFalse: [
-				 RBAssignmentNode new
-					 value: node;
-					 variable: (RBVariableNode named:
-								  (aFamixUTExporter valueExporter varNameFor: value)) ]).
 
-	newStatementBlock addNode:
-		(RBReturnNode value: (valueExporter makeVariableExpression: value)).
+
+	"newStatementBlock addNode:
+		(RBReturnNode value: (valueExporter makeVariableExpression: value))."
+	newStatementBlock addNode: (RBReturnNode value: (RBMessageNode
+				  receiver: (RBVariableNode named: 'vars')
+				  selector: #at:
+				  arguments:
+				  { (RBLiteralNode value: (valueExporter varNameFor: value)) })).
 	"Add necessary temporary variables"
 	newStatementBlock allChildren do: [ :each |
 		each isAssignment ifTrue: [
@@ -74,5 +78,6 @@ FamixPharoUTHelperSetUpStrategy >> makeHelperMethodFor: value on: aFamixUTExport
 				 temporary name = each variable name ]) ifFalse: [
 				newStatementBlock addTemporaryNamed: each variable name ] ] ].
 	valueExporter statementBlock: oldStatementBlock.
+
 	^ method
 ]
