@@ -1,23 +1,6 @@
 Extension { #name : #FamixValueOfType }
 
 { #category : #'*Famix-UnitTest-Entities-accessing' }
-FamixValueOfType >> argumentInAct [
-	"Relation named: #argumentInAct type: #FamixUTAct opposite: #arguments"
-
-	<generated>
-	<FMProperty: #argumentInAct type: #FamixUTAct opposite: #arguments>
-	<package: #'Famix-UnitTest-Entities'>
-	^ self attributeAt: #argumentInAct ifAbsent: [ nil ]
-]
-
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
-FamixValueOfType >> argumentInAct: anObject [
-
-	<generated>
-	self attributeAt: #argumentInAct put: (FMMultivalueLink on: self update: #arguments from: self argumentInAct to: anObject).
-]
-
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
 FamixValueOfType >> argumentInActs [
 	"Relation named: #argumentInActs type: #FamixUTActArgument opposite: #value"
 
