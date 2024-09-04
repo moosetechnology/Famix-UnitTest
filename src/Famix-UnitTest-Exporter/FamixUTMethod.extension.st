@@ -1,6 +1,6 @@
-Extension { #name : #FamixUTMethod }
+Extension { #name : 'FamixUTMethod' }
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixUTMethod >> allTypesOn: aCollection [
 
 	act ifNotNil: [ act allTypesOn: aCollection ].

@@ -1,22 +1,24 @@
 Class {
-	#name : #FamixUTJUnit5Exporter,
-	#superclass : #FamixUTJUnitExporter,
-	#category : #'Famix-UnitTest-Exporter-Exporters'
+	#name : 'FamixUTJUnit5Exporter',
+	#superclass : 'FamixUTJUnitExporter',
+	#category : 'Famix-UnitTest-Exporter-Exporters',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Exporters'
 }
 
-{ #category : #naming }
+{ #category : 'naming' }
 FamixUTJUnit5Exporter >> nameOfAssertionsClass [
 
 	^ 'Assertions'
 ]
 
-{ #category : #naming }
+{ #category : 'naming' }
 FamixUTJUnit5Exporter >> nameOfBeforeEachAnnotation [
 
 	^ 'BeforeEach'
 ]
 
-{ #category : #naming }
+{ #category : 'naming' }
 FamixUTJUnit5Exporter >> nameOfJUnitPackage [
 
 	^ 'org.junit.jupiter.api'

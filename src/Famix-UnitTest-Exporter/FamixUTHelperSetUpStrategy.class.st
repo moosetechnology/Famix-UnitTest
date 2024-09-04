@@ -2,12 +2,14 @@
 I export Arrange elements as methods in an external helper class.
 "
 Class {
-	#name : #FamixUTHelperSetUpStrategy,
-	#superclass : #FamixUTAbstractSetUpStrategy,
-	#category : #'Famix-UnitTest-Exporter-Strategies'
+	#name : 'FamixUTHelperSetUpStrategy',
+	#superclass : 'FamixUTAbstractSetUpStrategy',
+	#category : 'Famix-UnitTest-Exporter-Strategies',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Strategies'
 }
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTHelperSetUpStrategy >> ensureHelperClassOn: aFamixUTExporter [
 	"Get or create the helper class for the exporter's current class."
 
@@ -29,7 +31,7 @@ FamixUTHelperSetUpStrategy >> ensureHelperClassOn: aFamixUTExporter [
 			  self makeHelperClassNamed: className on: aFamixUTExporter ]
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 
 	| model valueExporter helperClass comment |
@@ -74,7 +76,7 @@ FamixUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 						 yourself) ] ]
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTHelperSetUpStrategy >> makeHelperClassNamed: className on: aFamixUTExporter [
 	"Make a compilation unit containing the helper class and return the latter."
 
@@ -91,7 +93,7 @@ FamixUTHelperSetUpStrategy >> makeHelperClassNamed: className on: aFamixUTExport
 		  addClassDeclaration: (model newClassDeclaration name: className)
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTHelperSetUpStrategy >> makeHelperMethodFor: value on: aFamixUTExporter [
 	"Export the value inside the helper method, then restore the previous context."
 

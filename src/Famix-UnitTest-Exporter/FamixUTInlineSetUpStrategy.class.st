@@ -2,19 +2,21 @@
 I export Arrange elements inline, meaning a method setup or teardown will be entirely written inside the test method.
 "
 Class {
-	#name : #FamixUTInlineSetUpStrategy,
-	#superclass : #FamixUTAbstractSetUpStrategy,
-	#category : #'Famix-UnitTest-Exporter-Strategies'
+	#name : 'FamixUTInlineSetUpStrategy',
+	#superclass : 'FamixUTAbstractSetUpStrategy',
+	#category : 'Famix-UnitTest-Exporter-Strategies',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Strategies'
 }
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTInlineSetUpStrategy >> dependencyImportsOn: aFamixUTExporter [
 
 	^ aFamixUTExporter valueExporter objectExportStrategy
 		  dependencyImportsOn: aFamixUTExporter model
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTInlineSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 
 	^ aFamixUTSetUp values collect: [ :value |

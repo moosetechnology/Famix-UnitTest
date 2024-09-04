@@ -1,6 +1,6 @@
-Extension { #name : #FamixValueOfType }
+Extension { #name : 'FamixValueOfType' }
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixValueOfType >> allTypes [
 
 	| types |
@@ -10,13 +10,13 @@ FamixValueOfType >> allTypes [
 	^ types
 ]
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixValueOfType >> allTypesOn: aCollection [
 
 	self allTypesOn: aCollection seen: IdentitySet new
 ]
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixValueOfType >> allTypesOn: aCollection seen: seen [
 
 	(seen includes: self) ifTrue: [ ^ nil ].

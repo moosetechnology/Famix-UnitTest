@@ -1,19 +1,21 @@
 Class {
-	#name : #FamixUTAbstractStrategy,
-	#superclass : #Object,
+	#name : 'FamixUTAbstractStrategy',
+	#superclass : 'Object',
 	#classInstVars : [
 		'instance'
 	],
-	#category : #'Famix-UnitTest-Exporter-Strategies'
+	#category : 'Famix-UnitTest-Exporter-Strategies',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Strategies'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAbstractStrategy class >> default [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAbstractStrategy class >> instance [
 
 	self isAbstract ifTrue: [
@@ -21,20 +23,20 @@ FamixUTAbstractStrategy class >> instance [
 	^ instance ifNil: [ instance := self new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAbstractStrategy class >> isAbstract [
 
 	^ self == FamixUTAbstractStrategy
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTAbstractStrategy >> dependencyImportsOn: aFamixUTExporter [
 	"Generate the dependency imports required by this strategy."
 
 	^ {  }
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTAbstractStrategy >> export: aFamixUTEntity on: aFamixUTExporter [
 
 	self subclassResponsibility

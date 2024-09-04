@@ -1,6 +1,6 @@
-Extension { #name : #FamixValueUnknownType }
+Extension { #name : 'FamixValueUnknownType' }
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixValueUnknownType >> mooseNameWithDots [
 
 	^ name

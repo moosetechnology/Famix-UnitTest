@@ -1,10 +1,12 @@
 Class {
-	#name : #FamixUTJUnitJavaAssertionStrategy,
-	#superclass : #FamixUTAbstractJavaAssertionStrategy,
-	#category : #'Famix-UnitTest-Exporter-Strategies'
+	#name : 'FamixUTJUnitJavaAssertionStrategy',
+	#superclass : 'FamixUTAbstractJavaAssertionStrategy',
+	#category : 'Famix-UnitTest-Exporter-Strategies',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Strategies'
 }
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitJavaAssertionStrategy >> dependencyImportsOn: aFamixUTExporter [
 
 	| model |
@@ -17,7 +19,7 @@ FamixUTJUnitJavaAssertionStrategy >> dependencyImportsOn: aFamixUTExporter [
 		   isOnDemand: true) }
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitJavaAssertionStrategy >> export: aFamixUTAssertion on: exporter [
 
 	| model actual expected expectedType |

@@ -1,39 +1,41 @@
 Class {
-	#name : #FamixUTJUnitExporter,
-	#superclass : #FamixUTAbstractExporter,
+	#name : 'FamixUTJUnitExporter',
+	#superclass : 'FamixUTAbstractExporter',
 	#instVars : [
 		'currentCompilationUnit',
 		'constructorDict'
 	],
-	#category : #'Famix-UnitTest-Exporter-Exporters'
+	#category : 'Famix-UnitTest-Exporter-Exporters',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Exporters'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixUTJUnitExporter class >> isAbstract [
 
 	^ self == FamixUTJUnitExporter
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> assertionStrategy [
 
 	^ assertionStrategy ifNil: [
 		  assertionStrategy := FamixUTAbstractJavaAssertionStrategy default ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTJUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
 
 	assertionStrategy := aFamixUTAssertionStrategy
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> constructorDict [
 
 	^ constructorDict ifNil: [ constructorDict := IdentityDictionary new ]
 ]
 
-{ #category : #'accessing - properties' }
+{ #category : 'accessing - properties' }
 FamixUTJUnitExporter >> currentClassHasAutowiredProperty [
 
 	^ currentClass declarations anySatisfy: [ :declaration |
@@ -42,13 +44,13 @@ FamixUTJUnitExporter >> currentClassHasAutowiredProperty [
 				  modifier name = 'Autowired' ] ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTJUnitExporter >> currentCompilationUnit [
 
 	^ currentCompilationUnit
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> enableReflectionFor: aFamixJavaAttribute [
 	"Give access to the given attribute using reflection.
 	An attribute of the test class will hold the Field object."
@@ -92,7 +94,7 @@ FamixUTJUnitExporter >> enableReflectionFor: aFamixJavaAttribute [
 					  yourself))
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> ensureClassConstructorForReflection [
 	"To enable attribute reflection in Java, we need to get the Field and make it accessible"
 
@@ -114,7 +116,7 @@ FamixUTJUnitExporter >> ensureClassConstructorForReflection [
 					   statementBlock: model newStatementBlock) ]
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 	"Execute the method under test"
 
@@ -130,7 +132,7 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 				   varDecl ])
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 	"Returns a public test class."
 
@@ -161,7 +163,7 @@ FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 	^ currentClass
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> exportCaseCompilationUnit: aFamixUTCase [
 	"Export imports after the class because new dependencies can be added during the process."
 
@@ -173,7 +175,7 @@ FamixUTJUnitExporter >> exportCaseCompilationUnit: aFamixUTCase [
 		  yourself
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
 
 	| imports |
@@ -198,7 +200,7 @@ FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
 	^ imports
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> exportCasePackage: aFamixUTCase [
 
 	^ self model newPackageDeclaration qualifiedName:
@@ -206,19 +208,19 @@ FamixUTJUnitExporter >> exportCasePackage: aFamixUTCase [
 			   aFamixUTCase testedClass typeContainer mooseNameWithDots)
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> exportMethodTearDown: aFamixUTTearDown [
 
 	self shouldBeImplemented
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> exportSetUp: aFamixUTSetUp [
 
 	self shouldBeImplemented
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 
 	currentCompilationUnit := self model newCompilationUnit.
@@ -259,13 +261,13 @@ FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 	^ currentCompilationUnit
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeActComment [
 
 	^ self model newComment content: '/* ACT */'
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeActInvocation: aFamixUTAct [
 
 	| testedMethod |
@@ -278,7 +280,7 @@ FamixUTJUnitExporter >> makeActInvocation: aFamixUTAct [
 		  famixMethod: testedMethod
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeActReceiver: testedMethod [
 
 	^ model newNewExpression type:
@@ -286,7 +288,7 @@ FamixUTJUnitExporter >> makeActReceiver: testedMethod [
 			   self valueExporter)
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeActVarDecl: aFamixUTAct [
 
 	^ self model newVarDeclStatement
@@ -297,19 +299,19 @@ FamixUTJUnitExporter >> makeActVarDecl: aFamixUTAct [
 		  yourself
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeArrangeComment [
 
 	^ self model newComment content: '/* ARRANGE */'
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeAssertComment [
 
 	^ self model newComment content: '/* ASSERT */'
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeJUnitImports [
 
 	| package |
@@ -322,7 +324,7 @@ FamixUTJUnitExporter >> makeJUnitImports [
 				    package , '.' , self nameOfBeforeEachAnnotation)) }
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTJUnitExporter >> makeTestCaseAutowire: aFamixUTCase [
 	"UseCases are not autowireable, but the services are. To really test the UseCase methods,
 	we autowire the services and inject them into the instance with a setter in a setup method."
@@ -380,7 +382,7 @@ FamixUTJUnitExporter >> makeTestCaseAutowire: aFamixUTCase [
 		{ autowireMethod } , currentClass declarations
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeTestCaseComment [
 	"Javadoc saying the tests are generated by Modest and when."
 
@@ -389,7 +391,7 @@ FamixUTJUnitExporter >> makeTestCaseComment [
 		  , String lf , '@version ' , DateAndTime now asString , '*/'
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeTestCaseReceiver: aFamixUTCase [
 	"The variable containing an instance of the tested class"
 
@@ -408,7 +410,7 @@ FamixUTJUnitExporter >> makeTestCaseReceiver: aFamixUTCase [
 		  yourself
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
 
 	| method |
@@ -426,32 +428,32 @@ FamixUTJUnitExporter >> makeTestMethod: aFamixUTMethod [
 	^ method
 ]
 
-{ #category : #naming }
+{ #category : 'naming' }
 FamixUTJUnitExporter >> nameOfAssertionsClass [
 
 	self subclassResponsibility
 ]
 
-{ #category : #naming }
+{ #category : 'naming' }
 FamixUTJUnitExporter >> nameOfBeforeEachAnnotation [
 
 	self subclassResponsibility
 ]
 
-{ #category : #naming }
+{ #category : 'naming' }
 FamixUTJUnitExporter >> nameOfJUnitPackage [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FamixUTJUnitExporter >> newStatementBlock [
 
 	self statementBlock: self model newStatementBlock.
 	^ statementBlock
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FamixUTJUnitExporter >> newValueExporter [
 
 	^ FamixValue2FASTJavaVisitor new

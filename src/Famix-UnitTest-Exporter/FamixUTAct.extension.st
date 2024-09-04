@@ -1,6 +1,6 @@
-Extension { #name : #FamixUTAct }
+Extension { #name : 'FamixUTAct' }
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixUTAct >> allTypesOn: aCollection [
 
 	self arguments do: [ :argument |

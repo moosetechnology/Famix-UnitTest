@@ -1,38 +1,25 @@
 Class {
-	#name : #FamixUTSUnitExporter,
-	#superclass : #FamixUTAbstractExporter,
-	#category : #'Famix-UnitTest-Exporter-Exporters'
+	#name : 'FamixUTSUnitExporter',
+	#superclass : 'FamixUTAbstractExporter',
+	#category : 'Famix-UnitTest-Exporter-Exporters',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Exporters'
 }
 
-{ #category : #ast }
-FamixUTSUnitExporter >> addNewCommentForTestClass: aClass basedOn: baseClass [
-
-	aClass comment: (String streamContents: [ :stream |
-			 | name |
-			 name := aClass name.
-			 name first isVowel
-				 ifTrue: [ stream nextPutAll: 'An ' ]
-				 ifFalse: [ stream nextPutAll: 'A ' ].
-			 stream
-				 nextPutAll: name;
-				 nextPutAll: ' is a test class for testing the behavior of ';
-				 nextPutAll: baseClass name ])
-]
-
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> assertionStrategy [
 
 	^ assertionStrategy ifNil: [
 		  assertionStrategy := FamixUTSUnitAssertionStrategy new ]
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
 
 	assertionStrategy := aFamixUTAssertionStrategy
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> export: aFamixUTModel [
 
 	(aFamixUTModel allWithType: FamixUTCase) do: [ :case |
@@ -43,7 +30,7 @@ FamixUTSUnitExporter >> export: aFamixUTModel [
 	^ self model
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> exportAct: aFamixUTAct [
 	"Execute the method under test"
 
@@ -55,7 +42,7 @@ FamixUTSUnitExporter >> exportAct: aFamixUTAct [
 			   value: invocation)
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> exportAssertion: aFamixUTAssertion [
 
 	aFamixUTAssertion expected resultInSpan tags
@@ -70,28 +57,24 @@ FamixUTSUnitExporter >> exportAssertion: aFamixUTAssertion [
 		  (self assertionStrategy export: aFamixUTAssertion on: self)
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> exportCase: aFamixUTCase [
 
-	| systemEnvironment name |
+	| name |
 	name := aFamixUTCase testedClass name , 'ModestTest'.
-	systemEnvironment := ClySystemEnvironment currentImage.
-	systemEnvironment
-		classNamed: name
+	self class environment
+		at: name asSymbol
 		ifPresent: [ :class | currentClass := class ]
-		ifAbsent: [
-			systemEnvironment ensureExistAndRegisterPackageNamed:
-				aFamixUTCase testedClass parentPackage name asString , '-Tests'.
-
-			currentClass := self class classInstaller make: [ :aBuilder |
-				                aBuilder
+		ifAbsent: [ "create it, the installer will create the package if it does not exist"
+			currentClass := self class classInstaller make: [ :builder |
+				                builder
 					                name: name;
 					                superclass: TestCase;
 					                package:
-						                (self newTestClassCategoryFor:
-								                 aFamixUTCase testedClass) ].
-
-			self addNewCommentForTestClass: currentClass basedOn: aFamixUTCase ].
+						                aFamixUTCase testedClass parentPackage name
+							                asString , '-Tests';
+					                comment:
+						                (self writeCommentForTestClass: aFamixUTCase) ] ].
 
 	aFamixUTCase methods do: [ :method |
 		currentClass
@@ -100,13 +83,13 @@ FamixUTSUnitExporter >> exportCase: aFamixUTCase [
 	^ currentClass
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> exportCaseFile: aFamixUTCase [
 
 	self exportCase: aFamixUTCase
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> exportMethod: aFamixUTMethod [
 
 	self statementBlock: self newStatementBlock.
@@ -126,7 +109,7 @@ FamixUTSUnitExporter >> exportMethod: aFamixUTMethod [
 	^ self makeTestMethod: aFamixUTMethod
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
 
 	(self methodSetUpStrategy export: aFamixUTSetUp on: self)
@@ -146,19 +129,19 @@ FamixUTSUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
 					 value: node) ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FamixUTSUnitExporter >> exportMethodTearDown: aFamixUTTearDown [
 
 	self shouldBeImplemented
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FamixUTSUnitExporter >> exportSetUp: aFamixUTSetUp [
 
 	self shouldBeImplemented
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> makeActInvocation: aFamixUTAct [
 
 	| testedMethod |
@@ -173,7 +156,7 @@ FamixUTSUnitExporter >> makeActInvocation: aFamixUTAct [
 				   self valueExporter makeVariableExpression: argument value ])
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> makeActReceiver: testedMethod [
 
 	^ model newNewExpression type:
@@ -181,19 +164,19 @@ FamixUTSUnitExporter >> makeActReceiver: testedMethod [
 			   self valueExporter)
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTSUnitExporter >> makeArrangeComment [
 
 	^ self model newComment content: '/* ARRANGE */'
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTSUnitExporter >> makeAssertComment [
 
 	^ self model newComment content: '/* ASSERT */'
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTSUnitExporter >> makeTestCaseComment [
 	"Comment aying the tests are generated by Modest and when."
 
@@ -202,13 +185,13 @@ FamixUTSUnitExporter >> makeTestCaseComment [
 		  , String lf , 'version: ' , DateAndTime now asString , '"'
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> makeTestCaseReceiver: aFamixUTCase [
 
 	self shouldBeImplemented
 ]
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTSUnitExporter >> makeTestMethod: aFamixUTMethod [
 	"Create missing temporary variables"
 
@@ -220,32 +203,37 @@ FamixUTSUnitExporter >> makeTestMethod: aFamixUTMethod [
 	^ RBMethodNode selector: aFamixUTMethod name body: statementBlock
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> methodSetUpStrategy [
 
-	^ methodSetUpStrategy ifNil: [ "^ methodSetUpStrategy ifNil: [
-		  methodSetUpStrategy := FamixPharoUTHelperSetUpStrategy instance ]"
+	^ methodSetUpStrategy ifNil: [
 		  methodSetUpStrategy := FamixPharoUTHelperSetUpStrategy instance ]
 ]
 
-{ #category : #'mass units' }
+{ #category : 'mass units' }
 FamixUTSUnitExporter >> newStatementBlock [
 
 	self statementBlock: RBSequenceNode new.
 	^ statementBlock
 ]
 
-{ #category : #ast }
-FamixUTSUnitExporter >> newTestClassCategoryFor: aClass [
-
-	^ String streamContents: [ :s |
-		  s
-			  nextPutAll: aClass parentPackage name;
-			  nextPutAll: '-Tests' ]
-]
-
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FamixUTSUnitExporter >> newValueExporter [
 
 	^ FamixValue2PharoVisitor new
+]
+
+{ #category : 'ast' }
+FamixUTSUnitExporter >> writeCommentForTestClass: aFamixUTCase [
+
+	^ String streamContents: [ :stream |
+		  | name |
+		  name := aFamixUTCase name.
+		  name first isVowel
+			  ifTrue: [ stream nextPutAll: 'An ' ]
+			  ifFalse: [ stream nextPutAll: 'A ' ].
+		  stream
+			  nextPutAll: name;
+			  nextPutAll: ' is a test class for testing the behavior of ';
+			  nextPutAll: aFamixUTCase testedClass name ]
 ]

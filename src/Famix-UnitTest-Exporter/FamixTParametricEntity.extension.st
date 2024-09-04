@@ -1,6 +1,6 @@
-Extension { #name : #FamixTParametricEntity }
+Extension { #name : 'FamixTParametricEntity' }
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixTParametricEntity >> allTypesOn: aCollection [
 
 	aCollection add: self genericEntity.

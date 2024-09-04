@@ -1,22 +1,24 @@
 Class {
-	#name : #FamixUTJUnit4Exporter,
-	#superclass : #FamixUTJUnitExporter,
-	#category : #'Famix-UnitTest-Exporter-Exporters'
+	#name : 'FamixUTJUnit4Exporter',
+	#superclass : 'FamixUTJUnitExporter',
+	#category : 'Famix-UnitTest-Exporter-Exporters',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Exporters'
 }
 
-{ #category : #naming }
+{ #category : 'naming' }
 FamixUTJUnit4Exporter >> nameOfAssertionsClass [
 
 	^ 'Assert'
 ]
 
-{ #category : #naming }
+{ #category : 'naming' }
 FamixUTJUnit4Exporter >> nameOfBeforeEachAnnotation [
 
 	^ 'Before'
 ]
 
-{ #category : #naming }
+{ #category : 'naming' }
 FamixUTJUnit4Exporter >> nameOfJUnitPackage [
 
 	^ 'org.junit'

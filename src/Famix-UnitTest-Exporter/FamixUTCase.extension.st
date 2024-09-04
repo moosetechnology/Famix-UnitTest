@@ -1,6 +1,6 @@
-Extension { #name : #FamixUTCase }
+Extension { #name : 'FamixUTCase' }
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixUTCase >> allTypes [
 
 	| types |
@@ -8,7 +8,7 @@ FamixUTCase >> allTypes [
 	^ types
 ]
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixUTCase >> allTypesOn: aCollection [
 
 	beforeAll ifNotNil: [ beforeAll allTypesOn: aCollection ].

@@ -1,6 +1,6 @@
-Extension { #name : #FamixTType }
+Extension { #name : 'FamixTType' }
 
-{ #category : #'*Famix-UnitTest-Exporter' }
+{ #category : '*Famix-UnitTest-Exporter' }
 FamixTType >> allTypesOn: aCollection [
 
 	aCollection add: self

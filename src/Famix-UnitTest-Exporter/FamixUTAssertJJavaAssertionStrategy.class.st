@@ -1,15 +1,17 @@
 Class {
-	#name : #FamixUTAssertJJavaAssertionStrategy,
-	#superclass : #FamixUTAbstractJavaAssertionStrategy,
+	#name : 'FamixUTAssertJJavaAssertionStrategy',
+	#superclass : 'FamixUTAbstractJavaAssertionStrategy',
 	#instVars : [
 		'ignoringFieldsOfTypes',
 		'usingRecursiveComparison',
 		'ignoringCollectionOrder'
 	],
-	#category : #'Famix-UnitTest-Exporter-Strategies'
+	#category : 'Famix-UnitTest-Exporter-Strategies',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Strategies'
 }
 
-{ #category : #ast }
+{ #category : 'ast' }
 FamixUTAssertJJavaAssertionStrategy >> dependencyImportsOn: aFamixUTExporter [
 
 	| model |
@@ -20,7 +22,7 @@ FamixUTAssertJJavaAssertionStrategy >> dependencyImportsOn: aFamixUTExporter [
 		   isStatic: true) }
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTAssertJJavaAssertionStrategy >> export: aFamixUTAssertion on: exporter [
 	"Make an assertion using AssertJ: assertThat(actual).{options}.isEqualTo(expected)"
 
@@ -62,38 +64,38 @@ FamixUTAssertJJavaAssertionStrategy >> export: aFamixUTAssertion on: exporter [
 	^ model newExpressionStatement expression: assertion
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertJJavaAssertionStrategy >> ignoringCollectionOrder [
 
 	^ ignoringCollectionOrder ifNil: [ ignoringCollectionOrder := false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertJJavaAssertionStrategy >> ignoringCollectionOrder: aBoolean [
 
 	ignoringCollectionOrder := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertJJavaAssertionStrategy >> ignoringFieldsOfTypes [
 
 	^ ignoringFieldsOfTypes ifNil: [ ignoringFieldsOfTypes := {  } ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertJJavaAssertionStrategy >> ignoringFieldsOfTypes: aCollection [
 
 	ignoringFieldsOfTypes := aCollection
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertJJavaAssertionStrategy >> usingRecursiveComparison [
 
 	^ usingRecursiveComparison ifNil: [
 		  usingRecursiveComparison := false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertJJavaAssertionStrategy >> usingRecursiveComparison: aBoolean [
 
 	usingRecursiveComparison := aBoolean

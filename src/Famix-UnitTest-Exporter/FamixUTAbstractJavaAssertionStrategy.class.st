@@ -1,16 +1,18 @@
 Class {
-	#name : #FamixUTAbstractJavaAssertionStrategy,
-	#superclass : #FamixUTAbstractStrategy,
-	#category : #'Famix-UnitTest-Exporter-Strategies'
+	#name : 'FamixUTAbstractJavaAssertionStrategy',
+	#superclass : 'FamixUTAbstractStrategy',
+	#category : 'Famix-UnitTest-Exporter-Strategies',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Strategies'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAbstractJavaAssertionStrategy class >> default [
 
 	^ FamixUTJUnitJavaAssertionStrategy instance
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixUTAbstractJavaAssertionStrategy class >> isAbstract [
 
 	^ self == FamixUTAbstractJavaAssertionStrategy

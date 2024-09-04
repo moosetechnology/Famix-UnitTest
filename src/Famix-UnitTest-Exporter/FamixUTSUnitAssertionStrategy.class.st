@@ -1,10 +1,12 @@
 Class {
-	#name : #FamixUTSUnitAssertionStrategy,
-	#superclass : #FamixUTAbstractStrategy,
-	#category : #'Famix-UnitTest-Exporter-Exporters'
+	#name : 'FamixUTSUnitAssertionStrategy',
+	#superclass : 'FamixUTAbstractStrategy',
+	#category : 'Famix-UnitTest-Exporter-Exporters',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Exporters'
 }
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitAssertionStrategy >> export: aFamixUTAssertion on: exporter [
 
 	^ aFamixUTAssertion expected resultInSpan tags
@@ -15,7 +17,7 @@ FamixUTSUnitAssertionStrategy >> export: aFamixUTAssertion on: exporter [
 		  self exportAssertEquals: aFamixUTAssertion on: exporter ]
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitAssertionStrategy >> export: aFamixUTAssertion shouldRaise: error on: exporter [
 
 	^ RBMessageNode
@@ -27,7 +29,7 @@ FamixUTSUnitAssertionStrategy >> export: aFamixUTAssertion shouldRaise: error on
 					   (error copyFrom: 1 to: (error indexOf: $:) - 1)) }
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixUTSUnitAssertionStrategy >> exportAssertEquals: aFamixUTAssertion on: exporter [
 
 	^ RBMessageNode

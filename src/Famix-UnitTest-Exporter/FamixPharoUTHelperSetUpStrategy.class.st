@@ -1,10 +1,12 @@
 Class {
-	#name : #FamixPharoUTHelperSetUpStrategy,
-	#superclass : #FamixUTAbstractSetUpStrategy,
-	#category : #'Famix-UnitTest-Exporter-Strategies'
+	#name : 'FamixPharoUTHelperSetUpStrategy',
+	#superclass : 'FamixUTAbstractSetUpStrategy',
+	#category : 'Famix-UnitTest-Exporter-Strategies',
+	#package : 'Famix-UnitTest-Exporter',
+	#tag : 'Strategies'
 }
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixPharoUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 
 	| model valueExporter |
@@ -37,13 +39,13 @@ FamixPharoUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 					  classified: 'helpers'.
 
 				  "IMPORTANT: build the method before calling it and assigning it to the variable,
-				because a value is considered already exported if it has been named!"
+				   because a value is considered already exported if it has been named!"
 				  RBMessageNode
 					  receiver: (RBVariableNode named: #self)
 					  selector: methodName ] ]
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FamixPharoUTHelperSetUpStrategy >> makeHelperMethodFor: value on: aFamixUTExporter [
 	"Export the value inside the helper method, then restore the previous context."
 
