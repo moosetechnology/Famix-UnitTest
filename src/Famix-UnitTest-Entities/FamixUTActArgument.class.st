@@ -14,15 +14,17 @@ An association between an `Act` and a `Value` argument.
 
 "
 Class {
-	#name : #FamixUTActArgument,
-	#superclass : #FamixUTEntity,
+	#name : 'FamixUTActArgument',
+	#superclass : 'FamixUTEntity',
 	#instVars : [
 		'#act => FMOne type: #FamixUTAct opposite: #arguments'
 	],
-	#category : #'Famix-UnitTest-Entities-Entities'
+	#category : 'Famix-UnitTest-Entities-Entities',
+	#package : 'Famix-UnitTest-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixUTActArgument class >> annotation [
 
 	<FMClass: #ActArgument super: #FamixUTEntity>
@@ -31,7 +33,7 @@ FamixUTActArgument class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTActArgument >> act [
 	"Relation named: #act type: #FamixUTAct opposite: #arguments"
 
@@ -39,14 +41,14 @@ FamixUTActArgument >> act [
 	^ act
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTActArgument >> act: anObject [
 
 	<generated>
 	act := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTActArgument >> value [
 	"Relation named: #value type: #FamixValueOfType opposite: #argumentInActs"
 
@@ -55,7 +57,7 @@ FamixUTActArgument >> value [
 	^ self attributeAt: #value ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTActArgument >> value: anObject [
 
 	<generated>

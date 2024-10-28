@@ -1,6 +1,6 @@
-Extension { #name : #FamixTMethod }
+Extension { #name : 'FamixTMethod' }
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixTMethod >> unitTests [
 	"Relation named: #unitTests type: #FamixUTMethod opposite: #testedMethod"
 
@@ -11,7 +11,7 @@ FamixTMethod >> unitTests [
 	^ self attributeAt: #unitTests ifAbsentPut: [ FMMultivalueLink on: self opposite: #testedMethod: ]
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixTMethod >> unitTests: anObject [
 
 	<generated>

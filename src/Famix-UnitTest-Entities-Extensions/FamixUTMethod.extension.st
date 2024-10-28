@@ -1,6 +1,6 @@
-Extension { #name : #FamixUTMethod }
+Extension { #name : 'FamixUTMethod' }
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTMethod >> name [
 
 	^ name ifNil: [

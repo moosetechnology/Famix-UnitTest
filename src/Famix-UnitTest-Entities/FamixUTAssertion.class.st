@@ -24,16 +24,18 @@ Verifies that the behavior or feature being tested behaves as expected.
 
 "
 Class {
-	#name : #FamixUTAssertion,
-	#superclass : #FamixUTEntity,
+	#name : 'FamixUTAssertion',
+	#superclass : 'FamixUTEntity',
 	#instVars : [
 		'#errorMargin => FMProperty',
 		'#method => FMOne type: #FamixUTMethod opposite: #assertions'
 	],
-	#category : #'Famix-UnitTest-Entities-Entities'
+	#category : 'Famix-UnitTest-Entities-Entities',
+	#package : 'Famix-UnitTest-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixUTAssertion class >> annotation [
 
 	<FMClass: #Assertion super: #FamixUTEntity>
@@ -42,7 +44,7 @@ FamixUTAssertion class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertion >> errorMargin [
 
 	<FMProperty: #errorMargin type: #Object>
@@ -51,13 +53,13 @@ FamixUTAssertion >> errorMargin [
 	^ errorMargin
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertion >> errorMargin: anObject [
 	<generated>
 	errorMargin := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertion >> expected [
 	"Relation named: #expected type: #FamixValueOfType opposite: #expectedInAssertions"
 
@@ -66,14 +68,14 @@ FamixUTAssertion >> expected [
 	^ self attributeAt: #expected ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertion >> expected: anObject [
 
 	<generated>
 	self attributeAt: #expected put: (FMMultivalueLink on: self update: #expectedInAssertions from: self expected to: anObject).
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertion >> method [
 	"Relation named: #method type: #FamixUTMethod opposite: #assertions"
 
@@ -82,14 +84,14 @@ FamixUTAssertion >> method [
 	^ method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAssertion >> method: anObject [
 
 	<generated>
 	method := anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixUTAssertion >> methodGroup [
 	<generated>
 	<navigation: 'Method'>

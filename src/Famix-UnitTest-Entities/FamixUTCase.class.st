@@ -21,14 +21,14 @@ A class containing test methods.
 | `afterEach` | `FamixUTCase` | `forEachInCase` | `FamixUTTearDown` | |
 | `beforeAll` | `FamixUTCase` | `forAllInCase` | `FamixUTSetUp` | |
 | `beforeEach` | `FamixUTCase` | `forEachInCase` | `FamixUTSetUp` | |
-| `testedClass` | `FamixUTCase` | `testCase` | `FamixTClass` | |
+| `testedClass` | `FamixUTCase` | `testCase` | `FamixTType` | |
 
 
 
 "
 Class {
-	#name : #FamixUTCase,
-	#superclass : #FamixUTEntity,
+	#name : 'FamixUTCase',
+	#superclass : 'FamixUTEntity',
 	#instVars : [
 		'#afterAll => FMOne type: #FamixUTTearDown opposite: #forAllInCase',
 		'#afterEach => FMOne type: #FamixUTTearDown opposite: #forEachInCase',
@@ -37,10 +37,12 @@ Class {
 		'#methods => FMMany type: #FamixUTMethod opposite: #case',
 		'#suite => FMOne type: #FamixUTSuite opposite: #cases'
 	],
-	#category : #'Famix-UnitTest-Entities-Entities'
+	#category : 'Famix-UnitTest-Entities-Entities',
+	#package : 'Famix-UnitTest-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixUTCase class >> annotation [
 
 	<FMClass: #Case super: #FamixUTEntity>
@@ -49,13 +51,13 @@ FamixUTCase class >> annotation [
 	^ self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixUTCase >> addMethod: anObject [
 	<generated>
 	^ self methods add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> afterAll [
 	"Relation named: #afterAll type: #FamixUTTearDown opposite: #forAllInCase"
 
@@ -63,14 +65,14 @@ FamixUTCase >> afterAll [
 	^ afterAll
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> afterAll: anObject [
 
 	<generated>
 	afterAll := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> afterEach [
 	"Relation named: #afterEach type: #FamixUTTearDown opposite: #forEachInCase"
 
@@ -78,14 +80,14 @@ FamixUTCase >> afterEach [
 	^ afterEach
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> afterEach: anObject [
 
 	<generated>
 	afterEach := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> beforeAll [
 	"Relation named: #beforeAll type: #FamixUTSetUp opposite: #forAllInCase"
 
@@ -93,14 +95,14 @@ FamixUTCase >> beforeAll [
 	^ beforeAll
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> beforeAll: anObject [
 
 	<generated>
 	beforeAll := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> beforeEach [
 	"Relation named: #beforeEach type: #FamixUTSetUp opposite: #forEachInCase"
 
@@ -108,14 +110,14 @@ FamixUTCase >> beforeEach [
 	^ beforeEach
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> beforeEach: anObject [
 
 	<generated>
 	beforeEach := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> methods [
 	"Relation named: #methods type: #FamixUTMethod opposite: #case"
 
@@ -124,21 +126,21 @@ FamixUTCase >> methods [
 	^ methods
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> methods: anObject [
 
 	<generated>
 	methods value: anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixUTCase >> methodsGroup [
 	<generated>
 	<navigation: 'Methods'>
 	^ MooseSpecializedGroup withAll: self methods asSet
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> suite [
 	"Relation named: #suite type: #FamixUTSuite opposite: #cases"
 
@@ -147,30 +149,30 @@ FamixUTCase >> suite [
 	^ suite
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> suite: anObject [
 
 	<generated>
 	suite := anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixUTCase >> suiteGroup [
 	<generated>
 	<navigation: 'Suite'>
 	^ MooseSpecializedGroup with: self suite
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> testedClass [
-	"Relation named: #testedClass type: #FamixTClass opposite: #testCase"
+	"Relation named: #testedClass type: #FamixTType opposite: #testCase"
 
 	<generated>
-	<FMProperty: #testedClass type: #FamixTClass opposite: #testCase>
+	<FMProperty: #testedClass type: #FamixTType opposite: #testCase>
 	^ self attributeAt: #testedClass ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTCase >> testedClass: anObject [
 
 	<generated>

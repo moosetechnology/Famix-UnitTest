@@ -139,15 +139,20 @@ FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 	(currentClass := self model newClassDeclaration)
 		name: aFamixUTCase name;
 		addModifier: (model newModifier token: 'public');
-		addComment: self makeTestCaseComment;
-		addDeclaration: (self makeTestCaseReceiver: aFamixUTCase).
+		addComment: self makeTestCaseComment.
 
 	caseSuperclass ifNotNil: [ "inherit from configured superclass"
 		currentClass superclass:
 			(caseSuperclass asFASTJavaTypeExpressionOn: valueExporter) ].
 
 	aFamixUTCase methods do: [ :method |
-		currentClass addDeclaration: (self exportMethod: method) ].
+		[ currentClass addDeclaration: (self exportMethod: method) ]
+			on: Error
+			do: [ :e | "propose to skip methods with errors"
+				FamixUTSkipWarning signalFor: method because: e ] ].
+
+	"Stop here if no methods were successfully exported"
+	currentClass declarations ifEmpty: [ ^ nil ].
 
 	"Add 'autowire' method to add properties to the receiver."
 	self currentClassHasAutowiredProperty ifTrue: [
@@ -165,14 +170,16 @@ FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 
 { #category : 'exporting' }
 FamixUTJUnitExporter >> exportCaseCompilationUnit: aFamixUTCase [
-	"Export imports after the class because new dependencies can be added during the process."
 
 	currentCompilationUnit := self model newCompilationUnit.
-	^ currentCompilationUnit
-		  packageDeclaration: (self exportCasePackage: aFamixUTCase);
-		  importDeclarations: (self exportCaseImports: aFamixUTCase);
-		  addClassDeclaration: (self exportCase: aFamixUTCase);
-		  yourself
+	currentCompilationUnit
+		packageDeclaration: (self exportCasePackage: aFamixUTCase);
+		importDeclarations: (self exportCaseImports: aFamixUTCase).
+	(self exportCase: aFamixUTCase)
+		ifNil: [ "all method exports failed"
+		currentCompilationUnit removeFromModel ]
+		ifNotNil: [ :case |
+		currentCompilationUnit addClassDeclaration: case ]
 ]
 
 { #category : 'exporting' }
@@ -192,20 +199,24 @@ FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
 		imports add:
 			(valueExporter builder makeImportDeclaration: caseSuperclass) ].
 
-	self flag: #TODO. "exportCaseImports: after exportCase: then add the autowired check"
-	"self currentClassHasAutowiredProperty ifTrue: ["
+	"TODO: handle autowired import"
+	"exportCaseImports: after exportCase: then add the autowired check"
+	"self currentClassHasAutowiredProperty ifTrue: [
 		imports add: (model newImportDeclaration qualifiedName:
 				 (model newQualifiedName name:
-					  'org.springframework.beans.factory.annotation.Autowired')) "]".
+					  'org.springframework.beans.factory.annotation.Autowired')) ]."
 	^ imports
 ]
 
 { #category : 'exporting' }
 FamixUTJUnitExporter >> exportCasePackage: aFamixUTCase [
+	"Export the package declaration for the test class.
+	The tested class can be an inner type, e.g. com.Example.Inner, so asLowercase is applied for a valid package name"
 
 	^ self model newPackageDeclaration qualifiedName:
 		  (model newQualifiedName name:
-			   aFamixUTCase testedClass typeContainer mooseNameWithDots)
+			   aFamixUTCase testedClass typeContainer mooseNameWithDots
+				   asLowercase)
 ]
 
 { #category : 'exporting' }
@@ -226,37 +237,18 @@ FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 	currentCompilationUnit := self model newCompilationUnit.
 	currentClass := model newClassDeclaration name: aFamixUTSuite name.
 
-	currentClass modifiers: {
-			(model newAnnotation
-				 name: 'RunWith';
-				 elements: { (model newClassProperty
-						  type: (model newIdentifier name: 'Suite');
-						  fieldName: 'class') }).
-			(model newAnnotation
-				 name: 'SuiteClasses';
-				 elements: { (model newArrayAnnotationElement values:
-							  (aFamixUTSuite cases collect: [ :case |
-									   model newClassProperty
-										   type: (model newIdentifier name: case name);
-										   fieldName: 'class' ])) }).
-			(model newModifier token: 'public') }.
+	currentClass modifiers: (self makeSuiteAnnotations: aFamixUTSuite)
+		, { (model newModifier token: 'public') }.
 
 	currentCompilationUnit
 		packageDeclaration: (model newPackageDeclaration qualifiedName:
 					 (model newQualifiedName name: 'fr.evref.modest'));
-		importDeclarations: {
-				(model newImportDeclaration qualifiedName:
-						 (model newQualifiedName name: 'org.junit.runner.RunWith')).
-				(model newImportDeclaration qualifiedName:
-						 (model newQualifiedName name: 'org.junit.runners.Suite')).
-				(model newImportDeclaration qualifiedName:
-						 (model newQualifiedName name:
-								  'org.junit.runners.Suite.SuiteClasses')) }
-			, (aFamixUTSuite cases collect: [ :case |
+		importDeclarations:
+			self makeSuiteImports , (aFamixUTSuite cases collect: [ :case |
 						 model newImportDeclaration qualifiedName:
 								 (model newQualifiedName name:
-										  case testedClass typeContainer mooseNameWithDots , '.'
-										  , case name) ]);
+										  case testedClass typeContainer mooseNameWithDots
+											  asLowercase , '.' , case name) ]);
 		addClassDeclaration: currentClass.
 	^ currentCompilationUnit
 ]
@@ -273,7 +265,7 @@ FamixUTJUnitExporter >> makeActInvocation: aFamixUTAct [
 	| testedMethod |
 	testedMethod := aFamixUTAct method testedMethod.
 	^ self model newMethodInvocation
-		  receiver: (self makeActReceiver: testedMethod);
+		  receiver: (self makeActReceiver: aFamixUTAct);
 		  name: testedMethod name;
 		  arguments: (aFamixUTAct arguments collect: [ :argument |
 					   self valueExporter makeVariableExpression: argument value ]);
@@ -281,11 +273,17 @@ FamixUTJUnitExporter >> makeActInvocation: aFamixUTAct [
 ]
 
 { #category : 'ast' }
-FamixUTJUnitExporter >> makeActReceiver: testedMethod [
+FamixUTJUnitExporter >> makeActReceiver: aFamixUTAct [
 
-	^ model newNewExpression type:
-		  (testedMethod parentType asFASTJavaTypeExpressionOn:
-			   self valueExporter)
+	^ aFamixUTAct receiver
+		  ifNotNil: [ :receiver |
+			  model newVariableExpression name:
+				  (valueExporter varNameFor: receiver) ]
+		  ifNil: [ "I guess this is not a good place to initialize the receiver during the act
+			TODO: initialize beforehand, and always use a variable reference to receive act."
+			  model newNewExpression type:
+				  (aFamixUTAct method testedMethod parentType
+					   asFASTJavaTypeExpressionOn: self valueExporter) ]
 ]
 
 { #category : 'ast' }
@@ -322,6 +320,19 @@ FamixUTJUnitExporter >> makeJUnitImports [
 		  (model newImportDeclaration qualifiedName:
 			   (model newQualifiedName name:
 				    package , '.' , self nameOfBeforeEachAnnotation)) }
+]
+
+{ #category : 'exporting' }
+FamixUTJUnitExporter >> makeSuiteAnnotations: aFamixUTSuite [
+	"Return the class annotations to apply to a suite class"
+
+	self subclassResponsibility
+]
+
+{ #category : 'exporting' }
+FamixUTJUnitExporter >> makeSuiteImports [
+
+	self subclassResponsibility
 ]
 
 { #category : 'exporting' }
@@ -396,6 +407,7 @@ FamixUTJUnitExporter >> makeTestCaseReceiver: aFamixUTCase [
 	"The variable containing an instance of the tested class"
 
 	| testedClass |
+	Error signal: 'Do not use an attribute to store receiver'.
 	testedClass := aFamixUTCase testedClass.
 	^ self model newVarDeclStatement
 		  type: (testedClass asFASTJavaTypeExpressionOn: self valueExporter);

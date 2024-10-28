@@ -16,18 +16,20 @@ Sets up the system to make tests repeatable.
 
 "
 Class {
-	#name : #FamixUTSetUp,
-	#superclass : #FamixUTFixture,
+	#name : 'FamixUTSetUp',
+	#superclass : 'FamixUTFixture',
 	#instVars : [
 		'#forAllInCase => FMOne type: #FamixUTCase opposite: #beforeAll',
 		'#forEachInCase => FMOne type: #FamixUTCase opposite: #beforeEach',
 		'#method => FMOne type: #FamixUTMethod opposite: #setUp',
 		'#suite => FMOne type: #FamixUTSuite opposite: #setUp'
 	],
-	#category : #'Famix-UnitTest-Entities-Entities'
+	#category : 'Famix-UnitTest-Entities-Entities',
+	#package : 'Famix-UnitTest-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixUTSetUp class >> annotation [
 
 	<FMClass: #SetUp super: #FamixUTFixture>
@@ -36,7 +38,7 @@ FamixUTSetUp class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSetUp >> forAllInCase [
 	"Relation named: #forAllInCase type: #FamixUTCase opposite: #beforeAll"
 
@@ -45,14 +47,14 @@ FamixUTSetUp >> forAllInCase [
 	^ forAllInCase
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSetUp >> forAllInCase: anObject [
 
 	<generated>
 	forAllInCase := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSetUp >> forEachInCase [
 	"Relation named: #forEachInCase type: #FamixUTCase opposite: #beforeEach"
 
@@ -61,14 +63,14 @@ FamixUTSetUp >> forEachInCase [
 	^ forEachInCase
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSetUp >> forEachInCase: anObject [
 
 	<generated>
 	forEachInCase := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSetUp >> method [
 	"Relation named: #method type: #FamixUTMethod opposite: #setUp"
 
@@ -77,14 +79,14 @@ FamixUTSetUp >> method [
 	^ method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSetUp >> method: anObject [
 
 	<generated>
 	method := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSetUp >> suite [
 	"Relation named: #suite type: #FamixUTSuite opposite: #setUp"
 
@@ -93,7 +95,7 @@ FamixUTSetUp >> suite [
 	^ suite
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSetUp >> suite: anObject [
 
 	<generated>

@@ -1,6 +1,6 @@
-Extension { #name : #FamixUTAssertion }
+Extension { #name : 'FamixUTAssertion' }
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTAssertion >> mooseNameOn: aStream [
 
 	aStream nextPutAll: 'Assertion'.

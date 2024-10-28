@@ -6,6 +6,32 @@ Class {
 	#tag : 'Exporters'
 }
 
+{ #category : 'as yet unclassified' }
+FamixUTJUnit5Exporter >> makeSuiteAnnotations: aFamixUTSuite [
+
+	^ {
+		  (model newAnnotation name: 'Suite').
+		  (model newAnnotation
+			   name: 'SelectClasses';
+			   elements: { (model newArrayAnnotationElement values:
+						    (aFamixUTSuite cases collect: [ :case |
+								     model newClassProperty
+									     type: (model newIdentifier name: case name);
+									     fieldName: 'class' ])) }) }
+]
+
+{ #category : 'exporting' }
+FamixUTJUnit5Exporter >> makeSuiteImports [
+
+	^ {
+		  (model newImportDeclaration qualifiedName:
+			   (model newQualifiedName name:
+				    'org.junit.platform.suite.api.Suite')).
+		  (model newImportDeclaration qualifiedName:
+			   (model newQualifiedName name:
+				    'org.junit.platform.suite.api.SelectClasses')) }
+]
+
 { #category : 'naming' }
 FamixUTJUnit5Exporter >> nameOfAssertionsClass [
 

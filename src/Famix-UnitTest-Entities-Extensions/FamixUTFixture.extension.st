@@ -1,24 +1,24 @@
-Extension { #name : #FamixUTFixture }
+Extension { #name : 'FamixUTFixture' }
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTFixture >> forAllInCase [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTFixture >> forEachInCase [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTFixture >> method [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTFixture >> mooseNameOn: aStream [
 
 	self suite ifNotNil: [ :suite |
@@ -35,7 +35,7 @@ FamixUTFixture >> mooseNameOn: aStream [
 		method mooseNameOn: aStream ]
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTFixture >> suite [
 
 	self subclassResponsibility

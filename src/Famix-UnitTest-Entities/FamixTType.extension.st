@@ -1,7 +1,7 @@
-Extension { #name : #FamixTClass }
+Extension { #name : 'FamixTType' }
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
-FamixTClass >> testCase [
+{ #category : '*Famix-UnitTest-Entities-accessing' }
+FamixTType >> testCase [
 	"Relation named: #testCase type: #FamixUTCase opposite: #testedClass"
 
 	<generated>
@@ -11,8 +11,8 @@ FamixTClass >> testCase [
 	^ self attributeAt: #testCase ifAbsent: [ nil ]
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
-FamixTClass >> testCase: anObject [
+{ #category : '*Famix-UnitTest-Entities-accessing' }
+FamixTType >> testCase: anObject [
 
 	<generated>
 	(self attributeAt: #testCase ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].

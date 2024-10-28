@@ -1,6 +1,6 @@
-Extension { #name : #FamixUTTearDown }
+Extension { #name : 'FamixUTTearDown' }
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTTearDown >> mooseNameOn: aStream [
 
 	aStream nextPutAll: 'TearDown'.

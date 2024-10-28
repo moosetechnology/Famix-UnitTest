@@ -1,6 +1,6 @@
 Class {
-	#name : #FamixUnitTestGenerator,
-	#superclass : #FamixMetamodelGenerator,
+	#name : 'FamixUnitTestGenerator',
+	#superclass : 'FamixMetamodelGenerator',
 	#instVars : [
 		'case',
 		'suite',
@@ -13,30 +13,31 @@ Class {
 		'act',
 		'actArgument'
 	],
-	#category : #'Famix-UnitTest-Generator'
+	#category : 'Famix-UnitTest-Generator',
+	#package : 'Famix-UnitTest-Generator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUnitTestGenerator class >> packageName [
 
 	<ignoreForCoverage>
 	^ #'Famix-UnitTest-Entities'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUnitTestGenerator class >> prefix [
 
 	<ignoreForCoverage>
 	^ #FamixUT
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUnitTestGenerator class >> submetamodels [
 
 	^ { FamixGenerator. FamixValueGenerator }
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixUnitTestGenerator >> defineClasses [
 
 	suite := builder
@@ -75,7 +76,7 @@ FamixUnitTestGenerator >> defineClasses [
 	value := self remoteEntity: #OfType withPrefix: #FamixValue
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixUnitTestGenerator >> defineHierarchy [
 
 	setUp --|> fixture.
@@ -86,14 +87,14 @@ FamixUnitTestGenerator >> defineHierarchy [
 	method --|> #TNamedEntity
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixUnitTestGenerator >> defineProperties [
 
 	(assertion property: #errorMargin type: #Object) comment:
 		'How much deviation is allowed between the expected and actual values.'
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixUnitTestGenerator >> defineRelations [
 
 	(suite property: #cases) <>-* case.
@@ -118,8 +119,7 @@ FamixUnitTestGenerator >> defineRelations [
 	(act property: #receiver) - (value property: #receiverInAct).
 
 	(case property: #testedClass)
-	-
-	((self remoteTrait: #TClass withPrefix: #Famix) property: #testCase).
+	- ((self remoteTrait: #TType withPrefix: #Famix) property: #testCase).
 	(method property: #testedMethod)
 	*-
 	((self remoteTrait: #TMethod withPrefix: #Famix) property: #unitTests)

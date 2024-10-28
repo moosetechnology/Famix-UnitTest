@@ -19,16 +19,18 @@ Execution of the system under test.
 
 "
 Class {
-	#name : #FamixUTAct,
-	#superclass : #FamixUTEntity,
+	#name : 'FamixUTAct',
+	#superclass : 'FamixUTEntity',
 	#instVars : [
 		'#arguments => FMMany type: #FamixUTActArgument opposite: #act',
 		'#method => FMOne type: #FamixUTMethod opposite: #act'
 	],
-	#category : #'Famix-UnitTest-Entities-Entities'
+	#category : 'Famix-UnitTest-Entities-Entities',
+	#package : 'Famix-UnitTest-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixUTAct class >> annotation [
 
 	<FMClass: #Act super: #FamixUTEntity>
@@ -37,13 +39,13 @@ FamixUTAct class >> annotation [
 	^ self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixUTAct >> addArgument: anObject [
 	<generated>
 	^ self arguments add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAct >> arguments [
 	"Relation named: #arguments type: #FamixUTActArgument opposite: #act"
 
@@ -52,14 +54,14 @@ FamixUTAct >> arguments [
 	^ arguments
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAct >> arguments: anObject [
 
 	<generated>
 	arguments value: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAct >> method [
 	"Relation named: #method type: #FamixUTMethod opposite: #act"
 
@@ -69,21 +71,21 @@ FamixUTAct >> method [
 	^ method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAct >> method: anObject [
 
 	<generated>
 	method := anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixUTAct >> methodGroup [
 	<generated>
 	<navigation: 'Method'>
 	^ MooseSpecializedGroup with: self method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAct >> receiver [
 	"Relation named: #receiver type: #FamixValueOfType opposite: #receiverInAct"
 
@@ -92,7 +94,7 @@ FamixUTAct >> receiver [
 	^ self attributeAt: #receiver ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTAct >> receiver: anObject [
 
 	<generated>

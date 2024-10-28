@@ -1,12 +1,12 @@
-Extension { #name : #FamixUTCase }
+Extension { #name : 'FamixUTCase' }
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTCase >> mooseNameOn: aStream [
 
 	aStream nextPutAll: self name
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTCase >> name [
 
 	^ self testedClass name

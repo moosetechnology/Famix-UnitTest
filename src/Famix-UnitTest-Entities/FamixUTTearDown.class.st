@@ -16,18 +16,20 @@ Tears down the system to make tests repeatable.
 
 "
 Class {
-	#name : #FamixUTTearDown,
-	#superclass : #FamixUTFixture,
+	#name : 'FamixUTTearDown',
+	#superclass : 'FamixUTFixture',
 	#instVars : [
 		'#forAllInCase => FMOne type: #FamixUTCase opposite: #afterAll',
 		'#forEachInCase => FMOne type: #FamixUTCase opposite: #afterEach',
 		'#method => FMOne type: #FamixUTMethod opposite: #tearDown',
 		'#suite => FMOne type: #FamixUTSuite opposite: #tearDown'
 	],
-	#category : #'Famix-UnitTest-Entities-Entities'
+	#category : 'Famix-UnitTest-Entities-Entities',
+	#package : 'Famix-UnitTest-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixUTTearDown class >> annotation [
 
 	<FMClass: #TearDown super: #FamixUTFixture>
@@ -36,7 +38,7 @@ FamixUTTearDown class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTTearDown >> forAllInCase [
 	"Relation named: #forAllInCase type: #FamixUTCase opposite: #afterAll"
 
@@ -45,14 +47,14 @@ FamixUTTearDown >> forAllInCase [
 	^ forAllInCase
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTTearDown >> forAllInCase: anObject [
 
 	<generated>
 	forAllInCase := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTTearDown >> forEachInCase [
 	"Relation named: #forEachInCase type: #FamixUTCase opposite: #afterEach"
 
@@ -61,14 +63,14 @@ FamixUTTearDown >> forEachInCase [
 	^ forEachInCase
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTTearDown >> forEachInCase: anObject [
 
 	<generated>
 	forEachInCase := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTTearDown >> method [
 	"Relation named: #method type: #FamixUTMethod opposite: #tearDown"
 
@@ -77,14 +79,14 @@ FamixUTTearDown >> method [
 	^ method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTTearDown >> method: anObject [
 
 	<generated>
 	method := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTTearDown >> suite [
 	"Relation named: #suite type: #FamixUTSuite opposite: #tearDown"
 
@@ -93,7 +95,7 @@ FamixUTTearDown >> suite [
 	^ suite
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTTearDown >> suite: anObject [
 
 	<generated>

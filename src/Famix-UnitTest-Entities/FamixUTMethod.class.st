@@ -32,8 +32,8 @@ Tests a specific behavior or feature of the system under test.
 
 "
 Class {
-	#name : #FamixUTMethod,
-	#superclass : #FamixUTEntity,
+	#name : 'FamixUTMethod',
+	#superclass : 'FamixUTEntity',
 	#traits : 'FamixTNamedEntity',
 	#classTraits : 'FamixTNamedEntity classTrait',
 	#instVars : [
@@ -43,10 +43,12 @@ Class {
 		'#setUp => FMOne type: #FamixUTSetUp opposite: #method',
 		'#tearDown => FMOne type: #FamixUTTearDown opposite: #method'
 	],
-	#category : #'Famix-UnitTest-Entities-Entities'
+	#category : 'Famix-UnitTest-Entities-Entities',
+	#package : 'Famix-UnitTest-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixUTMethod class >> annotation [
 
 	<FMClass: #Method super: #FamixUTEntity>
@@ -55,7 +57,7 @@ FamixUTMethod class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> act [
 	"Relation named: #act type: #FamixUTAct opposite: #method"
 
@@ -63,27 +65,27 @@ FamixUTMethod >> act [
 	^ act
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> act: anObject [
 
 	<generated>
 	act := anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixUTMethod >> actGroup [
 	<generated>
 	<navigation: 'Act'>
 	^ MooseSpecializedGroup with: self act
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixUTMethod >> addAssertion: anObject [
 	<generated>
 	^ self assertions add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> assertions [
 	"Relation named: #assertions type: #FamixUTAssertion opposite: #method"
 
@@ -92,21 +94,21 @@ FamixUTMethod >> assertions [
 	^ assertions
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> assertions: anObject [
 
 	<generated>
 	assertions value: anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixUTMethod >> assertionsGroup [
 	<generated>
 	<navigation: 'Assertions'>
 	^ MooseSpecializedGroup withAll: self assertions asSet
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> case [
 	"Relation named: #case type: #FamixUTCase opposite: #methods"
 
@@ -115,21 +117,21 @@ FamixUTMethod >> case [
 	^ case
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> case: anObject [
 
 	<generated>
 	case := anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixUTMethod >> caseGroup [
 	<generated>
 	<navigation: 'Case'>
 	^ MooseSpecializedGroup with: self case
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> setUp [
 	"Relation named: #setUp type: #FamixUTSetUp opposite: #method"
 
@@ -137,14 +139,14 @@ FamixUTMethod >> setUp [
 	^ setUp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> setUp: anObject [
 
 	<generated>
 	setUp := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> tearDown [
 	"Relation named: #tearDown type: #FamixUTTearDown opposite: #method"
 
@@ -152,14 +154,14 @@ FamixUTMethod >> tearDown [
 	^ tearDown
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> tearDown: anObject [
 
 	<generated>
 	tearDown := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> testedMethod [
 	"Relation named: #testedMethod type: #FamixTMethod opposite: #unitTests"
 
@@ -168,7 +170,7 @@ FamixUTMethod >> testedMethod [
 	^ self attributeAt: #testedMethod ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTMethod >> testedMethod: anObject [
 
 	<generated>

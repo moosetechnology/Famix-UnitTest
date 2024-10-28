@@ -25,8 +25,8 @@ A collection of test cases.
 
 "
 Class {
-	#name : #FamixUTSuite,
-	#superclass : #FamixUTEntity,
+	#name : 'FamixUTSuite',
+	#superclass : 'FamixUTEntity',
 	#traits : 'FamixTNamedEntity',
 	#classTraits : 'FamixTNamedEntity classTrait',
 	#instVars : [
@@ -34,10 +34,12 @@ Class {
 		'#setUp => FMOne type: #FamixUTSetUp opposite: #suite',
 		'#tearDown => FMOne type: #FamixUTTearDown opposite: #suite'
 	],
-	#category : #'Famix-UnitTest-Entities-Entities'
+	#category : 'Famix-UnitTest-Entities-Entities',
+	#package : 'Famix-UnitTest-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixUTSuite class >> annotation [
 
 	<FMClass: #Suite super: #FamixUTEntity>
@@ -46,13 +48,13 @@ FamixUTSuite class >> annotation [
 	^ self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixUTSuite >> addCase: anObject [
 	<generated>
 	^ self cases add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSuite >> cases [
 	"Relation named: #cases type: #FamixUTCase opposite: #suite"
 
@@ -61,21 +63,21 @@ FamixUTSuite >> cases [
 	^ cases
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSuite >> cases: anObject [
 
 	<generated>
 	cases value: anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixUTSuite >> casesGroup [
 	<generated>
 	<navigation: 'Cases'>
 	^ MooseSpecializedGroup withAll: self cases asSet
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSuite >> setUp [
 	"Relation named: #setUp type: #FamixUTSetUp opposite: #suite"
 
@@ -83,14 +85,14 @@ FamixUTSuite >> setUp [
 	^ setUp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSuite >> setUp: anObject [
 
 	<generated>
 	setUp := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSuite >> tearDown [
 	"Relation named: #tearDown type: #FamixUTTearDown opposite: #suite"
 
@@ -98,7 +100,7 @@ FamixUTSuite >> tearDown [
 	^ tearDown
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixUTSuite >> tearDown: anObject [
 
 	<generated>

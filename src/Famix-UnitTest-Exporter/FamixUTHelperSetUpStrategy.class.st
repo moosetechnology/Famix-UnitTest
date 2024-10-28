@@ -48,13 +48,8 @@ FamixUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 			ifFalse: [ value accept: valueExporter ]
 			ifTrue: [
 				| methodName |
-				methodName := ((WriteStream with: 'given_')
-				               << value typedEntity name
-				               <<
-				               (value resultInSpan
-					                ifNotNil: [ '_expected' ]
-					                ifNil: [ '_argument' ]) << '_for_'
-				               << aFamixUTSetUp method name) contents.
+				methodName := ((WriteStream with: 'given_') << value roleName
+				               << '_for_' << aFamixUTSetUp method name) contents.
 				helperClass ifNil: [
 					helperClass := self ensureHelperClassOn: aFamixUTExporter ].
 				helperClass addDeclaration:

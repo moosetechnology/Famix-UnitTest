@@ -1,6 +1,6 @@
-Extension { #name : #FamixValueOfType }
+Extension { #name : 'FamixValueOfType' }
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixValueOfType >> argumentInActs [
 	"Relation named: #argumentInActs type: #FamixUTActArgument opposite: #value"
 
@@ -11,14 +11,14 @@ FamixValueOfType >> argumentInActs [
 	^ self attributeAt: #argumentInActs ifAbsentPut: [ FMMultivalueLink on: self opposite: #value: ]
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixValueOfType >> argumentInActs: anObject [
 
 	<generated>
 	self argumentInActs value: anObject
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixValueOfType >> expectedInAssertions [
 	"Relation named: #expectedInAssertions type: #FamixUTAssertion opposite: #expected"
 
@@ -29,14 +29,14 @@ FamixValueOfType >> expectedInAssertions [
 	^ self attributeAt: #expectedInAssertions ifAbsentPut: [ FMMultivalueLink on: self opposite: #expected: ]
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixValueOfType >> expectedInAssertions: anObject [
 
 	<generated>
 	self expectedInAssertions value: anObject
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixValueOfType >> fixtures [
 	"Relation named: #fixtures type: #FamixUTFixture opposite: #values"
 
@@ -46,14 +46,14 @@ FamixValueOfType >> fixtures [
 	^ self attributeAt: #fixtures ifAbsentPut: [ FMMultiMultivalueLink on: self opposite: #values ]
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixValueOfType >> fixtures: anObject [
 
 	<generated>
 	self fixtures value: anObject
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixValueOfType >> receiverInAct [
 	"Relation named: #receiverInAct type: #FamixUTAct opposite: #receiver"
 
@@ -64,7 +64,7 @@ FamixValueOfType >> receiverInAct [
 	^ self attributeAt: #receiverInAct ifAbsent: [ nil ]
 ]
 
-{ #category : #'*Famix-UnitTest-Entities-accessing' }
+{ #category : '*Famix-UnitTest-Entities-accessing' }
 FamixValueOfType >> receiverInAct: anObject [
 
 	<generated>

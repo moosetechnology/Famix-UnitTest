@@ -1,6 +1,6 @@
-Extension { #name : #FamixUTEntity }
+Extension { #name : 'FamixUTEntity' }
 
-{ #category : #'*Famix-UnitTest-Entities-Extensions' }
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTEntity >> mooseNameOn: aStream [
 
 	self subclassResponsibility
