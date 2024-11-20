@@ -53,7 +53,7 @@ FamixUTAbstractExporter >> export: aFamixUTModel [
 		self exportCaseCompilationUnit: case ].
 	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite |
 		self exportSuite: suite ].
-	self valueExporter makeHelper.
+	self finalizeHelpers.
 	^ self model
 ]
 
@@ -121,6 +121,17 @@ FamixUTAbstractExporter >> exportMethodTearDown: aFamixUTTearDown [
 FamixUTAbstractExporter >> exportSuite: aFamixUTSuite [
 
 	self subclassResponsibility
+]
+
+{ #category : 'exporting' }
+FamixUTAbstractExporter >> finalizeHelpers [
+
+	self valueExporter finalizeHelpers.
+	self methodSetUpStrategy helpers do: [ :helper |
+		helper compilationUnit importDeclarations:
+			self valueExporter builder makeImportDeclarations
+			, (self valueExporter objectExportStrategy dependencyImportsOn:
+					 self model) ]
 ]
 
 { #category : 'initialization' }
