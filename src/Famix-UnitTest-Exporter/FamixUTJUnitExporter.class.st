@@ -142,8 +142,7 @@ FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 		addComment: self makeTestCaseComment.
 
 	caseSuperclass ifNotNil: [ "inherit from configured superclass"
-		currentClass superclass:
-			(caseSuperclass asFASTJavaTypeExpressionOn: valueExporter) ].
+		self handleCaseSuperclass ].
 
 	aFamixUTCase methods do: [ :method |
 		[ currentClass addDeclaration: (self exportMethod: method) ]
@@ -251,6 +250,48 @@ FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 											  asLowercase , '.' , case name) ]);
 		addClassDeclaration: currentClass.
 	^ currentCompilationUnit
+]
+
+{ #category : 'exporting' }
+FamixUTJUnitExporter >> handleCaseSuperclass [
+	"Make the current test class inherit from the configured superclass"
+
+	| constructors constructor |
+	"make the inheritance AST"
+	currentClass superclass:
+		(caseSuperclass asFASTJavaTypeExpressionOn: valueExporter).
+
+	"In Java, we cannot simply inherit any class and be done with it.
+	If the superclass declares a constructor, the case needs to also declare one.
+	The simplest way to achieve this is to copy the signature of the constructor and just call super.
+	But if there are multiple constructors, we are unsure which one to use..."
+	constructors := caseSuperclass methods select: [ :method |
+		                method isConstructor and: [ method isPublic ] ].
+	constructors ifEmpty: [ "nothing to do" ^ self ].
+	constructors size > 1 ifTrue: [
+		Warning signal:
+			'Multiple constructors in case superclass, which one to use?' ].
+	constructor := constructors first.
+
+	"make the constructor AST"
+	currentClass declarations addFirst: (model newMethodEntity
+			 name: currentClass name;
+			 addModifier: (model newModifier token: 'public');
+			 parameters: (constructor parameters collect: [ :parameter |
+						  model newParameter
+							  type:
+								  (parameter declaredType asFASTJavaTypeExpressionOn:
+										   self valueExporter);
+							  variable: (model newVariableExpression name: parameter name) ]);
+			 statementBlock: (model newStatementBlock
+					  addStatement:
+						  (model newExpressionStatement expression:
+								   (model newMethodInvocation
+									    name: 'super';
+									    arguments:
+										    (constructor parameters collect: [ :parameter |
+												     model newVariableExpression name: parameter name ])));
+					  yourself))
 ]
 
 { #category : 'ast' }
