@@ -13,7 +13,7 @@ Class {
 FamixUTImporter >> fromOpenTelemetrySpans: spans [
 	"Use a collection of FamixOTelSpan from the Famix-OpenTelemetry project as test oracle."
 
-	((spans reject: [ :span | span attributeAt: #skip ifAbsent: false ])
+	((spans reject: [ :span | span cacheAt: #skip ifAbsent: false ])
 		 groupedBy: [ :span | span origin parentType ]) associationsDo: [
 		:spansByClass |
 		| case |
