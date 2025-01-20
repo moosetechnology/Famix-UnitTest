@@ -20,17 +20,6 @@ FamixUTSUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
 ]
 
 { #category : 'exporting' }
-FamixUTSUnitExporter >> export: aFamixUTModel [
-
-	(aFamixUTModel allWithType: FamixUTCase) do: [ :case |
-		self exportCaseFile: case ].
-	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite |
-		self exportSuite: suite ].
-	self valueExporter makeHelper.
-	^ self model
-]
-
-{ #category : 'exporting' }
 FamixUTSUnitExporter >> exportAct: aFamixUTAct [
 	"Execute the method under test"
 
@@ -84,7 +73,7 @@ FamixUTSUnitExporter >> exportCase: aFamixUTCase [
 ]
 
 { #category : 'exporting' }
-FamixUTSUnitExporter >> exportCaseFile: aFamixUTCase [
+FamixUTSUnitExporter >> exportCaseCompilationUnit: aFamixUTCase [
 
 	self exportCase: aFamixUTCase
 ]

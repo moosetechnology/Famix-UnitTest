@@ -4,6 +4,9 @@ I export Arrange elements as methods in an external helper class.
 Class {
 	#name : 'FamixUTHelperSetUpStrategy',
 	#superclass : 'FamixUTAbstractSetUpStrategy',
+	#instVars : [
+		'helpers'
+	],
 	#category : 'Famix-UnitTest-Exporter-Strategies',
 	#package : 'Famix-UnitTest-Exporter',
 	#tag : 'Strategies'
@@ -16,9 +19,9 @@ FamixUTHelperSetUpStrategy >> ensureHelperClassOn: aFamixUTExporter [
 	| model className |
 	model := aFamixUTExporter model.
 	className := aFamixUTExporter currentClass name , 'Helper'.
-	^ model allFASTJavaClassDeclaration
-		  detect: [ :class | class name = className ]
-		  ifNone: [ "add import for the helper class and create it"
+	^ helpers
+		  at: className
+		  ifAbsentPut: [ "add import for the helper class and create it"
 			  aFamixUTExporter currentCompilationUnit addImportDeclaration:
 				  (model newImportDeclaration
 					   qualifiedName:
@@ -40,16 +43,18 @@ FamixUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 	valueExporter := aFamixUTExporter valueExporter.
 	comment := '/**{@link ' , aFamixUTSetUp method case name , '#'
 	           , aFamixUTSetUp method name , '()}*/'.
+
 	"Only make helper if necessary => at least one non-empty object, collection or dictionary."
 	aFamixUTSetUp values do: [ :value |
 		((value isOfObject or: [
 			  value isOfCollection or: [ value isOfDictionary ] ]) and: [
 			 value value isNotEmpty ])
 			ifFalse: [ value accept: valueExporter ]
-			ifTrue: [
+			ifTrue: [ "make the helper method to reconstruct the value"
 				| methodName |
 				methodName := ((WriteStream with: 'given_') << value roleName
 				               << '_for_' << aFamixUTSetUp method name) contents.
+
 				helperClass ifNil: [
 					helperClass := self ensureHelperClassOn: aFamixUTExporter ].
 				helperClass addDeclaration:
@@ -57,9 +62,11 @@ FamixUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 						 name: methodName;
 						 addComment: (model newComment content: comment);
 						 yourself).
+
 				"add necessary imports to the helper class"
 				helperClass compilationUnit importDeclarations addAll:
 					(valueExporter builder makeImportDeclarations: value).
+
 				"IMPORTANT: build the method before calling it and assigning it to the variable,
 				because a value is considered already exported if it has been named!"
 				valueExporter statementBlock addStatement:
@@ -69,6 +76,18 @@ FamixUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 								  variable: (valueExporter makeVariableExpression: value);
 								  expression: (model newMethodInvocation name: methodName));
 						 yourself) ] ]
+]
+
+{ #category : 'accessing' }
+FamixUTHelperSetUpStrategy >> helpers [
+
+	^ helpers
+]
+
+{ #category : 'initialization' }
+FamixUTHelperSetUpStrategy >> initialize [
+
+	helpers := Dictionary new
 ]
 
 { #category : 'ast' }
@@ -82,9 +101,6 @@ FamixUTHelperSetUpStrategy >> makeHelperClassNamed: className on: aFamixUTExport
 					   (model newQualifiedName name:
 							    aFamixUTExporter currentCompilationUnit packageDeclaration
 								    qualifiedName name));
-		  importDeclarations:
-			  (aFamixUTExporter valueExporter objectExportStrategy
-				   dependencyImportsOn: model);
 		  addClassDeclaration: (model newClassDeclaration name: className)
 ]
 

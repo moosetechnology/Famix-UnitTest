@@ -2,12 +2,13 @@
 A FamixUTJUnitExporterTest is a test class for testing the behavior of FamixUTJUnitExporter
 "
 Class {
-	#name : #FamixUTJUnitExporterTest,
-	#superclass : #TestCase,
-	#category : #'Famix-UnitTest-Exporter-Tests'
+	#name : 'FamixUTJUnitExporterTest',
+	#superclass : 'TestCase',
+	#category : 'Famix-UnitTest-Exporter-Tests',
+	#package : 'Famix-UnitTest-Exporter-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixUTJUnitExporterTest >> assertExport: aFASTEntity equals: expectedString [
 
 	self
@@ -15,7 +16,7 @@ FamixUTJUnitExporterTest >> assertExport: aFASTEntity equals: expectedString [
 		equals: expectedString
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixUTJUnitExporterTest >> assertExportCase: aFASTClassDeclaration equals: expectedString [
 	"Ignore the generated class comment."
 
@@ -27,7 +28,7 @@ FamixUTJUnitExporterTest >> assertExportCase: aFASTClassDeclaration equals: expe
 	self assert: actualString equals: expectedString
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixUTJUnitExporterTest >> testExportAct [
 
 	| act method |
@@ -46,9 +47,10 @@ FamixUTJUnitExporterTest >> testExportAct [
 '.
 
 	"with argument"
-	act arguments: { (FamixValueOfPrimitiveType new
-			 type: (FamixJavaPrimitiveType new name: 'int');
-			 value: 1) }.
+	act arguments:
+		{ (FamixUTActArgument new value: (FamixValueOfPrimitiveType new
+				  type: (FamixJavaPrimitiveType new name: 'int');
+				  value: 1)) }.
 	self
 		assertExport: (FamixUTJUnitExporter new exportAct: act)
 		equals: 'new MyClass().foo(int0);
@@ -63,7 +65,7 @@ FamixUTJUnitExporterTest >> testExportAct [
 '
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixUTJUnitExporterTest >> testExportAssertion [
 
 	| assertion |
@@ -84,7 +86,7 @@ FamixUTJUnitExporterTest >> testExportAssertion [
 '
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixUTJUnitExporterTest >> testExportCase [
 
 	| case |
@@ -116,7 +118,7 @@ FamixUTJUnitExporterTest >> testExportCase [
 '
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FamixUTJUnitExporterTest >> testExportMethod [
 
 	| method testMethod expected assertion setUp type arguments |
