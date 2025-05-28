@@ -104,18 +104,24 @@ FamixUTSUnitExporter >> exportMethodSetUp: aFamixUTSetUp [
 	(self methodSetUpStrategy export: aFamixUTSetUp on: self)
 		with: aFamixUTSetUp values
 		do: [ :ast :value |
-			| name node |
+			| node |
 			node := ast.
+
 			((ast isMessage and: [ ast receiver name = #self ]) or: [
-				 ast isLiteralNode ]) ifFalse: [
-				self flag: #TODO. "prevent this from happening"
-				statementBlock statements: statementBlock statements allButLast.
-				node := ast arguments second ].
-			name := self valueExporter varNameFor: value.
-			self statementBlock addNode:
-				(RBAssignmentNode
-					 variable: (RBVariableNode named: name)
-					 value: node) ]
+				 ast isLiteralNode or: [ ast isAssignment ] ]) ifFalse: [ "When not calling a helper or evaluating to a literal"
+				self flag: #TODO. "A dict is used to hold vars in helpers, because there can be too many.
+				This is implemented in `makeVariableNamed:` which returns `dict at: #varName` (that's a hack!).
+				However, now we write the test itself, and we only care about the var name."
+				statementBlock statements: statementBlock statements allButLast. "Remove the dict access"
+				node := ast arguments second "Keep the var value" ].
+
+			self statementBlock addNode: (ast isAssignment
+					 ifTrue: [ ast ]
+					 ifFalse: [
+						 RBAssignmentNode
+							 variable:
+							 (RBVariableNode named: (self valueExporter varNameFor: value))
+							 value: node ]) ]
 ]
 
 { #category : 'instance creation' }
@@ -128,6 +134,11 @@ FamixUTSUnitExporter >> exportMethodTearDown: aFamixUTTearDown [
 FamixUTSUnitExporter >> exportSetUp: aFamixUTSetUp [
 
 	self shouldBeImplemented
+]
+
+{ #category : 'exporting' }
+FamixUTSUnitExporter >> finalizeHelpers [
+	"Nothing to do"
 ]
 
 { #category : 'exporting' }
