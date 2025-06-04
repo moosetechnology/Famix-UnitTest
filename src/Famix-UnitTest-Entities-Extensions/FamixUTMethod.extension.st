@@ -9,3 +9,12 @@ FamixUTMethod >> name [
 				           ifNotNil: [ :methodName | methodName capitalized ]
 				           ifNil: [ '<unnamed>' ]) ] ]
 ]
+
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
+FamixUTMethod >> printOn: stream [
+
+	case ifNotNil: [
+		stream nextPutAll: case name.
+		stream nextPut: $. ].
+	stream nextPutAll: self name
+]

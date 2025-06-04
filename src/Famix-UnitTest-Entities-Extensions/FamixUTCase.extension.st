@@ -13,3 +13,9 @@ FamixUTCase >> name [
 		  ifNotNil: [ :name | name , 'Test' ]
 		  ifNil: [ '<unnamed>Test' ]
 ]
+
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
+FamixUTCase >> printOn: stream [
+
+	stream nextPutAll: self name
+]
