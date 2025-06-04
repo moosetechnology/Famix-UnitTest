@@ -6,17 +6,11 @@ Class {
 	#tag : 'Exporters'
 }
 
-{ #category : 'exporting' }
+{ #category : 'accessing' }
 FamixUTSUnitExporter >> assertionStrategy [
 
 	^ assertionStrategy ifNil: [
 		  assertionStrategy := FamixUTSUnitAssertionStrategy new ]
-]
-
-{ #category : 'exporting' }
-FamixUTSUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
-
-	assertionStrategy := aFamixUTAssertionStrategy
 ]
 
 { #category : 'exporting' }
@@ -185,12 +179,6 @@ FamixUTSUnitExporter >> makeTestCaseComment [
 		  , String lf , 'version: ' , DateAndTime now asString , '"'
 ]
 
-{ #category : 'exporting' }
-FamixUTSUnitExporter >> makeTestCaseReceiver: aFamixUTCase [
-
-	self shouldBeImplemented
-]
-
 { #category : 'ast' }
 FamixUTSUnitExporter >> makeTestMethod: aFamixUTMethod [
 	"Create missing temporary variables"
@@ -207,7 +195,7 @@ FamixUTSUnitExporter >> makeTestMethod: aFamixUTMethod [
 FamixUTSUnitExporter >> methodSetUpStrategy [
 
 	^ methodSetUpStrategy ifNil: [
-		  methodSetUpStrategy := FamixPharoUTHelperSetUpStrategy instance ]
+		  methodSetUpStrategy := FamixUTPharoHelperSetUpStrategy instance ]
 ]
 
 { #category : 'mass units' }

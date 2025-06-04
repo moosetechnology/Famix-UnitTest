@@ -16,7 +16,7 @@ FamixUTJUnitExporter class >> isAbstract [
 	^ self == FamixUTJUnitExporter
 ]
 
-{ #category : 'exporting' }
+{ #category : 'accessing' }
 FamixUTJUnitExporter >> assertionStrategy [
 
 	^ assertionStrategy ifNil: [
@@ -24,22 +24,16 @@ FamixUTJUnitExporter >> assertionStrategy [
 ]
 
 { #category : 'accessing' }
-FamixUTJUnitExporter >> assertionStrategy: aFamixUTAssertionStrategy [
-
-	assertionStrategy := aFamixUTAssertionStrategy
-]
-
-{ #category : 'exporting' }
 FamixUTJUnitExporter >> constructorDict [
 
 	^ constructorDict ifNil: [ constructorDict := IdentityDictionary new ]
 ]
 
 { #category : 'accessing - properties' }
-FamixUTJUnitExporter >> currentClassHasAutowiredProperty [
+FamixUTJUnitExporter >> currentClassHasAutowiredField [
 
 	^ currentClass declarations anySatisfy: [ :declaration |
-		  (declaration isKindOf: FASTJavaVarDeclStatement) and: [
+		  declaration isVarDeclStatement and: [
 			  declaration modifiers anySatisfy: [ :modifier |
 				  modifier name = 'Autowired' ] ] ]
 ]
@@ -50,7 +44,7 @@ FamixUTJUnitExporter >> currentCompilationUnit [
 	^ currentCompilationUnit
 ]
 
-{ #category : 'exporting' }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> enableReflectionFor: aFamixJavaAttribute [
 	"Give access to the given attribute using reflection.
 	An attribute of the test class will hold the Field object."
@@ -94,7 +88,7 @@ FamixUTJUnitExporter >> enableReflectionFor: aFamixJavaAttribute [
 					  yourself))
 ]
 
-{ #category : 'exporting' }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> ensureClassConstructorForReflection [
 	"To enable attribute reflection in Java, we need to get the Field and make it accessible"
 
@@ -134,28 +128,27 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 
 { #category : 'exporting' }
 FamixUTJUnitExporter >> exportCase: aFamixUTCase [
-	"Returns a public test class."
+	"Creates and returns a new public test class."
 
 	(currentClass := self model newClassDeclaration)
 		name: aFamixUTCase name;
 		addModifier: (model newModifier token: 'public');
 		addComment: self makeTestCaseComment.
 
-	caseSuperclass ifNotNil: [ "inherit from configured superclass"
-		self handleCaseSuperclass ].
+	"Inherit from configured superclass"
+	caseSuperclass ifNotNil: [ self handleCaseSuperclass ].
 
+	self patchTestCaseCreated: aFamixUTCase.
+
+	"Export the test methods"
 	aFamixUTCase methods do: [ :method |
 		[ currentClass addDeclaration: (self exportMethod: method) ]
 			on: Error
-			do: [ :e | "propose to skip methods with errors"
+			do: [ :e | "Propose to skip methods with errors"
 				FamixUTSkipWarning signalFor: method because: e ] ].
 
 	"Stop here if no methods were successfully exported"
 	currentClass declarations ifEmpty: [ ^ nil ].
-
-	"Add 'autowire' method to add properties to the receiver."
-	self currentClassHasAutowiredProperty ifTrue: [
-		self makeTestCaseAutowire: aFamixUTCase ].
 
 	"Suppress some warnings for now..."
 	currentClass addModifier: (model newAnnotation
@@ -164,18 +157,19 @@ FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 							  (model newStringLiteral primitiveValue: 'rawtypes').
 							  (model newStringLiteral primitiveValue: 'unchecked') }) }).
 
+	self patchTestCaseBuilt: aFamixUTCase.
 	^ currentClass
 ]
 
 { #category : 'exporting' }
 FamixUTJUnitExporter >> exportCaseCompilationUnit: aFamixUTCase [
 
-	currentCompilationUnit := self model newCompilationUnit.
-	currentCompilationUnit
+	(currentCompilationUnit := self model newCompilationUnit)
 		packageDeclaration: (self exportCasePackage: aFamixUTCase);
 		importDeclarations: (self exportCaseImports: aFamixUTCase).
+
 	(self exportCase: aFamixUTCase)
-		ifNil: [ "all method exports failed"
+		ifNil: [ "All method exports failed"
 		currentCompilationUnit removeFromModel ]
 		ifNotNil: [ :case |
 		currentCompilationUnit addClassDeclaration: case ]
@@ -198,12 +192,14 @@ FamixUTJUnitExporter >> exportCaseImports: aFamixUTCase [
 		imports add:
 			(valueExporter builder makeImportDeclaration: caseSuperclass) ].
 
-	"TODO: handle autowired import"
-	"exportCaseImports: after exportCase: then add the autowired check"
-	"self currentClassHasAutowiredProperty ifTrue: [
-		imports add: (model newImportDeclaration qualifiedName:
-				 (model newQualifiedName name:
-					  'org.springframework.beans.factory.annotation.Autowired')) ]."
+	self flag: #TODO. "Handle import of Autowired.
+	#exportCaseImports: after #exportCase: then add the autowired check.
+	There is some specific issue I can't exactly recall regarding execution order, making the check difficult.
+	For now, always add and let the formatter get rid of it if unnecessary..."
+	"self currentClassHasAutowiredProperty ifTrue: ["
+	imports add: (model newImportDeclaration qualifiedName:
+			 (model newQualifiedName name:
+				  'org.springframework.beans.factory.annotation.Autowired')). "]"
 	^ imports
 ]
 
@@ -252,12 +248,12 @@ FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 	^ currentCompilationUnit
 ]
 
-{ #category : 'exporting' }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> handleCaseSuperclass [
 	"Make the current test class inherit from the configured superclass"
 
 	| constructors constructor |
-	"make the inheritance AST"
+	"Make the inheritance AST"
 	currentClass superclass:
 		(caseSuperclass asFASTJavaTypeExpressionOn: valueExporter).
 
@@ -271,9 +267,9 @@ FamixUTJUnitExporter >> handleCaseSuperclass [
 	constructors size > 1 ifTrue: [
 		Warning signal:
 			'Multiple constructors in case superclass, which one to use?' ].
-	constructor := constructors first.
+	constructor := constructors first. "TODO select one with fewest arguments"
 
-	"make the constructor AST"
+	"Make the constructor AST"
 	currentClass declarations addFirst: (model newMethodEntity
 			 name: currentClass name;
 			 addModifier: (model newModifier token: 'public');
@@ -363,20 +359,38 @@ FamixUTJUnitExporter >> makeJUnitImports [
 				    package , '.' , self nameOfBeforeEachAnnotation)) }
 ]
 
-{ #category : 'exporting' }
+{ #category : 'ast' }
+FamixUTJUnitExporter >> makeNewObjectVarDecl: aFamixJavaClass [
+	"Declare a variable and assign it a new instance of the given class"
+
+	^ self model newVarDeclStatement
+		  type:
+			  (aFamixJavaClass asFASTJavaTypeExpressionOn: self valueExporter);
+		  addModifier: (model newModifier token: 'private');
+		  addDeclarator: (model newVariableDeclarator
+				   variable:
+					   (model newVariableExpression name:
+							    aFamixJavaClass name uncapitalized);
+				   expression: (model newNewExpression type:
+							    (aFamixJavaClass asFASTJavaTypeExpressionOn:
+									     self valueExporter)));
+		  yourself
+]
+
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeSuiteAnnotations: aFamixUTSuite [
 	"Return the class annotations to apply to a suite class"
 
 	self subclassResponsibility
 ]
 
-{ #category : 'exporting' }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeSuiteImports [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'exporting' }
+{ #category : 'ast' }
 FamixUTJUnitExporter >> makeTestCaseAutowire: aFamixUTCase [
 	"UseCases are not autowireable, but the services are. To really test the UseCase methods,
 	we autowire the services and inject them into the instance with a setter in a setup method."
@@ -384,9 +398,8 @@ FamixUTJUnitExporter >> makeTestCaseAutowire: aFamixUTCase [
 	| testedClass ucName autowireMethod usesReflection |
 	testedClass := aFamixUTCase testedClass.
 	ucName := testedClass name uncapitalized.
-	autowireMethod := model newMethodEntity.
 	usesReflection := false.
-	autowireMethod
+	(autowireMethod := model newMethodEntity)
 		name: 'autowire';
 		type: model newVoidTypeExpression;
 		modifiers: {
@@ -395,7 +408,7 @@ FamixUTJUnitExporter >> makeTestCaseAutowire: aFamixUTCase [
 		statementBlock:
 			(model newStatementBlock statements: (currentClass declarations
 						  select: [ :declaration |
-							  (declaration isKindOf: FASTJavaVarDeclStatement) and: [
+							  declaration isVarDeclStatement and: [
 									  declaration declarators first variable name ~= ucName ] ]
 						  thenCollect: [ :declaration |
 							  | serviceName attribute |
@@ -403,7 +416,7 @@ FamixUTJUnitExporter >> makeTestCaseAutowire: aFamixUTCase [
 							  attribute := testedClass attributes detect: [ :a |
 									               a name = serviceName ].
 							  (testedClass findSetterOf: attribute)
-								  ifNotNil: [ :setter | "use setter: uc.setService(service);"
+								  ifNotNil: [ :setter | "Use setter: uc.setService(service);"
 									  model newExpressionStatement expression:
 											  (model newMethodInvocation
 												   receiver: (model newVariableExpression name: ucName);
@@ -411,7 +424,7 @@ FamixUTJUnitExporter >> makeTestCaseAutowire: aFamixUTCase [
 												   addArgument:
 													   (model newVariableExpression name: serviceName);
 												   famixMethod: setter) ]
-								  ifNil: [ "use reflection"
+								  ifNil: [ "Use reflection"
 									  usesReflection ifFalse: [
 										  usesReflection := true.
 										  autowireMethod throws: {
@@ -441,26 +454,6 @@ FamixUTJUnitExporter >> makeTestCaseComment [
 	^ model newComment content:
 		  '/**@author Generated by <a href="https://github.com/Evref-BL/Modest">Modest</a>'
 		  , String lf , '@version ' , DateAndTime now asString , '*/'
-]
-
-{ #category : 'ast' }
-FamixUTJUnitExporter >> makeTestCaseReceiver: aFamixUTCase [
-	"The variable containing an instance of the tested class"
-
-	| testedClass |
-	Error signal: 'Do not use an attribute to store receiver'.
-	testedClass := aFamixUTCase testedClass.
-	^ self model newVarDeclStatement
-		  type: (testedClass asFASTJavaTypeExpressionOn: self valueExporter);
-		  addModifier: (model newModifier token: 'private');
-		  addDeclarator: (model newVariableDeclarator
-				   variable:
-					   (model newVariableExpression name:
-							    testedClass name uncapitalized);
-				   expression: (model newNewExpression type:
-							    (aFamixUTCase testedClass asFASTJavaTypeExpressionOn:
-									     self valueExporter)));
-		  yourself
 ]
 
 { #category : 'ast' }

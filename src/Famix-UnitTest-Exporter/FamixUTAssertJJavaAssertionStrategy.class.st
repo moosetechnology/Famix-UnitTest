@@ -33,6 +33,7 @@ FamixUTAssertJJavaAssertionStrategy >> export: aFamixUTAssertion on: exporter [
 		             addArgument:
 			             (model newVariableExpression name: 'actual');
 		             name: 'assertThat'.
+
 	(self usingRecursiveComparison and: [
 		 expected isOfObject or: [
 			 expected isOfCollection or: [ expected isOfDictionary ] ] ])
@@ -55,6 +56,7 @@ FamixUTAssertJJavaAssertionStrategy >> export: aFamixUTAssertion on: exporter [
 								              model newClassProperty
 									              type: (model newIdentifier name: typeName);
 									              fieldName: 'class' ]) ] ].
+
 	assertion := model newMethodInvocation
 		             receiver: assertion;
 		             addArgument:

@@ -8,7 +8,8 @@ Class {
 		'assertionStrategy',
 		'methodSetUpStrategy',
 		'caseSuperclass',
-		'currentClass'
+		'currentClass',
+		'patches'
 	],
 	#category : 'Famix-UnitTest-Exporter-Exporters',
 	#package : 'Famix-UnitTest-Exporter',
@@ -21,10 +22,16 @@ FamixUTAbstractExporter class >> isAbstract [
 	^ self == FamixUTAbstractExporter
 ]
 
-{ #category : 'exporting' }
+{ #category : 'accessing' }
 FamixUTAbstractExporter >> assertionStrategy [
 
 	^ assertionStrategy
+]
+
+{ #category : 'accessing' }
+FamixUTAbstractExporter >> assertionStrategy: aFamixUTAssertionStrategy [
+
+	assertionStrategy := aFamixUTAssertionStrategy
 ]
 
 { #category : 'accessing' }
@@ -94,20 +101,25 @@ FamixUTAbstractExporter >> exportMethod: aFamixUTMethod [
 
 	| method |
 	method := self makeTestMethod: aFamixUTMethod.
+
 	"Arrange/Given"
 	aFamixUTMethod setUp ifNotNil: [ :setUp |
 		self methodSetUpStrategy export: setUp on: self.
 		self statementBlock statements ifNotEmpty: [ :statements |
 			statements first addComment: self makeArrangeComment ] ].
+
 	"Act/When"
 	aFamixUTMethod act ifNotNil: [ :act |
 		(self exportAct: aFamixUTMethod act) addComment: self makeActComment ].
+
 	"Assert/Then"
 	aFamixUTMethod assertions do: [ :assertion |
 		(self exportAssertion: assertion) addComment: self makeAssertComment ].
+
 	"Teardown"
 	aFamixUTMethod tearDown ifNotNil: [ :tearDown |
 		self exportMethodTearDown: tearDown ].
+
 	^ method
 ]
 
@@ -202,6 +214,32 @@ FamixUTAbstractExporter >> model: aFASTModel [
 FamixUTAbstractExporter >> newValueExporter [
 
 	self subclassResponsibility
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractExporter >> patchTestCaseBuilt: aFamixUTCase [
+
+	self patches do: [ :patch |
+		patch whenTestCaseBuilt: aFamixUTCase on: self ]
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractExporter >> patchTestCaseCreated: aFamixUTCase [
+
+	self patches do: [ :patch |
+		patch whenTestCaseCreated: aFamixUTCase on: self ]
+]
+
+{ #category : 'accessing' }
+FamixUTAbstractExporter >> patches [
+
+	^ patches ifNil: [ patches := Array empty ]
+]
+
+{ #category : 'accessing' }
+FamixUTAbstractExporter >> patches: aPatchCollection [
+
+	patches := aPatchCollection
 ]
 
 { #category : 'accessing' }

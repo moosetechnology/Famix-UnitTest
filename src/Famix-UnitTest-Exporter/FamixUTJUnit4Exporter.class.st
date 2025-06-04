@@ -6,7 +6,7 @@ Class {
 	#tag : 'Exporters'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'ast' }
 FamixUTJUnit4Exporter >> makeSuiteAnnotations: aFamixUTSuite [
 
 	^ {
@@ -24,7 +24,7 @@ FamixUTJUnit4Exporter >> makeSuiteAnnotations: aFamixUTSuite [
 									     fieldName: 'class' ])) }) }
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'ast' }
 FamixUTJUnit4Exporter >> makeSuiteImports [
 
 	^ {
