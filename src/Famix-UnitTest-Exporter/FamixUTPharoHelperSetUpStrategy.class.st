@@ -1,5 +1,5 @@
 Class {
-	#name : 'FamixPharoUTHelperSetUpStrategy',
+	#name : 'FamixUTPharoHelperSetUpStrategy',
 	#superclass : 'FamixUTAbstractSetUpStrategy',
 	#category : 'Famix-UnitTest-Exporter-Strategies',
 	#package : 'Famix-UnitTest-Exporter',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'exporting' }
-FamixPharoUTHelperSetUpStrategy >> export: aFamixUTSetUp helperFor: value on: aFamixUTExporter [
+FamixUTPharoHelperSetUpStrategy >> export: aFamixUTSetUp helperFor: value on: aFamixUTExporter [
 
 	| model methodName |
 	model := aFamixUTExporter model.
@@ -35,7 +35,7 @@ FamixPharoUTHelperSetUpStrategy >> export: aFamixUTSetUp helperFor: value on: aF
 ]
 
 { #category : 'exporting' }
-FamixPharoUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
+FamixUTPharoHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 
 	| valueExporter |
 	aFamixUTSetUp values ifEmpty: [ ^ self ].
@@ -53,7 +53,7 @@ FamixPharoUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 ]
 
 { #category : 'exporting' }
-FamixPharoUTHelperSetUpStrategy >> makeHelperMethodFor: value on: aFamixUTExporter [
+FamixUTPharoHelperSetUpStrategy >> makeHelperMethodFor: value on: aFamixUTExporter [
 	"Export the value inside the helper method, then restore the previous context."
 
 	| model valueExporter method oldStatementBlock newStatementBlock node |
