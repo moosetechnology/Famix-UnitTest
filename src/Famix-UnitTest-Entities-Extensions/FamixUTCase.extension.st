@@ -9,9 +9,16 @@ FamixUTCase >> mooseNameOn: aStream [
 { #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTCase >> name [
 
-	^ self testedClass name
-		  ifNotNil: [ :name | name , 'Test' ]
-		  ifNil: [ '<unnamed>Test' ]
+	^ self attributeAt: #name ifAbsentPut: [
+		  self testedClass name
+			  ifNotNil: [ :name | name , 'Test' ]
+			  ifNil: [ '<unnamed>Test' ] ]
+]
+
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
+FamixUTCase >> name: aString [
+
+	self attributeAt: #name put: aString
 ]
 
 { #category : '*Famix-UnitTest-Entities-Extensions' }
