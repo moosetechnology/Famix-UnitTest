@@ -9,9 +9,9 @@ Class {
 { #category : 'exporting' }
 FamixUTPharoHelperSetUpStrategy >> export: aFamixUTSetUp helperFor: value on: aFamixUTExporter [
 
-	| model methodName |
-	model := aFamixUTExporter model.
-	methodName := ((WriteStream with: 'given_')
+	| testName helperName helperMethod |
+	testName := aFamixUTSetUp method name.
+	helperName := ((WriteStream with: 'given_')
 	               <<
 		               (value resultInSpan
 			                ifNotNil: [ 'expected' ]
@@ -19,19 +19,20 @@ FamixUTPharoHelperSetUpStrategy >> export: aFamixUTSetUp helperFor: value on: aF
 				                value receiverInSpan
 					                ifNotNil: [ 'receiver' ]
 					                ifNil: [ value typedEntity name , '_argument' ] ])
-	               << '_for_' << aFamixUTSetUp method name) contents.
+	               << '_for_' << testName) contents.
 
-	aFamixUTExporter currentClass
-		compile:
-			((self makeHelperMethodFor: value on: aFamixUTExporter) selector:
-				 methodName) formattedCode
-		classified: 'helpers'.
+	helperMethod := (self makeHelperMethodFor: value on: aFamixUTExporter)
+		                selector: helperName.
+
+	"Add the helper to the method mapping"
+	((aFamixUTExporter mapping classNamed: aFamixUTSetUp method case name)
+		 methodNamed: testName) addHelper: helperMethod named: helperName.
 
 	"IMPORTANT: build the method before calling it and assigning it to the variable,
-				   because a value is considered already exported if it has been named!"
+	because a value is considered already exported if it has been named!"
 	^ RBMessageNode
 		  receiver: (RBVariableNode named: #self)
-		  selector: methodName
+		  selector: helperName
 ]
 
 { #category : 'exporting' }

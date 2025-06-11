@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'valueExporter',
 		'model',
+		'mapping',
 		'statementBlock',
 		'assertionStrategy',
 		'methodSetUpStrategy',
@@ -131,8 +132,7 @@ FamixUTAbstractExporter >> exportMethodTearDown: aFamixUTTearDown [
 
 { #category : 'exporting' }
 FamixUTAbstractExporter >> exportSuite: aFamixUTSuite [
-
-	self subclassResponsibility
+	"Are there static test suites in Pharo? I don't think so, just skip this step."
 ]
 
 { #category : 'exporting' }
@@ -183,6 +183,13 @@ FamixUTAbstractExporter >> makeTestCaseComment [
 FamixUTAbstractExporter >> makeTestMethod: aFamixUTMethod [
 
 	^ self model newMethodEntity name: aFamixUTMethod name
+]
+
+{ #category : 'accessing' }
+FamixUTAbstractExporter >> mapping [
+	"Return the mapping of the generated AST structure"
+
+	^ mapping ifNil: [ mapping := FamixUTModelMapping new ]
 ]
 
 { #category : 'exporting' }

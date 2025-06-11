@@ -1,9 +1,9 @@
 Class {
 	#name : 'FamixUTSUnitAssertionStrategy',
 	#superclass : 'FamixUTAbstractStrategy',
-	#category : 'Famix-UnitTest-Exporter-Exporters',
+	#category : 'Famix-UnitTest-Exporter-Strategies',
 	#package : 'Famix-UnitTest-Exporter',
-	#tag : 'Exporters'
+	#tag : 'Strategies'
 }
 
 { #category : 'exporting' }

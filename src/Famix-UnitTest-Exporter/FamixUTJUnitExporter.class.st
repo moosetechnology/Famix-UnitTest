@@ -130,6 +130,7 @@ FamixUTJUnitExporter >> exportAct: aFamixUTAct [
 FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 	"Creates and returns a new public test class."
 
+	| classMapping |
 	(currentClass := self model newClassDeclaration)
 		name: aFamixUTCase name;
 		addModifier: (model newModifier token: 'public');
@@ -138,11 +139,17 @@ FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 	"Inherit from configured superclass"
 	caseSuperclass ifNotNil: [ self handleCaseSuperclass ].
 
+	"Build the test class mapping"
+	(classMapping := self mapping addClass: aFamixUTCase) ast:
+		currentClass.
+
 	self patchTestCaseCreated: aFamixUTCase.
 
 	"Export the test methods"
 	aFamixUTCase methods do: [ :method |
-		[ currentClass addDeclaration: (self exportMethod: method) ]
+		[
+		(classMapping addMethod: method) ast:
+			(currentClass addDeclaration: (self exportMethod: method)) ]
 			on: Error
 			do: [ :e | "Propose to skip methods with errors"
 				FamixUTSkipWarning signalFor: method because: e ] ].

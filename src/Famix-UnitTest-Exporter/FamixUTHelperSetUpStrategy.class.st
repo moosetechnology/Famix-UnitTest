@@ -51,21 +51,28 @@ FamixUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 			 value value isNotEmpty ])
 			ifFalse: [ value accept: valueExporter ]
 			ifTrue: [ "make the helper method to reconstruct the value"
-				| methodName |
-				methodName := ((WriteStream with: 'given_') << value roleName
+				| helperName helperMethod |
+				helperName := ((WriteStream with: 'given_') << value roleName
 				               << '_for_' << aFamixUTSetUp method name) contents.
+
+				(helperMethod := self
+					                 makeHelperMethodFor: value
+					                 on: aFamixUTExporter)
+					name: helperName;
+					addComment: (model newComment content: comment).
 
 				helperClass ifNil: [
 					helperClass := self ensureHelperClassOn: aFamixUTExporter ].
-				helperClass addDeclaration:
-					((self makeHelperMethodFor: value on: aFamixUTExporter)
-						 name: methodName;
-						 addComment: (model newComment content: comment);
-						 yourself).
+				helperClass addDeclaration: helperMethod.
 
-				"add necessary imports to the helper class"
+				"Add necessary imports to the helper class"
 				helperClass compilationUnit importDeclarations addAll:
 					(valueExporter builder makeImportDeclarations: value).
+
+				"Add the helper to the method mapping"
+				(aFamixUTExporter mapping atMethod: aFamixUTSetUp method)
+					addHelper: helperMethod
+					named: helperName.
 
 				"IMPORTANT: build the method before calling it and assigning it to the variable,
 				because a value is considered already exported if it has been named!"
@@ -74,7 +81,7 @@ FamixUTHelperSetUpStrategy >> export: aFamixUTSetUp on: aFamixUTExporter [
 						 type: (value asFASTJavaTypeExpressionOn: valueExporter);
 						 addDeclarator: (model newVariableDeclarator
 								  variable: (valueExporter makeVariableExpression: value);
-								  expression: (model newMethodInvocation name: methodName));
+								  expression: (model newMethodInvocation name: helperName));
 						 yourself) ] ]
 ]
 

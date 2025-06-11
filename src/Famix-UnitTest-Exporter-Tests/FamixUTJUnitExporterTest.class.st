@@ -23,8 +23,14 @@ FamixUTJUnitExporterTest >> assertExportCase: aFASTClassDeclaration equals: expe
 	| actualString |
 	actualString := FASTJavaExportVisitor new export:
 		                aFASTClassDeclaration.
+
+	"Strip comments, and annotations not related to tests"
 	actualString := actualString allButFirst:
 		                (actualString findString: '*/') + 2.
+	(actualString beginsWith: '@SuppressWarnings') ifTrue: [
+		actualString := actualString allButFirst:
+			                (actualString indexOf: Character cr) ].
+
 	self assert: actualString equals: expectedString
 ]
 
@@ -93,15 +99,12 @@ FamixUTJUnitExporterTest >> testExportCase [
 	case := FamixUTCase new testedClass:
 		        (FamixJavaClass new name: 'MyClass').
 
-	"empty case"
+	"Empty test class, should refuse to be exported, returns nil"
 	self
-		assertExportCase: (FamixUTJUnitExporter new exportCase: case)
-		equals: 'public class MyClassTest {
-  private MyClass myClass = new MyClass();
-}
-'.
+		assert: (FamixUTJUnitExporter new exportCase: case)
+		identicalTo: nil.
 
-	"with method"
+	"With method"
 	case addMethod:
 		(FamixUTMethod new testedMethod: (FamixJavaMethod new
 				  name: 'foo';
@@ -110,7 +113,6 @@ FamixUTJUnitExporterTest >> testExportCase [
 	self
 		assertExportCase: (FamixUTJUnitExporter new exportCase: case)
 		equals: 'public class MyClassTest {
-  private MyClass myClass = new MyClass();
   @Test
   public void testFoo() {
   }
@@ -132,7 +134,7 @@ FamixUTJUnitExporterTest >> testExportMethod [
 	assertion := FamixUTAssertion new expected: expected.
 	setUp := FamixUTSetUp new.
 
-	"empty"
+	"Empty"
 	self
 		assertExport: (FamixUTJUnitExporter new exportMethod: testMethod)
 		equals: '@Test
@@ -140,7 +142,7 @@ public void testFoo() {
 }
 '.
 
-	"with setup"
+	"With setup"
 	arguments := { (FamixValueOfPrimitiveType new
 		              type: (FamixJavaPrimitiveType new name: 'int');
 		              value: 1) }.
@@ -155,8 +157,9 @@ public void testFoo() {
 }
 '.
 
-	"with act"
-	testMethod act: (FamixUTAct new arguments: arguments).
+	"With act"
+	testMethod act: (FamixUTAct new arguments:
+			 (arguments collect: [ :arg | FamixUTActArgument new value: arg ])).
 	self
 		assertExport: (FamixUTJUnitExporter new exportMethod: testMethod)
 		equals: '@Test
