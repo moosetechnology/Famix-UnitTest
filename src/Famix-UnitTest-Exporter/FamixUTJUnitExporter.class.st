@@ -217,8 +217,7 @@ FamixUTJUnitExporter >> exportCasePackage: aFamixUTCase [
 
 	^ self model newPackageDeclaration qualifiedName:
 		  (model newQualifiedName name:
-			   aFamixUTCase testedClass typeContainer mooseNameWithDots
-				   asLowercase)
+			   aFamixUTCase testedClass typeContainer mooseName asLowercase)
 ]
 
 { #category : 'exporting' }
@@ -249,8 +248,8 @@ FamixUTJUnitExporter >> exportSuite: aFamixUTSuite [
 			self makeSuiteImports , (aFamixUTSuite cases collect: [ :case |
 						 model newImportDeclaration qualifiedName:
 								 (model newQualifiedName name:
-										  case testedClass typeContainer mooseNameWithDots
-											  asLowercase , '.' , case name) ]);
+										  case testedClass typeContainer mooseName asLowercase , '.'
+										  , case name) ]);
 		addClassDeclaration: currentClass.
 	^ currentCompilationUnit
 ]
