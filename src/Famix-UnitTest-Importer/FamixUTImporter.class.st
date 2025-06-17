@@ -10,20 +10,30 @@ Class {
 }
 
 { #category : 'importing' }
+FamixUTImporter >> filterSpans: spans [
+
+	| filteredSpans |
+	filteredSpans := spans reject: [ :span | span skipped ].
+	self logOpenTelemetrySpans: spans filtered: filteredSpans.
+	^ filteredSpans
+]
+
+{ #category : 'importing' }
 FamixUTImporter >> fromOpenTelemetrySpans: spans [
 	"Use a collection of FamixOTelSpan from the Famix-OpenTelemetry project as test oracle."
 
-	((spans reject: [ :span | span cacheAt: #skip ifAbsent: false ])
-		 groupedBy: [ :span | span origin parentType ]) associationsDo: [
-		:spansByClass |
-		| case |
-		case := self model newCase testedClass: spansByClass key.
-		spansByClass value do: [ :span |
-			case addMethod: (self
-					 testMethod: span origin
-					 receiver: span receiver
-					 arguments: span arguments
-					 expected: span result) ] ].
+	| filteredSpans |
+	filteredSpans := self filterSpans: spans.
+	(filteredSpans groupedBy: [ :span | span origin parentType ])
+		keysAndValuesDo: [ :testedClass :classSpans |
+			self
+				execute: [
+					self logOpenTelemetrySpansGroupedByClass: classSpans.
+					self testClass: testedClass withOpenTelemetrySpans: classSpans ]
+				recordedAs: (String streamContents: [ :s |
+						 s << testedClass mooseName << ': '.
+						 classSpans size printOn: s.
+						 s nextPutAll: ' traces.' ]) ].
 	^ self model
 ]
 
@@ -31,6 +41,57 @@ FamixUTImporter >> fromOpenTelemetrySpans: spans [
 FamixUTImporter >> initialize [
 
 	nameDict := Dictionary new
+]
+
+{ #category : 'importing' }
+FamixUTImporter >> logOpenTelemetrySpans: spans filtered: filteredSpans [
+	"Log how many:
+	- traces are used to generate tests,
+	- traces were processed,
+	- traces were skipped,
+	- test classes can be generated,
+	- test methods can be generated"
+
+	[
+	String streamContents: [ :s |
+		s nextPutAll: 'Using '.
+		filteredSpans size printOn: s.
+		s nextPut: $/.
+		spans size printOn: s.
+		s nextPutAll: ' traces ('.
+		spans size - filteredSpans size printOn: s.
+		s nextPutAll: ' skipped during import) to generate '.
+		(filteredSpans groupedBy: [ :span | span origin parentType ]) size
+			printOn: s.
+		s nextPutAll: ' test classes and '.
+		(filteredSpans groupedBy: [ :span | span origin ]) size printOn: s.
+		s nextPutAll: ' test methods.' ] ] record
+]
+
+{ #category : 'importing' }
+FamixUTImporter >> logOpenTelemetrySpansGroupedByClass: spans [
+	"Log which methods were traced and how many times."
+
+	| sorted padding |
+	TinyCurrentLogger value hasLoggers ifFalse: [ ^ self ].
+	sorted := (spans groupedBy: [ :span | span origin ]) associations
+		          sort: [ :a :b | a value size >= b value size ].
+
+	"Measure padding to right-align trace count"
+	padding := 0.
+	sorted do: [ :assoc | padding := padding max: assoc value size ].
+	padding := padding asString size.
+
+	sorted do: [ :spansByMethod |
+		| testedMethod methodSpans |
+		testedMethod := spansByMethod key.
+		methodSpans := spansByMethod value.
+		(String streamContents: [ :s |
+			 s << (methodSpans size asString padLeftTo: padding) << ' trace'.
+			 s nextPut: (methodSpans size = 1
+					  ifTrue: [ Character space ]
+					  ifFalse: [ $s ]).
+			 s << ': ' << testedMethod signature ]) record ]
 ]
 
 { #category : 'accessing' }
@@ -43,6 +104,19 @@ FamixUTImporter >> model [
 FamixUTImporter >> model: aFamixUTModel [
 
 	model := aFamixUTModel
+]
+
+{ #category : 'importing' }
+FamixUTImporter >> testClass: testedClass withOpenTelemetrySpans: spans [
+
+	| case |
+	case := self model newCase testedClass: testedClass.
+	spans do: [ :span |
+		case addMethod: (self
+				 testMethod: span origin
+				 receiver: span receiver
+				 arguments: span arguments
+				 expected: span result) ]
 ]
 
 { #category : 'importing' }
