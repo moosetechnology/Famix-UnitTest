@@ -57,12 +57,19 @@ FamixUTAbstractExporter >> currentClass [
 { #category : 'exporting' }
 FamixUTAbstractExporter >> export: aFamixUTModel [
 
+	self patchBeforeExport: aFamixUTModel.
+	self patchBeforeTestCasesExport: aFamixUTModel.
 	(aFamixUTModel allWithType: FamixUTCase) do: [ :case |
 		self exportCaseCompilationUnit: case ].
+	self patchAfterTestCasesExport: aFamixUTModel.
+
+	self patchBeforeTestSuitesExport: aFamixUTModel.
 	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite |
 		self exportSuite: suite ].
+	self patchAfterTestSuitesExport: aFamixUTModel.
+
 	self finalizeHelpers.
-	self mapping log.
+	self patchAfterExport: aFamixUTModel.
 	^ self model
 ]
 
@@ -223,6 +230,47 @@ FamixUTAbstractExporter >> model: aFASTModel [
 FamixUTAbstractExporter >> newValueExporter [
 
 	self subclassResponsibility
+]
+
+{ #category : 'exporting' }
+FamixUTAbstractExporter >> patchAfterExport: aFamixUTModel [
+
+	self patches do: [ :patch | patch after: self exports: aFamixUTModel ]
+]
+
+{ #category : 'exporting' }
+FamixUTAbstractExporter >> patchAfterTestCasesExport: aFamixUTModel [
+
+	self patches do: [ :patch |
+		patch after: self exportsTestCases: aFamixUTModel ]
+]
+
+{ #category : 'exporting' }
+FamixUTAbstractExporter >> patchAfterTestSuitesExport: aFamixUTModel [
+
+	self patches do: [ :patch |
+		patch after: self exportsTestSuites: aFamixUTModel ]
+]
+
+{ #category : 'exporting' }
+FamixUTAbstractExporter >> patchBeforeExport: aFamixUTModel [
+
+	self patches do: [ :patch |
+		patch before: self exports: aFamixUTModel ]
+]
+
+{ #category : 'exporting' }
+FamixUTAbstractExporter >> patchBeforeTestCasesExport: aFamixUTModel [
+
+	self patches do: [ :patch |
+		patch before: self exportsTestCases: aFamixUTModel ]
+]
+
+{ #category : 'exporting' }
+FamixUTAbstractExporter >> patchBeforeTestSuitesExport: aFamixUTModel [
+
+	self patches do: [ :patch |
+		patch before: self exportsTestSuites: aFamixUTModel ]
 ]
 
 { #category : 'hooks' }

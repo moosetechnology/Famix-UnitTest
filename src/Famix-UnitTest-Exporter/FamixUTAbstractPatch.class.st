@@ -16,6 +16,36 @@ FamixUTAbstractPatch class >> isAbstract [
 ]
 
 { #category : 'hooks' }
+FamixUTAbstractPatch >> after: testExporter exports: testModel [
+	"At the very end of the test export process."
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractPatch >> after: testExporter exportsTestCases: aFamixUTModel [
+	"All test cases have been exported."
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractPatch >> after: testExporter exportsTestSuites: aFamixUTModel [
+	"All test suites have been exported."
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractPatch >> before: testExporter exports: aFamixUTModel [
+	"At the very start of the test export process."
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractPatch >> before: testExporter exportsTestCases: aFamixUTModel [
+	"All test cases are about to be exported."
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractPatch >> before: testExporter exportsTestSuites: aFamixUTModel [
+	"All test suites are about to be exported."
+]
+
+{ #category : 'hooks' }
 FamixUTAbstractPatch >> when: testExporter builtTestCase: aFamixUTCase [
 	"The test class and its methods have been fully exported."
 ]

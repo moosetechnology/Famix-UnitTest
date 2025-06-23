@@ -7,6 +7,12 @@ Class {
 }
 
 { #category : 'hooks' }
+FamixUTLoggingPatch >> after: testExporter exports: aFamixUTModel [
+
+	testExporter mapping log
+]
+
+{ #category : 'hooks' }
 FamixUTLoggingPatch >> when: testExporter builtTestCase: aFamixUTCase [
 
 	[ 'Built: ' , aFamixUTCase fullyQualifiedName ] record
