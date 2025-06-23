@@ -49,8 +49,8 @@ FamixUTImporter >> logOpenTelemetrySpans: spans filtered: filteredSpans [
 	- traces are used to generate tests,
 	- traces were processed,
 	- traces were skipped,
-	- test classes can be generated,
-	- test methods can be generated"
+	- classes are covered,
+	- methods are covered"
 
 	[
 	String streamContents: [ :s |
@@ -60,12 +60,12 @@ FamixUTImporter >> logOpenTelemetrySpans: spans filtered: filteredSpans [
 		spans size printOn: s.
 		s nextPutAll: ' traces ('.
 		spans size - filteredSpans size printOn: s.
-		s nextPutAll: ' skipped during import) to generate '.
+		s nextPutAll: ' skipped during import) covering '.
 		(filteredSpans groupedBy: [ :span | span origin parentType ]) size
 			printOn: s.
-		s nextPutAll: ' test classes and '.
+		s nextPutAll: ' classes and '.
 		(filteredSpans groupedBy: [ :span | span origin ]) size printOn: s.
-		s nextPutAll: ' test methods.' ] ] record
+		s nextPutAll: ' methods.' ] ] record
 ]
 
 { #category : 'importing' }
