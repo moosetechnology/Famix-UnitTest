@@ -16,11 +16,21 @@ FamixUTAbstractPatch class >> isAbstract [
 ]
 
 { #category : 'hooks' }
-FamixUTAbstractPatch >> whenTestCaseBuilt: aFamixUTCase on: testExporter [
+FamixUTAbstractPatch >> when: testExporter builtTestCase: aFamixUTCase [
 	"The test class and its methods have been fully exported."
 ]
 
 { #category : 'hooks' }
-FamixUTAbstractPatch >> whenTestCaseCreated: aFamixUTCase on: testExporter [
-	"A test class has just been created."
+FamixUTAbstractPatch >> when: testExporter createdTestCase: aFamixUTCase [
+	"A test class has just been created, before exporting methods."
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractPatch >> when: testExporter removedTestCase: aFamixUTCase [
+	"A test class has been removed because it has no test methods."
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractPatch >> when: testExporter skippedTestMethod: aFamixUTMethod because: exception [
+	"A test method has been skipped because of an exception."
 ]

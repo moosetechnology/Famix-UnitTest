@@ -227,14 +227,31 @@ FamixUTAbstractExporter >> newValueExporter [
 FamixUTAbstractExporter >> patchTestCaseBuilt: aFamixUTCase [
 
 	self patches do: [ :patch |
-		patch whenTestCaseBuilt: aFamixUTCase on: self ]
+		patch when: self builtTestCase: aFamixUTCase ]
 ]
 
 { #category : 'hooks' }
 FamixUTAbstractExporter >> patchTestCaseCreated: aFamixUTCase [
 
 	self patches do: [ :patch |
-		patch whenTestCaseCreated: aFamixUTCase on: self ]
+		patch when: self createdTestCase: aFamixUTCase ]
+]
+
+{ #category : 'exporting' }
+FamixUTAbstractExporter >> patchTestCaseRemoved: aFamixUTCase [
+
+	self patches do: [ :patch |
+		patch when: self removedTestCase: aFamixUTCase ]
+]
+
+{ #category : 'hooks' }
+FamixUTAbstractExporter >> patchTestMethodSkipped: aFamixUTMethod because: exception [
+
+	self patches do: [ :patch |
+		patch
+			when: self
+			skippedTestMethod: aFamixUTMethod
+			because: exception ]
 ]
 
 { #category : 'accessing' }

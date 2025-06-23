@@ -28,7 +28,7 @@ Class {
 }
 
 { #category : 'hooks' }
-FamixUTReceiverAsFieldWithAutowiredFieldsPatch >> whenTestCaseBuilt: aFamixUTCase on: testExporter [
+FamixUTReceiverAsFieldWithAutowiredFieldsPatch >> when: testExporter builtTestCase: aFamixUTCase [
 	"Add 'autowire' method to add properties to the receiver."
 
 	testExporter currentClassHasAutowiredField ifTrue: [
@@ -36,7 +36,7 @@ FamixUTReceiverAsFieldWithAutowiredFieldsPatch >> whenTestCaseBuilt: aFamixUTCas
 ]
 
 { #category : 'hooks' }
-FamixUTReceiverAsFieldWithAutowiredFieldsPatch >> whenTestCaseCreated: aFamixUTCase on: testExporter [
+FamixUTReceiverAsFieldWithAutowiredFieldsPatch >> when: testExporter createdTestCase: aFamixUTCase [
 
 	testExporter currentClass addDeclaration:
 		(testExporter makeNewObjectVarDecl: aFamixUTCase testedClass)
