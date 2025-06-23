@@ -44,3 +44,21 @@ FamixUTModelMapping >> classesDo: aBlock [
 
 	self mapping valuesDo: aBlock
 ]
+
+{ #category : 'removing' }
+FamixUTModelMapping >> removeClass: aFamixUTCase [
+
+	^ self removeClassNamed: aFamixUTCase name
+]
+
+{ #category : 'removing' }
+FamixUTModelMapping >> removeClassMapping: classMapping [
+
+	^ self removeClass: classMapping model
+]
+
+{ #category : 'removing' }
+FamixUTModelMapping >> removeClassNamed: className [
+
+	^ self mapping removeKey: className
+]

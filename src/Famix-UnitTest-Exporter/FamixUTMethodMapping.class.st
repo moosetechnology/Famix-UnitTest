@@ -40,6 +40,12 @@ FamixUTMethodMapping >> helpers: aDictionary [
 	mapping := aDictionary
 ]
 
+{ #category : 'enumerating' }
+FamixUTMethodMapping >> helpersDo: aBlock [
+
+	self mapping valuesDo: aBlock
+]
+
 { #category : 'accessing' }
 FamixUTMethodMapping >> model [
 

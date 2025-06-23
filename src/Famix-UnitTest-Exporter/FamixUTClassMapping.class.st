@@ -80,13 +80,26 @@ FamixUTClassMapping >> model: aFamixUTCase [
 ]
 
 { #category : 'removing' }
-FamixUTClassMapping >> removeMethod: methodMapping [
+FamixUTClassMapping >> removeMethod: aFamixUTMethod [
 
-	^ self removeMethodNamed: methodMapping model name
+	^ self removeMethodNamed: aFamixUTMethod name
+]
+
+{ #category : 'removing' }
+FamixUTClassMapping >> removeMethodMapping: methodMapping [
+
+	^ self removeMethod: methodMapping model
 ]
 
 { #category : 'removing' }
 FamixUTClassMapping >> removeMethodNamed: methodName [
 
-	^ self mapping removeKey: methodName
+	| removed |
+	removed := self mapping removeKey: methodName.
+
+	removed ast ifNotNil: [ :removedAST |
+		removedAST isMooseObject ifTrue: [ "Remove from owner using metadescription"
+			self halt ] ].
+
+	^ removed
 ]
