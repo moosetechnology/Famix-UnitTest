@@ -25,7 +25,7 @@ FamixUTPharoHelperSetUpStrategy >> export: aFamixUTSetUp helperFor: value on: aF
 		                selector: helperName.
 
 	"Add the helper to the method mapping"
-	((aFamixUTExporter mapping classNamed: aFamixUTSetUp method case name)
+	((aFamixUTExporter mapping atClass: aFamixUTSetUp method case)
 		 methodNamed: testName) addHelper: helperMethod named: helperName.
 
 	"IMPORTANT: build the method before calling it and assigning it to the variable,

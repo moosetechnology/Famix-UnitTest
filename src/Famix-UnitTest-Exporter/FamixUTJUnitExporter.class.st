@@ -151,11 +151,15 @@ FamixUTJUnitExporter >> exportCase: aFamixUTCase [
 		(classMapping addMethod: method) ast:
 			(currentClass addDeclaration: (self exportMethod: method)) ]
 			on: Error
-			do: [ :e | "Propose to skip methods with errors"
-				FamixUTSkipWarning signalFor: method because: e ] ].
+			do: [ :ex | "Propose to skip methods with errors"
+				self patchTestMethodSkipped: method because: ex.
+				classMapping removeMethod: method.
+				FamixUTSkipWarning signalFor: method because: ex ] ].
 
 	"Stop here if no methods were successfully exported"
-	currentClass declarations ifEmpty: [ ^ nil ].
+	currentClass declarations ifEmpty: [
+		self mapping removeClass: aFamixUTCase.
+		^ nil ].
 
 	"Suppress some warnings for now..."
 	currentClass addModifier: (model newAnnotation
@@ -177,9 +181,10 @@ FamixUTJUnitExporter >> exportCaseCompilationUnit: aFamixUTCase [
 
 	(self exportCase: aFamixUTCase)
 		ifNil: [ "All method exports failed"
-		currentCompilationUnit removeFromModel ]
-		ifNotNil: [ :case |
-		currentCompilationUnit addClassDeclaration: case ]
+			self patchTestCaseRemoved: aFamixUTCase.
+			currentCompilationUnit removeFromModel ]
+		ifNotNil: [ :testClass |
+		currentCompilationUnit addClassDeclaration: testClass ]
 ]
 
 { #category : 'exporting' }
