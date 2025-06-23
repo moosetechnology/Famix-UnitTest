@@ -62,6 +62,7 @@ FamixUTAbstractExporter >> export: aFamixUTModel [
 	(aFamixUTModel allWithType: FamixUTSuite) do: [ :suite |
 		self exportSuite: suite ].
 	self finalizeHelpers.
+	self mapping log.
 	^ self model
 ]
 
