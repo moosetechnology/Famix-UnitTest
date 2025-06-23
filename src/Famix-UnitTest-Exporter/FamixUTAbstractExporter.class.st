@@ -132,7 +132,8 @@ FamixUTAbstractExporter >> exportMethodTearDown: aFamixUTTearDown [
 
 { #category : 'exporting' }
 FamixUTAbstractExporter >> exportSuite: aFamixUTSuite [
-	"Are there static test suites in Pharo? I don't think so, just skip this step."
+
+	self subclassResponsibility
 ]
 
 { #category : 'exporting' }

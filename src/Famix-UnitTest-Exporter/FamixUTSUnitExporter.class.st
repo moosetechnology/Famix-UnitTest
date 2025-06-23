@@ -125,6 +125,11 @@ FamixUTSUnitExporter >> exportSetUp: aFamixUTSetUp [
 ]
 
 { #category : 'exporting' }
+FamixUTSUnitExporter >> exportSuite: aFamixUTSuite [
+	"Are there static test suites in Pharo? I don't think so, just skip this step."
+]
+
+{ #category : 'exporting' }
 FamixUTSUnitExporter >> finalizeHelpers [
 	"Nothing to do"
 ]
