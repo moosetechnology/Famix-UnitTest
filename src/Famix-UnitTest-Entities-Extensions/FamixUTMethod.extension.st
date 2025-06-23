@@ -4,9 +4,7 @@ Extension { #name : 'FamixUTMethod' }
 FamixUTMethod >> fullyQualifiedName [
 
 	^ String streamContents: [ :s |
-		  self testedMethod parentType typeContainer fullyQualifiedName
-			  ifNotEmpty: [ :containerName | s << containerName << '.' ].
-		  s << self case name << '.' << self name ]
+		  s << self case fullyQualifiedName << '.' << self name ]
 ]
 
 { #category : '*Famix-UnitTest-Entities-Extensions' }

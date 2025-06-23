@@ -1,6 +1,15 @@
 Extension { #name : 'FamixUTCase' }
 
 { #category : '*Famix-UnitTest-Entities-Extensions' }
+FamixUTCase >> fullyQualifiedName [
+
+	^ String streamContents: [ :s |
+		  self testedClass typeContainer fullyQualifiedName ifNotEmpty: [
+			  :containerName | s << containerName << '.' ].
+		  s << self name ]
+]
+
+{ #category : '*Famix-UnitTest-Entities-Extensions' }
 FamixUTCase >> mooseNameOn: aStream [
 
 	aStream nextPutAll: self name
